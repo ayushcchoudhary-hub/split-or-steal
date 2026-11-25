@@ -53,3 +53,30 @@ Chronological log of work completed, hypotheses tested, benchmark numbers, surpr
 ### Next Up
 1. Lock in the final 6 personas as `ADR-005` in [`docs/DECISIONS.md`](./DECISIONS.md).
 2. Run the ~5-minute Phase 0 **M4 vs. Colab Cloud GPU benchmark** to measure local vs. cloud speed and live CU/hr burn rates before starting corpus prep and training.
+
+---
+
+## Entry 003 — Sprint 1 Core Implementation: Layers 1–3 Built & Unit-Tested (39/39 Passing)
+
+- **Date:** 2026-11-25
+- **Phase:** Sprint 1 (Vertical Slice — Machiavelli vs. Gandhi on `Qwen/Qwen3-8B`)
+- **Status:** Local code complete & verified; live corpus download + Colab GPU benchmark/training starting next
+
+### Key Engineering Decisions (`ADR-005`)
+- **Full-Corpus Continued Pre-Training (`CPT`) + `SFT` + `DPO`:** Rather than training only on narrow Q&A pairs, we added a Stage 1 `CPT` pass over **all cleaned primary-source texts** (minus a strict 10% held-out validation slice for unseen-text perplexity testing), followed by Stage 2 `SFT` (to retain crisp multi-turn conversational interaction) and Stage 3 `DPO` (60 non-game dilemmas contrasting authentic character reasoning against the base model's own harvested polite RLHF replies).
+- **Modular Plug-and-Play Character Engine:** Adding any new persona later (e.g., Buffett, Ali, Wilde, Van Gogh, Richard Nixon) requires dropping in a single `characters/<id>.json` config and running the same fetch → build → train → verify → play pipeline.
+- **Replayable Storage Ready for Supabase & Layer 5:** Every simulation turn (private `<thought>`, visible `<speech>`, decision, payout, latency, regime, turn count) persists to append-only JSONL and relational SQLite (`results/simulations.db`), mirrored 1:1 by [`sim/supabase_schema.sql`](../sim/supabase_schema.sql) and [`sim/export_supabase.py`](../sim/export_supabase.py).
+
+### What We Built & Verified
+1. **Layer 1 (`characters/`, `data/` — 11/11 unit tests passing):**
+   - Verified 100% US Public Domain sources: 4 Machiavelli Project Gutenberg volumes (1883–1908 translations) and 8 Gandhi pre-1931 editions (3 Gutenberg + 5 Internet Archive, excluding post-1930 reprints).
+   - Built `fetch_corpus.py`, `build_datasets.py`, and `dpo_dilemmas.py` (60 shared dilemmas with zero Split-or-Steal leakage verified by automated test).
+2. **Layer 2 (`training/` — 13/13 unit tests passing):**
+   - Built `bench_silicon.py` (Apple M4 vs. NVIDIA CUDA LoRA benchmark), `train_character.py` (`cpt`, `sft`, `harvest_dpo`, `dpo` across all 7 linear layers with `--max-steps` and wall-clock guardrails), `verify_weight_shift.py` (exact Gram-matrix `||B @ A||_F` norms, cross-corpus unseen perplexity matrix, 20-item A/B-debiased Zero-Prompt Logit Probe with paired Cohen's *d*, and qualitative samples), and `colab_orchestrator.py` (guaranteed `colab stop` teardown + CU receipt tracking).
+3. **Layer 3 (`sim/` — 15/15 unit tests passing, zero warnings):**
+   - Built configurable-turn Split or Steal engine (`stakes`, `negotiation_turns_per_round`, 50/50 first-mover balancing), strict thought-isolated parser (`<think>` / `<thought>` never leaks to opponent), OpenAI-compatible vLLM Multi-LoRA backend + deterministic mock bots, dual JSONL+SQLite storage + Supabase DDL/exporter, and full behavioral scorecard (`First-Strike Betrayal`, `Revenge`, `Forgiveness`, `Round 3 Backstab`, `Deception Gap`).
+
+### Next Up
+1. Finish live download of Machiavelli & Gandhi public-domain corpora (`data/fetch_corpus.py --all`) and build processed CPT/SFT/DPO datasets (`data/build_datasets.py --all --write-repo-stats`).
+2. Run local Apple M4 silicon micro-benchmark + Colab GPU benchmark & live CU/hr burn-rate check.
+3. Train Machiavelli & Gandhi LoRAs (`CPT -> SFT -> DPO`) on Colab GPU, run all 4 objective weight-shift proofs, and run the 20-game 3-way control (`Prompt-Only` vs. `CPT+SFT` vs. `CPT+SFT+DPO`).

@@ -12,6 +12,7 @@ Every major technical, modeling, game-design, and infrastructure choice in **Spl
 | [ADR-002](#adr-002-weight-level-sft--dpo-lora-with-3-way-scientific-control) | 2026-11-25 | Weight-Level SFT + DPO LoRA with 3-Way Scientific Control (`Prompt` vs. `SFT` vs. `SFT+DPO`) | Accepted |
 | [ADR-003](#adr-003-hybrid-compute-apple-m4-local-dev--ephemeral-colab-cli-gpus) | 2026-11-25 | Hybrid Compute: Apple M4 (24 GB) Local Dev + Ephemeral Colab CLI GPUs (`T4`/`L4`/`G4`/`A100`/`H100`) | Accepted |
 | [ADR-004](#adr-004-0-hosting-3d-blender-apartment-showcase--open-source-synthetic-tts) | 2026-11-25 | \$0-Hosting Showcase: Blender Apartment (`.glb` → Three.js) + Stylized Avatars + Open-Source Synthetic TTS | Accepted |
+| [ADR-005](#adr-005-sprint-1-vertical-slice--qwen3-8b-machiavelli-vs-gandhi-full-corpus-cpt--sft--dpo--modular-character-engine) | 2026-11-25 | Sprint 1 Vertical Slice: `Qwen/Qwen3-8B`, Machiavelli vs. Gandhi, Full-Corpus CPT + SFT + DPO, Modular Character Engine & Replayable Storage | Accepted |
 
 ---
 
@@ -100,3 +101,30 @@ Build the **\$0-hosting static Three.js 3D Apartment Replay Theater + 100-Sim An
 ### Consequences & Interview Framing
 - **Zero ongoing burn:** Scales to arbitrary traffic on static hosting (Vercel / GitHub Pages) at \$0/month.
 - **Copyright hygiene:** Stylized avatars + synthetic voice archetypes keep the project clean for open-source release.
+
+---
+
+## ADR-005: Sprint 1 Vertical Slice — Qwen3-8B, Machiavelli vs. Gandhi, Full-Corpus CPT + SFT + DPO & Modular Character Engine
+
+- **Date:** 2026-11-25
+- **Status:** Accepted
+
+### Context
+Before curating 6+ character corpora, scaling training, or building the 3D showcase, we want to:
+1. Prove empirically that weight-level fine-tuning measurably shifts an open model's weights, held-out perplexity, zero-prompt decision priors, and Split or Steal gameplay compared to a `Prompt-Only` control.
+2. Test training on **all primary-source text** (raw books, letters, speeches, dispatches via Continued Pre-Training / CPT) combined with conversational SFT and anti-RLHF DPO, rather than only narrow Q&A pairs.
+3. Architect the pipeline so **any** character can be dropped in via a single config file, trained, verified against the base model, and pitted in configurable-turn simulations whose full transcripts are stored cleanly for future replay, analytics, or Supabase import.
+
+### Decision
+1. **Base Model:** Start with **`Qwen/Qwen3-8B`** (Apache 2.0, ungated, native `<think>` private monologue, fast Colab A100/L4 LoRA training, first-class vLLM Multi-LoRA support). Re-evaluate `Qwen3-14B` after inspecting Sprint 1 quality.
+2. **Vertical-Slice Pair:** **Niccolò Machiavelli** vs. **Mahatma Gandhi** (100% US Public Domain, maximally opposite trust priors, massive clean English corpora). Final 6+ cast expansion (e.g., adding Buffett, Ali, Wilde, Van Gogh, and/or Richard Nixon) happens after Sprint 1 proves the pipeline end-to-end.
+3. **3-Stage Modular Training Stack per Character:**
+   - **Stage 1 (CPT — Full Raw Corpus Immersion):** LoRA causal-LM training on all cleaned primary-source writings/transcripts (with 10% held-out validation text for cross-corpus perplexity proof).
+   - **Stage 2 (SFT — Interactive Voice & Dialogue):** Conversational/epistolary fine-tuning so the model stays sharp in back-and-forth negotiation turns without losing instruction-following.
+   - **Stage 3 (DPO — Decision Policy Override):** Preference tuning contrasting authentic in-character dilemma reasoning (`chosen`) against the base model's own generic polite RLHF reply (`rejected`), strictly excluding Split or Steal prompts to avoid leakage.
+4. **Configurable Engine & Replayable Storage:** Support varying turn counts per round (e.g. 2 vs. 4 turns) and persist every turn, hidden `<thought>`, decision, payout, and metadata to structured JSONL + SQLite (`results/simulations.db`) with a matching Postgres/Supabase SQL schema (`sim/supabase_schema.sql`) ready for cloud sync.
+
+### Consequences & Interview Framing
+- **De-risking first:** ~4–8 CUs validates the hardest ML assumption before larger compute or 3D web work.
+- **Extensibility:** Plug-and-play character configs (`characters/<id>.yaml`) turn the repo into a general-purpose persona simulation lab rather than a one-off script.
+

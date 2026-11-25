@@ -46,14 +46,15 @@ flowchart LR
 | `README.md` | High-level project pitch, game rules, and structure overview | Active |
 | `PLAN.md` | Master roadmap, GPU budget targets, milestones, and open decisions | Active |
 | `CAST_BRAINSTORM_PROMPT.md` | Unbiased prompt used to evaluate and select the final persona roster | Ready for use |
-| `docs/DECISIONS.md` | Architecture & Experiment Decision Log (ADRs with tradeoffs & interview context) | Active (`ADR-001`–`ADR-004`) |
+| `docs/DECISIONS.md` | Architecture & Experiment Decision Log (ADRs with tradeoffs & interview context) | Active (`ADR-001`–`ADR-005`) |
 | `docs/WORK_MAP.md` | This file — system architecture, repo map, evolution timeline, and CU ledger | Active |
-| `docs/LAB_NOTEBOOK.md` | Chronological engineering & experiment log (benchmarks, findings, pivots) | Active (`Entry 001`–`002`) |
-| `docs/CAST_RESEARCH.md` | 3-model (Claude/Gemini/GPT) cast brainstorm synthesis, corpus & rights audit | Active (pending `ADR-005`) |
-| `docs/EXECUTION_PLAN.md` | 5-layer decoupled architecture, model selection & Sprint 1 vertical-slice plan | Proposed (awaiting sign-off) |
-| `data/` | Primary-source corpora and SFT/DPO dataset builders (raw/processed gitignored) | Scaffolded |
-| `training/` | Colab GPU LoRA SFT + DPO training scripts and M4 vs. Cloud benchmarks | Scaffolded |
-| `sim/` | 3-Round Split or Steal game engine, structured parser, and vLLM Multi-LoRA runner | Scaffolded |
+| `docs/LAB_NOTEBOOK.md` | Chronological engineering & experiment log (benchmarks, findings, pivots) | Active (`Entry 001`–`003`) |
+| `docs/CAST_RESEARCH.md` | 3-model (Claude/Gemini/GPT) cast brainstorm synthesis, corpus & rights audit | Active |
+| `docs/EXECUTION_PLAN.md` | 5-layer decoupled architecture, model selection & Sprint 1 vertical-slice plan | Approved (Sprint 1 active) |
+| `characters/` | Plug-and-play character configs (`machiavelli.json`, `gandhi.json`) with verified PD URLs & `rights_tier` | Active (2 Sprint 1 personas) |
+| `data/` | Primary-source fetcher, CPT/SFT/DPO dataset builder (60 zero-leakage dilemmas), 11/11 unit tests | Implemented & tested |
+| `training/` | Silicon benchmark, `CPT -> SFT -> DPO` LoRA trainer, 4-stage weight-shift proof suite, Colab orchestrator, 13/13 unit tests | Implemented & tested |
+| `sim/` | 3-Round Split or Steal engine, hidden-thought parser, JSONL+SQLite+Supabase storage, metrics, 15/15 unit tests | Implemented & tested |
 | `audio/` | Open-source GPU TTS highlight rendering pipeline | Scaffolded |
 | `web/` | Three.js / React Three Fiber 3D apartment replay theater & analytics dashboard | Scaffolded |
 | `results/` | Committed JSON/CSV experiment summaries, behavioral matrices, and silicon receipts | Scaffolded |
@@ -67,7 +68,8 @@ flowchart LR
 | 2026-11-25 | Phase 0 | Initial repo scaffold (`d941101`) | Established directory layout (`data/`, `training/`, `sim/`, `audio/`, `web/`, `results/`), `.gitignore` for large weights/datasets, `README.md`, and `PLAN.md`. |
 | 2026-11-25 | Phase 0 | Cast selection tooling (`eff99e9`) | Added `CAST_BRAINSTORM_PROMPT.md` to run an unbiased, multi-model evaluation of candidate personas with explicit copyright/corpus scoring. |
 | 2026-11-25 | Phase 0 | Local env + Colab CLI auth & docs framework (`a6a83a8`) | Verified Python 3.14.7 `.venv` + `google-colab-cli 0.8.0`, completed OAuth sign-in (`1,209.41 CUs` live balance), and initialized `docs/` (`DECISIONS.md`, `WORK_MAP.md`, `LAB_NOTEBOOK.md`). |
-| 2026-11-25 | Phase 1 Prep | 3-model cast brainstorm synthesis | Synthesized independent Claude, Gemini, and GPT cast evaluations into `docs/CAST_RESEARCH.md` (unanimous 6-persona recommendation, rights/translation audit, proposed final roster). |
+| 2026-11-25 | Phase 1 Prep | 3-model cast brainstorm synthesis (`ae58561`) | Synthesized independent Claude, Gemini, and GPT cast evaluations into `docs/CAST_RESEARCH.md` (unanimous 6-persona recommendation, rights/translation audit, proposed final roster). |
+| 2026-11-25 | Sprint 1 | Layered plan & Sprint 1 vertical-slice core (`ADR-005`) | Locked `Qwen/Qwen3-8B` + Machiavelli vs. Gandhi + full-corpus `CPT -> SFT -> DPO` pipeline. Implemented Layers 1 (`characters/`, `data/`), 2 (`training/`), and 3 (`sim/`) in parallel — **39/39 unit tests passing**. |
 
 ---
 
