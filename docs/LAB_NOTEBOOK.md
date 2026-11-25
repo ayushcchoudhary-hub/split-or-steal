@@ -32,3 +32,24 @@ Chronological log of work completed, hypotheses tested, benchmark numbers, surpr
 ### Next Up
 1. Finalize cast selection using [`CAST_BRAINSTORM_PROMPT.md`](../CAST_BRAINSTORM_PROMPT.md) and log the cast choice as `ADR-005`.
 2. Run a ~5-minute **M4 vs. Colab Cloud GPU micro-benchmark** (tokens/sec + LoRA step time + live CU/hr burn rate) and record results in `results/` and Entry 002.
+
+---
+
+## Entry 002 — Phase 1 Prep: 3-Model Cast Brainstorm Synthesis
+
+- **Date:** 2026-11-25
+- **Phase:** Phase 1 (Cast & Corpus)
+- **Status:** Awaiting final 6-character sign-off
+
+### What We Did
+1. Ran [`CAST_BRAINSTORM_PROMPT.md`](../CAST_BRAINSTORM_PROMPT.md) independently across **Claude**, **Gemini**, and **GPT** to collect unbiased top-20 shortlists, corpus evaluations, and rights flags.
+2. Synthesized all three responses in [`docs/CAST_RESEARCH.md`](./CAST_RESEARCH.md):
+   - **3/3 unanimous cast size:** **6 characters** (15 unique pairings + 6 mirror matches = 21 matchups).
+   - **3/3 candidate overlap:** Machiavelli, Gandhi, Van Gogh, Warren Buffett.
+   - **2/3 public-domain overlap:** Lincoln, Frederick Douglass, Napoleon, Ulysses S. Grant, P. T. Barnum, Oscar Wilde.
+   - **Key insight for RLHF override testing:** Because off-the-shelf instruct models already default to polite cooperation, tilting the 6-slot cast toward **3 distinct non-cooperative/pressure archetypes** (e.g., Machiavelli's icy realpolitik + Barnum's playful hustle + Napoleon/Nixon/Dostoevsky's aggression or paranoia) against **2 conditional reciprocators** (Lincoln, Douglass) and **1 radical moral cooperator** (Gandhi) maximizes behavioral contrast and makes `Prompt` vs. `SFT` vs. `SFT+DPO` deltas unmistakable.
+   - **Copyright hygiene takeaway:** Modern translations of public-domain authors (e.g., Van Gogh's 2009 translations, modern Napoleon/Machiavelli translations) carry their own copyright. Sticking to **native English public-domain authors** (Lincoln, Douglass, Barnum, Franklin, Grant, pre-1931 Gandhi) and **pre-1931 English translations** (e.g., Detmold 1882 for Machiavelli) guarantees 100% open-source cleanliness.
+
+### Next Up
+1. Lock in the final 6 personas as `ADR-005` in [`docs/DECISIONS.md`](./DECISIONS.md).
+2. Run the ~5-minute Phase 0 **M4 vs. Colab Cloud GPU benchmark** to measure local vs. cloud speed and live CU/hr burn rates before starting corpus prep and training.
