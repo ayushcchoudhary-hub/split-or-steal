@@ -1,0 +1,54 @@
+{
+  "character_id": "gandhi",
+  "character_name": "Mahatma Gandhi",
+  "rights_tier": "public_domain",
+  "built_at_utc": "2026-11-25T22:00:12.498826+00:00",
+  "seed": 42,
+  "val_ratio": 0.1,
+  "sources": {
+    "indian_home_rule": 29426,
+    "freedoms_battle": 78026,
+    "guide_to_health": 35237,
+    "speeches_and_writings_1922": 311958,
+    "young_india_1919_1922": 483071,
+    "young_india_1924_1926": 336934,
+    "autobiography_vol1_1927": 98276,
+    "autobiography_vol2_1929": 94671
+  },
+  "sections": {
+    "total": 3865,
+    "train": 3478,
+    "val": 387,
+    "train_approx_tokens": 1587156,
+    "val_approx_tokens": 190547
+  },
+  "datasets": {
+    "val_raw": {
+      "file": "val_raw.jsonl",
+      "count": 387,
+      "approx_tokens": 190547
+    },
+    "cpt_train": {
+      "file": "cpt_train.jsonl",
+      "count": 3723,
+      "approx_tokens": 1597637,
+      "target_chunk_tokens": 768,
+      "overlap_tokens": 128
+    },
+    "sft_train": {
+      "file": "sft_train.jsonl",
+      "count": 4268,
+      "dialogue_turns": 69
+    },
+    "sft_val": {
+      "file": "sft_val.jsonl",
+      "count": 502
+    },
+    "dpo_prompts": {
+      "file": "dpo_prompts.jsonl",
+      "count": 60,
+      "chosen_populated": 60,
+      "rejected_populated": 0
+    }
+  }
+}

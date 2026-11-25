@@ -98,6 +98,27 @@ def _is_low_signal_paragraph(paragraph: str) -> bool:
     return False
 
 
+_WORD_TOKEN_RE = re.compile(r"^[A-Za-z][A-Za-z'’.,;:!?\"“”()—\-]*$")
+
+
+def is_clean_prose(text: str, *, min_alpha_ratio: float = 0.85, min_word_ratio: float = 0.75) -> bool:
+    """Reject OCR cover/binding gibberish, ASCII diagrams, and numeric book-index blocks."""
+    stripped = text.strip()
+    if not stripped:
+        return False
+    alpha_space = sum(1 for c in stripped if c.isalpha() or c.isspace())
+    if alpha_space / len(stripped) < min_alpha_ratio:
+        return False
+    tokens = stripped.split()
+    if not tokens:
+        return False
+    if len(tokens) >= 6:
+        good_words = sum(1 for tok in tokens if _WORD_TOKEN_RE.match(tok))
+        if good_words / len(tokens) < min_word_ratio:
+            return False
+    return True
+
+
 def segment_document(
     text: str,
     source_id: str,
@@ -112,7 +133,8 @@ def segment_document(
        to paragraph-aligned blocks of ~`fallback_target_words` words so every source
        can cleanly participate in stratified 90/10 train/val splitting.
     """
-    paragraphs = [p.strip() for p in re.split(r"\n{2,}", text) if p.strip()]
+    raw_paragraphs = [p.strip() for p in re.split(r"\n{2,}", text) if p.strip()]
+    paragraphs = [p for p in raw_paragraphs if is_clean_prose(p, min_alpha_ratio=0.80, min_word_ratio=0.70)]
     if not paragraphs:
         return []
 
@@ -185,6 +207,8 @@ def segment_document(
     for i, (heading, body) in enumerate(substantial, start=1):
         wc = len(body.split())
         if wc < 30:
+            continue
+        if not is_clean_prose(body, min_alpha_ratio=0.88, min_word_ratio=0.78):
             continue
         sec_hash = hashlib.sha256(f"{source_id}:{i}:{heading}".encode("utf-8")).hexdigest()[:8]
         sections.append(

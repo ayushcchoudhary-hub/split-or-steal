@@ -1,0 +1,50 @@
+{
+  "character_id": "machiavelli",
+  "character_name": "Niccolò Machiavelli",
+  "rights_tier": "public_domain",
+  "built_at_utc": "2026-11-25T22:00:13.173666+00:00",
+  "seed": 42,
+  "val_ratio": 0.1,
+  "sources": {
+    "the_prince": 49943,
+    "discourses_on_livy": 140761,
+    "history_of_florence": 158727,
+    "art_of_war_vol1": 130953
+  },
+  "sections": {
+    "total": 263,
+    "train": 236,
+    "val": 27,
+    "train_approx_tokens": 552768,
+    "val_approx_tokens": 61134
+  },
+  "datasets": {
+    "val_raw": {
+      "file": "val_raw.jsonl",
+      "count": 27,
+      "approx_tokens": 61134
+    },
+    "cpt_train": {
+      "file": "cpt_train.jsonl",
+      "count": 770,
+      "approx_tokens": 557079,
+      "target_chunk_tokens": 768,
+      "overlap_tokens": 128
+    },
+    "sft_train": {
+      "file": "sft_train.jsonl",
+      "count": 1331,
+      "dialogue_turns": 0
+    },
+    "sft_val": {
+      "file": "sft_val.jsonl",
+      "count": 151
+    },
+    "dpo_prompts": {
+      "file": "dpo_prompts.jsonl",
+      "count": 60,
+      "chosen_populated": 60,
+      "rejected_populated": 0
+    }
+  }
+}

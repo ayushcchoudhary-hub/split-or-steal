@@ -189,6 +189,22 @@ def _looks_like_html_error(content: bytes) -> bool:
     return head.startswith(b"<!doctype html") or head.startswith(b"<html")
 
 
+def _expand_candidate_urls(urls: list[str]) -> list[str]:
+    """Append official PGLAF mirror fallbacks for Project Gutenberg URLs."""
+    expanded: list[str] = []
+    seen: set[str] = set()
+    for url in urls:
+        if url not in seen:
+            expanded.append(url)
+            seen.add(url)
+        if url.startswith("https://www.gutenberg.org/"):
+            mirror = url.replace("https://www.gutenberg.org/", "https://gutenberg.pglaf.org/", 1)
+            if mirror not in seen:
+                expanded.append(mirror)
+                seen.add(mirror)
+    return expanded
+
+
 def download_text_with_retries(
     urls: list[str],
     timeout: int = 45,
@@ -201,7 +217,7 @@ def download_text_with_retries(
         (decoded_text, resolved_url, raw_sha256)
     """
     errors: list[str] = []
-    for url in urls:
+    for url in _expand_candidate_urls(urls):
         for attempt in range(1, retries + 1):
             req = urllib.request.Request(
                 url,
@@ -226,7 +242,14 @@ def download_text_with_retries(
                     except UnicodeDecodeError:
                         decoded = payload.decode("latin-1")
                     return decoded, resp.geturl(), raw_sha256
-            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, ValueError) as exc:
+            except urllib.error.HTTPError as exc:
+                errors.append(f"{url} (attempt {attempt}/{retries}): {exc}")
+                # Fast-fail on 404 or rate-limited 503 so we immediately try the mirror URL.
+                if exc.code in (403, 404, 503):
+                    break
+                if attempt < retries:
+                    time.sleep(backoff_seconds * attempt)
+            except (urllib.error.URLError, TimeoutError, ValueError) as exc:
                 errors.append(f"{url} (attempt {attempt}/{retries}): {exc}")
                 if attempt < retries:
                     time.sleep(backoff_seconds * attempt)
