@@ -1,0 +1,45 @@
+{
+  "hardware": {
+    "timestamp_utc": "2026-11-25T22:20:32.283803+00:00",
+    "os": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "python_version": "3.13.16",
+    "device_type": "cuda",
+    "device_name": "NVIDIA L4",
+    "memory_gb": 22.03,
+    "pytorch_version": "2.14.1+cu130",
+    "cuda_version": "13.0",
+    "bf16_supported": true,
+    "mps_available": false,
+    "compute_capability": "8.9",
+    "device_slug": "cuda_nvidia_l4"
+  },
+  "benchmark_mode": "hf",
+  "workload": {
+    "model": "Qwen/Qwen3-8B",
+    "load_sec": 60.63,
+    "total_params": 4761498624,
+    "trainable_lora_params": 43646976,
+    "trainable_pct": 0.9167,
+    "dtype": "bfloat16",
+    "quantization": "nf4-4bit"
+  },
+  "training": {
+    "steps": 10,
+    "warmup_steps": 2,
+    "batch_size": 2,
+    "seq_len": 512,
+    "tokens_per_step": 1024,
+    "avg_sec_per_step": 2.44057,
+    "p50_sec_per_step": 2.43942,
+    "tokens_per_sec": 419.57,
+    "final_loss": 0.00188,
+    "peak_vram_gb": 11.391
+  },
+  "inference": {
+    "prompt_tokens": 16,
+    "generated_tokens": 96,
+    "total_sec": 14.6067,
+    "gen_tokens_per_sec": 6.57
+  }
+}
