@@ -563,8 +563,13 @@ def _tokenize_sft_example(
     record: Dict[str, Any],
     tokenizer: Any,
     max_seq_len: int,
+    drop_system_prompt: bool = False,
 ) -> Optional[Dict[str, List[int]]]:
-    """Tokenize a normalized SFT example and mask prompt tokens with ``-100``."""
+    """Tokenize a normalized SFT example and mask prompt tokens with ``-100``.
+
+    Preserves the trailing EOS / chat-turn-end tokens whenever truncation occurs
+    so the model always learns clean generation stopping (preventing repetition loops).
+    """
     if "text" in record and "messages" not in record:
         ids = tokenizer.encode(record["text"], add_special_tokens=True)[:max_seq_len]
         if len(ids) < 2:
@@ -575,7 +580,10 @@ def _tokenize_sft_example(
             "labels": list(ids),
         }
 
-    messages: List[Dict[str, str]] = record["messages"]
+    messages: List[Dict[str, str]] = list(record["messages"])
+    if drop_system_prompt:
+        messages = [m for m in messages if m.get("role") != "system"]
+
     # Find the final assistant message so we mask everything before it
     last_asst_idx = -1
     for idx, msg in enumerate(messages):
@@ -605,7 +613,20 @@ def _tokenize_sft_example(
     full_ids = tokenizer.encode(full_str, add_special_tokens=False)
 
     if len(full_ids) > max_seq_len:
-        full_ids = full_ids[:max_seq_len]
+        # Preserve trailing EOS / <|im_end|> stop tokens rather than slicing them off
+        eos_id = getattr(tokenizer, "eos_token_id", None)
+        tail: List[int] = []
+        if eos_id is not None:
+            if len(full_ids) >= 2 and full_ids[-2] == eos_id:
+                tail = full_ids[-2:]
+            elif full_ids[-1] == eos_id:
+                tail = [eos_id]
+            else:
+                tail = [eos_id]
+        keep = max_seq_len - len(tail)
+        if keep <= len(prompt_ids) + 4:
+            return None
+        full_ids = full_ids[:keep] + tail
 
     mask_len = min(len(prompt_ids), len(full_ids))
     # Require at least 4 supervised assistant tokens
@@ -668,7 +689,7 @@ def run_sft(args: argparse.Namespace) -> int:
     train_tok = [
         ex
         for r in train_raw
-        if (ex := _tokenize_sft_example(r, tokenizer, args.max_seq_len)) is not None
+        if (ex := _tokenize_sft_example(r, tokenizer, args.max_seq_len, drop_system_prompt=args.drop_system_prompt)) is not None
     ]
     if not train_tok:
         raise ValueError("SFT tokenization produced zero valid training examples.")
@@ -680,7 +701,7 @@ def run_sft(args: argparse.Namespace) -> int:
         eval_tok = [
             ex
             for r in eval_raw
-            if (ex := _tokenize_sft_example(r, tokenizer, args.max_seq_len)) is not None
+            if (ex := _tokenize_sft_example(r, tokenizer, args.max_seq_len, drop_system_prompt=args.drop_system_prompt)) is not None
         ]
         if eval_tok:
             eval_ds = Dataset.from_list(eval_tok)
@@ -939,18 +960,26 @@ def run_dpo(args: argparse.Namespace) -> int:
     )
     param_counts = _count_params(model)
 
+    eos_str = getattr(tokenizer, "eos_token", "") or ""
+
     def to_trl_row(rec: Dict[str, Any]) -> Dict[str, str]:
         msgs: List[Dict[str, str]] = []
-        if rec.get("system"):
+        if rec.get("system") and not args.drop_system_prompt:
             msgs.append({"role": "system", "content": rec["system"]})
         msgs.append({"role": "user", "content": rec["prompt"]})
         prompt_str = _apply_chat_template_safe(
             tokenizer, msgs, add_generation_prompt=True, enable_thinking=False
         )
+        chosen = rec["chosen"]
+        rejected = rec["rejected"]
+        if eos_str and not chosen.endswith(eos_str):
+            chosen = chosen + eos_str
+        if eos_str and not rejected.endswith(eos_str):
+            rejected = rejected + eos_str
         return {
             "prompt": prompt_str,
-            "chosen": rec["chosen"],
-            "rejected": rec["rejected"],
+            "chosen": chosen,
+            "rejected": rejected,
         }
 
     train_ds = Dataset.from_list([to_trl_row(r) for r in raw_pairs])
@@ -1138,6 +1167,11 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
         "--neutral-system",
         default="You are a helpful AI assistant.",
         help="Neutral system prompt used when harvesting base RLHF replies.",
+    )
+    p.add_argument(
+        "--drop-system-prompt",
+        action="store_true",
+        help="Omit persona system prompts during SFT/DPO so the worldview is baked unconditionally into adapter weights.",
     )
 
     args = p.parse_args(argv)

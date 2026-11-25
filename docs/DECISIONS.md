@@ -13,6 +13,7 @@ Every major technical, modeling, game-design, and infrastructure choice in **Spl
 | [ADR-003](#adr-003-hybrid-compute-apple-m4-local-dev--ephemeral-colab-cli-gpus) | 2026-11-25 | Hybrid Compute: Apple M4 (24 GB) Local Dev + Ephemeral Colab CLI GPUs (`T4`/`L4`/`G4`/`A100`/`H100`) | Accepted |
 | [ADR-004](#adr-004-0-hosting-3d-blender-apartment-showcase--open-source-synthetic-tts) | 2026-11-25 | \$0-Hosting Showcase: Blender Apartment (`.glb` → Three.js) + Stylized Avatars + Open-Source Synthetic TTS | Accepted |
 | [ADR-005](#adr-005-sprint-1-vertical-slice--qwen3-8b-machiavelli-vs-gandhi-full-corpus-cpt--sft--dpo--modular-character-engine) | 2026-11-25 | Sprint 1 Vertical Slice: `Qwen/Qwen3-8B`, Machiavelli vs. Gandhi, Full-Corpus CPT + SFT + DPO, Modular Character Engine & Replayable Storage | Accepted |
+| [ADR-006](#adr-006-iteration-2-post-training-calibration--eos-preservation-unconditional-weight-baking--calibrated-cptdpo-lrs) | 2026-11-25 | Iteration 2 Post-Training Calibration: EOS Preservation, Unconditional Persona Weight Baking & Calibrated CPT/DPO LRs | Accepted |
 
 ---
 
@@ -127,4 +128,28 @@ Before curating 6+ character corpora, scaling training, or building the 3D showc
 ### Consequences & Interview Framing
 - **De-risking first:** ~4–8 CUs validates the hardest ML assumption before larger compute or 3D web work.
 - **Extensibility:** Plug-and-play character configs (`characters/<id>.yaml`) turn the repo into a general-purpose persona simulation lab rather than a one-off script.
+
+---
+
+## ADR-006: Iteration 2 Post-Training Calibration — EOS Preservation, Unconditional Weight Baking & Calibrated CPT/DPO LRs
+
+- **Date:** 2026-11-25
+- **Status:** Accepted
+
+### Context (Empirical Diagnosis from Iteration 1 Verification)
+Iteration 1 (`results/verification_v1/`) proved strong cross-corpus specialization in Proof 2 (unseen Machiavelli perplexity dropped **-33.1%** `18.90 -> 12.65`; unseen Gandhi perplexity dropped **-25.1%** `17.87 -> 13.39`), **but** Proofs 3 & 4 caught three classic post-training failure modes before we ran a single game:
+1. **Truncated-EOS Repetition Loops (Proof 4):** Aggressive `CPT` (`lr=1e-4` on raw book blocks without `<|im_end|>`) combined with SFT sequence truncation (`full_ids[:512]` slicing off the trailing `<|im_end|>` token) caused greedy generations to loop instead of stopping cleanly.
+2. **System-Prompt Conditioning Leak (Proof 3):** Including the character `system_prompt` during SFT and DPO trained the adapter to wait for the persona prompt, so Zero-Prompt Logit Probes showed almost zero shift (`Δ P(Defect) = -0.029` / `+0.002`).
+3. **Under-Scaled DPO Signal:** `DPO` at `lr=5e-6` moved global LoRA Frobenius norm by only `0.016` (`7.911 -> 7.927`, ~0.2% of adapter norm) on top of the CPT+SFT adapter.
+
+### Decision
+Apply four targeted fixes for **Iteration 2 (`v2`)** and re-verify on the exact same 4-stage proof suite:
+1. **Preserve EOS (`<|im_end|>`) on SFT & DPO:** Truncate assistant bodies *before* `<|im_end|>` so every supervised example trains clean turn termination; explicitly append `tokenizer.eos_token` to DPO `chosen`/`rejected` targets.
+2. **Unconditional Persona Baking (`--drop-system-prompt`):** Strip character system prompts during SFT and DPO so the persona worldview and decision policy live *inside the LoRA weights themselves*, even with zero system prompt.
+3. **Gentle CPT + Calibrated SFT/DPO LRs:** Reduce CPT LR from `1e-4 -> 2e-5` (30 steps) to absorb primary-source prose without eroding chat stopping; run SFT at `6e-5` (40 steps) and DPO at `3e-5` (45 steps, `beta=0.1`) so preference optimization exerts meaningful weight-level policy shift.
+4. **Preserve Iteration 1 Artifacts (`results/verification_v1/`):** Keep both `v1` and `v2` reports in git as a concrete before/after post-training debugging case study.
+
+### Consequences & Interview Framing
+- Turns a potential silent failure into a textbook post-training story: *how automated perplexity + zero-prompt logit probes + qualitative checks caught EOS truncation and system-prompt conditioning leakage in <1 hour for ~1.5 CUs, and how v2 fixed them.*
+
 
