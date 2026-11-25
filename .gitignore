@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.uv/
+
+# Model weights, datasets & large artifacts (keep out of git)
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+*.onnx
+models/
+checkpoints/
+data/raw/
+data/processed/
+audio/renders/
+
+# Node / Web
+node_modules/
+.next/
+dist/
+build/
+
+# Secrets & OS
+.env
+.env.local
+.DS_Store
