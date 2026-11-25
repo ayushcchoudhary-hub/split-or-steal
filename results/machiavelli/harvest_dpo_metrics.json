@@ -1,0 +1,22 @@
+{
+  "timestamp_utc": "2026-11-25T22:49:50.626085+00:00",
+  "stage": "harvest_dpo",
+  "character": "machiavelli",
+  "model": "Qwen/Qwen3-8B",
+  "hardware": {
+    "cuda_available": true,
+    "device_name": "NVIDIA L4",
+    "vram_gb": 22.03,
+    "bf16_supported": true,
+    "pytorch_version": "2.14.1+cu130",
+    "compute_capability": "8.9",
+    "compute_dtype": "bfloat16",
+    "quantization": "nf4-4bit"
+  },
+  "input_file": "data/processed/machiavelli/dpo_prompts.jsonl",
+  "output_file": "/content/out/machiavelli/dpo_pairs.jsonl",
+  "harvested_pairs": 60,
+  "elapsed_sec": 110.96,
+  "avg_rejected_chars": 723.2,
+  "avg_chosen_chars": 348.6
+}
