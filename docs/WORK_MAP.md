@@ -50,6 +50,7 @@ flowchart LR
 | `docs/WORK_MAP.md` | This file — system architecture, repo map, evolution timeline, and CU ledger | Active |
 | `docs/LAB_NOTEBOOK.md` | Chronological engineering & experiment log (benchmarks, findings, pivots) | Active (`Entry 001`–`002`) |
 | `docs/CAST_RESEARCH.md` | 3-model (Claude/Gemini/GPT) cast brainstorm synthesis, corpus & rights audit | Active (pending `ADR-005`) |
+| `docs/EXECUTION_PLAN.md` | 5-layer decoupled architecture, model selection & Sprint 1 vertical-slice plan | Proposed (awaiting sign-off) |
 | `data/` | Primary-source corpora and SFT/DPO dataset builders (raw/processed gitignored) | Scaffolded |
 | `training/` | Colab GPU LoRA SFT + DPO training scripts and M4 vs. Cloud benchmarks | Scaffolded |
 | `sim/` | 3-Round Split or Steal game engine, structured parser, and vLLM Multi-LoRA runner | Scaffolded |
