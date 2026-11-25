@@ -25,6 +25,7 @@ This experiment tests three distinct regimes head-to-head across every matchup:
 ```text
 split-or-steal/
 ├── PLAN.md              # Architecture, experiments, GPU budget & open decisions
+├── docs/                # Decision log (ADRs), living project map & lab notebook
 ├── data/                # Primary-source corpora & SFT/DPO dataset builders
 ├── training/            # Colab GPU LoRA SFT + DPO training scripts
 ├── sim/                 # 3-Round Split or Steal engine + vLLM Multi-LoRA runner
@@ -33,4 +34,4 @@ split-or-steal/
 └── results/             # Simulation logs, scorecards & GPU benchmarks
 ```
 
-See [PLAN.md](./PLAN.md) for the full roadmap, GPU compute budget, and open decisions.
+See [PLAN.md](./PLAN.md) for the roadmap, [docs/WORK_MAP.md](./docs/WORK_MAP.md) for the live system map & compute ledger, [docs/DECISIONS.md](./docs/DECISIONS.md) for architecture decisions, and [docs/LAB_NOTEBOOK.md](./docs/LAB_NOTEBOOK.md) for experiment logs.

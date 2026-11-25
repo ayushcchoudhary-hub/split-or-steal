@@ -67,12 +67,22 @@ Target total spend for v1: **~40–100 CUs (4%–10% of one month's included uni
 ---
 
 ## 6. Phases & Milestones
-- [ ] **Phase 0 — Infrastructure:** Create repo, install `google-colab-cli`, verify CU balance, run M4 vs. Cloud GPU mini benchmark.
+- [ ] **Phase 0 — Infrastructure:**
+  - [x] Create repo, scaffold structure, and add `CAST_BRAINSTORM_PROMPT.md`.
+  - [x] Create Python 3.14 `.venv`, install `google-colab-cli 0.8.0`, and verify live CU balance (`1,209.41 CUs`).
+  - [x] Initialize continuous documentation & decision-tracking system ([`docs/DECISIONS.md`](./docs/DECISIONS.md), [`docs/WORK_MAP.md`](./docs/WORK_MAP.md), [`docs/LAB_NOTEBOOK.md`](./docs/LAB_NOTEBOOK.md)).
+  - [ ] Run M4 vs. Cloud GPU mini benchmark (speed + live CU/hr burn rates).
 - [ ] **Phase 1 — Cast & Corpus:** Finalize 4–5 characters, verify copyright/corpus cleanliness, build SFT + DPO data pipeline.
 - [ ] **Phase 2 — Character Training:** Train LoRA SFT + DPO adapters on Colab A100/H100; validate persona fidelity & anti-RLHF shift.
 - [ ] **Phase 3 — Simulation Engine:** Build 3-Round Split or Steal harness + vLLM Multi-LoRA runner; run Prompt vs. SFT vs. SFT+DPO tournaments.
 - [ ] **Phase 4 — Audio & 3D Apartment:** Render highlight voices on GPU; import Blender apartment `.glb` into Three.js viewer.
-- [ ] **Phase 5 — Publish:** Deploy interactive web showcase & open-source release.
+- [ ] **Phase 5 — Publish:** Deploy interactive web showcase & open-source release (after final repo cleanup).
+
+### Working Discipline (Documentation & Git)
+- Log every architectural/experimental decision in [`docs/DECISIONS.md`](./docs/DECISIONS.md).
+- Log every experiment, benchmark, surprise, and pivot in [`docs/LAB_NOTEBOOK.md`](./docs/LAB_NOTEBOOK.md).
+- Keep [`docs/WORK_MAP.md`](./docs/WORK_MAP.md) (system map, evolution timeline, and Compute Unit ledger) up to date after every milestone.
+- Commit and push continuously to `origin/main` as each milestone or experiment completes.
 
 ---
 
