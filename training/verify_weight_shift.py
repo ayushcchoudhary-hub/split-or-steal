@@ -821,7 +821,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         if cuda_ok
         else None
     )
-    bf16_ok = bool(cuda_ok and torch.cuda.is_bf16_supported())
+    bf16_ok = bool(
+        cuda_ok
+        and torch.cuda.is_bf16_supported()
+        and int(torch.cuda.get_device_properties(0).major) >= 8
+    )
     compute_dtype = torch.bfloat16 if bf16_ok else (torch.float16 if cuda_ok else torch.float32)
     use_4bit = (args.quant == "4bit") or (args.quant == "auto" and cuda_ok and (vram_gb or 0) < 36.0)
 

@@ -79,7 +79,8 @@ def resolve_precision_and_quant(quant: str) -> Tuple[Any, bool, Dict[str, Any]]:
     if torch.cuda.is_available():
         props = torch.cuda.get_device_properties(0)
         vram_gb = round(props.total_memory / (1024**3), 2)
-        bf16_ok = bool(torch.cuda.is_bf16_supported())
+        # Require Ampere+ (sm_80+) hardware bf16; Turing (T4 sm_75) emulates bf16 and fails in trl addmm kernels.
+        bf16_ok = bool(torch.cuda.is_bf16_supported()) and int(props.major) >= 8
         hw.update(
             {
                 "device_name": props.name,
