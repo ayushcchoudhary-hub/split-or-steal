@@ -393,8 +393,12 @@ def _clean_heading_for_prompt(heading: str) -> str:
         heading,
         flags=re.IGNORECASE,
     )
-    cleaned = re.sub(r"^[IVXLCDM\d]+\.\s*", "", cleaned).strip(" .—:-")
+    cleaned = re.sub(r"^[IVXLCDM\d]+\.\s*", "", cleaned)
+    # Strip scanned running page numbers like "422 MY EXPERIMENTS WITH TRUTH"
+    cleaned = re.sub(r"^\d{1,4}\s+", "", cleaned).strip(" .—:-")
     if not cleaned:
+        return ""
+    if cleaned.lower() in ("my experiments with truth", "autobiography"):
         return ""
     if cleaned == cleaned.upper():
         cleaned = cleaned.lower()
@@ -617,6 +621,50 @@ def build_sft_examples(
     return examples
 
 
+_EDITORIAL_HEADING_RE = re.compile(
+    r"\b(?:INTRODUCTION|PREFACE|FOREWORD|MEMOIR|BIOGRAPHY|BIOGRAPHICAL|"
+    r"PUBLISHER|TRANSLATOR|EDITOR'?S\s+NOTE|NOTE\s+BY|TO\s+MY\s+FRIEND|"
+    r"DEDICATION|CHRONOLOGY|APPENDIX|CONTENTS|INDEX|ERRATA|GLOSSARY)\b",
+    re.IGNORECASE,
+)
+
+
+def _clean_ocr_prose(text: str) -> str:
+    """Normalize wrapped line breaks and stray OCR hyphenation inside paragraphs."""
+    # Rejoin soft-hyphenated words across line breaks (e.g. "con¬\nsolation")
+    cleaned = re.sub(r"[¬\-]\n([a-z])", r"\1", text)
+    # Collapse single hard-wrapped newlines inside a paragraph into spaces while keeping paragraph breaks
+    paras = [re.sub(r"\s*\n\s*", " ", p).strip() for p in re.split(r"\n{2,}", cleaned) if p.strip()]
+    return "\n\n".join(paras)
+
+
+def _is_editorial_or_third_person(heading: str, passage: str, character: CharacterConfig) -> bool:
+    """Reject translator introductions, sidenotes, mid-sentence fragments, and 3rd-person bios."""
+    if heading and _EDITORIAL_HEADING_RE.search(heading):
+        return True
+    stripped = passage.strip()
+    if not stripped:
+        return True
+    # Reject editorial sidenotes / footnotes / brackets at start
+    if stripped.startswith("[") or "[Sidenote:" in stripped or "[Footnote:" in stripped:
+        return True
+    # Reject mid-sentence or stray-digit OCR starts (e.g. "the whole..." or "1 But,")
+    if stripped[0].islower() or stripped[0].isdigit():
+        return True
+    # Reject 3rd-person biographical commentary about the author (e.g. "Machiavelli's career")
+    surname = character.name.split()[-1]
+    if len(surname) >= 4:
+        third_person_re = re.compile(
+            rf"\b(?:Mr\.?\s+{re.escape(surname)}|{re.escape(surname)}'s|{re.escape(surname)}’s|"
+            rf"{re.escape(surname)}\s+(?:was|had|is|wrote|died|observed|believed|lived)|"
+            rf"of\s+{re.escape(surname)}|Mahatma\s+{re.escape(surname)})\b",
+            re.IGNORECASE,
+        )
+        if third_person_re.search(stripped):
+            return True
+    return False
+
+
 def build_primary_source_dpo_prompts(
     sft_rows: list[dict[str, Any]],
     character: CharacterConfig,
@@ -630,8 +678,9 @@ def build_primary_source_dpo_prompts(
     """Extract 100% verbatim primary-source DPO prompts directly from SFT rows.
 
     Every ``chosen`` response is the author's literal historical prose (never
-    synthetic caricature), while ``rejected`` is left ``None`` to be harvested
-    live from the unmodified base model. Scales automatically to any character.
+    synthetic caricature and strictly filtered against translator introductions,
+    sidenotes, and 3rd-person biographies), while ``rejected`` is left ``None``
+    to be harvested live from the unmodified base model.
     """
     candidates: list[dict[str, Any]] = []
     for row in sft_rows:
@@ -640,19 +689,24 @@ def build_primary_source_dpo_prompts(
         asst_msg = next((m["content"].strip() for m in msgs if m.get("role") == "assistant"), "")
         if not user_msg or not asst_msg:
             continue
-        wc = len(asst_msg.split())
+        heading = str(row.get("heading", ""))
+        if _is_editorial_or_third_person(heading, asst_msg, character):
+            continue
+        asst_clean = _clean_ocr_prose(asst_msg)
+        user_clean = _clean_ocr_prose(user_msg)
+        wc = len(asst_clean.split())
         if not (min_words <= wc <= max_words):
             continue
         # Ensure zero Split-or-Steal game leakage
-        combined_low = (user_msg + " " + asst_msg).lower()
+        combined_low = (user_clean + " " + asst_clean).lower()
         if "split or steal" in combined_low:
             continue
         candidates.append(
             {
                 "source": row.get("source", "primary"),
-                "heading": row.get("heading", ""),
-                "prompt": user_msg,
-                "chosen": asst_msg,
+                "heading": heading,
+                "prompt": user_clean,
+                "chosen": asst_clean,
             }
         )
 

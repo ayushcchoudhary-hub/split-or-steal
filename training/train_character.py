@@ -1044,6 +1044,18 @@ def run_dpo(args: argparse.Namespace) -> int:
     t0 = time.monotonic()
     trainer = DPOTrainer(**filtered_trainer_kwargs)
     train_res = trainer.train()
+    if eval_ds is not None:
+        eval_res = trainer.evaluate()
+        eval_entry: Dict[str, Any] = {
+            "step": int(trainer.state.global_step),
+            "epoch": round(float(trainer.state.epoch or 0.0), 4),
+            "elapsed_sec": round(time.monotonic() - t0, 2),
+            "final_eval": True,
+        }
+        for k, v in eval_res.items():
+            if isinstance(v, (int, float)):
+                eval_entry[k] = round(float(v), 6)
+        metrics_cb.eval_history.append(eval_entry)
     elapsed_sec = time.monotonic() - t0
     peak_vram_gb = (
         round(torch.cuda.max_memory_allocated() / (1024**3), 3)
