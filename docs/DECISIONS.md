@@ -15,6 +15,7 @@ Every major technical, modeling, game-design, and infrastructure choice in **Spl
 | [ADR-005](#adr-005-sprint-1-vertical-slice--qwen3-8b-machiavelli-vs-gandhi-full-corpus-cpt--sft--dpo--modular-character-engine) | 2026-11-25 | Sprint 1 Vertical Slice: `Qwen/Qwen3-8B`, Machiavelli vs. Gandhi, Full-Corpus CPT + SFT + DPO, Modular Character Engine & Replayable Storage | Accepted |
 | [ADR-006](#adr-006-iteration-2-post-training-calibration--eos-preservation-unconditional-weight-baking--calibrated-cptdpo-lrs) | 2026-11-25 | Iteration 2 Post-Training Calibration: EOS Preservation, Unconditional Persona Weight Baking & Calibrated CPT/DPO LRs | Accepted |
 | [ADR-007](#adr-007-sprint-2a--fair-primary-source-dpo-unprompted-arena-control--qwen3-14b-scale-up-test) | 2026-11-26 | Sprint 2A: 100% Primary-Source DPO (Anti-Overtraining), Unprompted Weights-Only Arena Control & `Qwen/Qwen3-14B` Scale-Up Test | Accepted |
+| [ADR-008](#adr-008-empirical-verdict-on-primary-source-dpo-vs-synthetic-dpo--phase-scoped-anti-repetition) | 2026-11-26 | Empirical Verdict on 100% Primary-Source DPO vs. Synthetic Dilemma DPO & Phase-Scoped Anti-Repetition | Accepted |
 
 ---
 
@@ -173,6 +174,28 @@ Two methodological questions emerged directly from Sprint 1 (`Qwen/Qwen3-8B`):
 
 ### Consequences & Interview Framing
 - Directly addresses the toughest ML skepticism ("did you just overfit synthetic caricature prompts?") with verbatim primary-source DPO, held-out DPO eval metrics, and anonymous unprompted arena games.
+
+---
+
+## ADR-008: Empirical Verdict on 100% Primary-Source DPO vs. Synthetic Dilemma DPO & Phase-Scoped Anti-Repetition
+
+- **Date:** 2026-11-26
+- **Status:** Accepted
+
+### Context
+Sprint 2A Experiments A & B (`results/sprint2a_unprompted_arena/`, `results/sprint2a_primary_dpo/`) tested two critical refinements on `Qwen/Qwen3-8B`:
+1. **Decoding anti-repetition (`no_repeat_ngram_size`):** Applying `no_repeat_ngram_size=5` during structured XML decisions blocked `</thought>\n<decision>` (which appeared verbatim in the prompt), causing `Qwen3-8B` to emit Chinese `<决策>` tags and `78–81%` parse failures.
+2. **DPO Fairness (`dpo_primary` vs. `dpo_synth`):** Comparing 100% verbatim primary-source DPO (`88` author passages vs. base assistant, `2.0` epochs, zero human-written dilemmas) head-to-head against Sprint 1's `60` hand-written dilemma DPO (`5.6` epochs) revealed a clear fidelity-vs-steering tradeoff:
+   - `dpo_primary` achieved the **best unseen book perplexity** of all 7 models (`15.42` Machiavelli, `14.54` Gandhi) and shifted Machiavelli's zero-prompt `P(Defect)` organically (`47.09% -> 50.71%`, `+3.63 pp`), with `100%` held-out unseen DPO accuracy.
+   - `dpo_synth` pushed zero-prompt `P(Defect)` `4×` harder (`60.69%`, `+13.60 pp`), *but* measurably drifted unseen book perplexity worse than SFT (`15.62 -> 15.85` and `14.62 -> 14.75`).
+
+### Decision
+1. **Phase-Scoped Anti-Repetition Only:** Apply `no_repeat_ngram_size=12` + `repetition_penalty=1.08` strictly during `phase == "negotiation"`, and disable both during `phase == "decision"` (verified `0.0% / 2.8%` parse failures and `6/6` echo-free Gandhi SPLIT in 4-turn games).
+2. **Adopt 100% Verbatim Primary-Source DPO (`2.0` epochs, editorial/3rd-person filtered) as the Default Scientifically Fair Pipeline** for scaling to the 7-character cast (`Machiavelli, Gandhi, Van Gogh, Oscar Wilde, Warren Buffett, Muhammad Ali, Richard Nixon`), keeping `dpo_synth` strictly as an optional "behavioral amplifier" ablation — and test whether **`Qwen/Qwen3-14B`** extracts a stronger organic dilemma shift purely from `CPT + SFT + 100% Primary-Source DPO` once Colab `L4`/`A100` capacity opens up.
+
+### Consequences & Interview Framing
+- Eliminates manual dilemma authoring across 7+ characters while guaranteeing every single training token comes from verified historical primary sources (zero stereotype leakage).
+- Demonstrates empirical discipline: catching and quantifying a `+0.23 PPL` overtraining drift in synthetic DPO rather than blindly optimizing a headline metric.
 
 
 

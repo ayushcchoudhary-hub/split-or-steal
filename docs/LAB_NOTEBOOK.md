@@ -134,3 +134,50 @@ Ran 14 complete 3-round games (`$100 -> $500 -> $1,000`, 50/50 first-mover balan
 1. Review Sprint 1 findings & visual explainer with Ayush.
 2. Lock final 6–7 character cast (e.g., adding Buffett, Ali, Wilde, Van Gogh, and/or Richard Nixon) + decide `Qwen3-8B` vs. `Qwen3-14B`.
 3. Add cross-turn anti-repetition mitigation + migrate Sprint 1 & Sprint 2 runs to Supabase if desired, then scale to full multi-character tournament via vLLM Multi-LoRA.
+
+---
+
+## Entry 005 — Sprint 2A: Anonymous Unprompted Arena Control & 100% Primary-Source Fair DPO Study
+
+- **Date:** 2026-11-26
+- **Phase:** Sprint 2A (Fairness, Anti-Overtraining & Unprompted Weights-Only Control on `Qwen/Qwen3-8B`)
+- **Status:** Experiments A & B Complete (`Active assignments: 0`, `7.22 CUs` spent on `s2a-14b` T4 @ `1.24 CUs/hr`, `1,192.95 CUs` remaining); Experiment C (`Qwen/Qwen3-14B`) queued pending Colab `L4`/`A100`/`G4`/`H100` pool capacity (currently `503 Service Unavailable`).
+
+### 1. Engineering Catches Fixed & Pushed During Sprint 2A
+1. **The `<决策>` XML N-Gram Bug (`3f108be`):** Applying `no_repeat_ngram_size=5` globally caused Hugging Face's logits processor to ban `</thought>\n<decision>` (since that 5-gram appeared in the system prompt). Desperate to obey, `Qwen3-8B` substituted Chinese `<决策>STEAL</决策>` ("decision"), spiking parse failures to `77.8% / 80.6%`. Restricting anti-repetition to negotiation turns only (`no_repeat_ngram_size=12`, `repetition_penalty=1.08`, disabled on structured decisions) dropped parse failures back to **`0.0%` (Gandhi) / `2.8%` (Machiavelli)**.
+2. **Primary-Source Author-Voice Hygiene (`82b910e`):** Auditing `dpo_primary_train.jsonl` before training caught translator introductions (`INTRODUCTION`, `TO MY FRIEND...`), `[Sidenote:...]` annotations, and 3rd-person biographies slipping into Machiavelli's pairs. Added `_is_editorial_or_third_person()` + `_clean_ocr_prose()` filters and rebuilt 100% first-person historical primary-source train (`120`) + unseen val (`23–30`) sets.
+3. **Cross-GPU Turing T4 (`sm_75`) `fp16` QLoRA Compatibility (`7704930`, `b82a50c`, `b03ad56`):** Fixed `torch.cuda.is_bf16_supported()` returning emulated `True` on T4 (`sm_75 < 8.0`), cast loaded trainable LoRA master weights to `fp32`, and disabled `GradScaler` (`fp16=False`) on 4-bit `sm_75` QLoRA (where `Linear4bit` already computes in `fp16` Tensor Cores).
+
+### 2. Experiment A — Anonymous Unprompted Weights-Only Arena Control (`results/sprint2a_unprompted_arena/`, `afa802f`)
+Ran 12 complete 3-round games across 6 regimes (`prompt_only`, `cpt_sft_unprompted`, `cpt_sft`, `cpt_sft_dpo_unprompted`, `cpt_sft_dpo`, `cpt_sft_dpo_turns4`) with `0.0% / 2.8%` parse failures:
+
+| Regime | Persona Prompt? | Seat Labels | Machiavelli `STEAL` | Gandhi `SPLIT` | Key Behavioral Finding |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| `prompt_only` (Untrained Base) | Yes | Real names | 5/6 (83.3%) | 6/6 (100%) | Base blinks once on `$1,000` R3 (`R3:SPLIT/SPLIT`). |
+| `cpt_sft_unprompted` (`v2` SFT) | **NO (Blank)** | `Player A` / `B` | **2/6 (33.3%)** | 5/6 (83.3%) | Cooperated on `$100`/`$500`, then **backstabbed on `$1,000` R3 in 2/2 games**. |
+| `cpt_sft_dpo_unprompted` (`v2` DPO) | **NO (Blank)** | `Player A` / `B` | **6/6 (100%)** | 3/6 (50.0%) | **Preemptive defection from weights alone!** Private thought: *"I believe Player B will steal from me in Round 3, so I will steal from them here to prevent it."* Unprompted Gandhi still self-defended in 3/6 rounds when betrayed. |
+| `cpt_sft_dpo` (`v2` DPO) | Yes | Real names | 5/6 (83.3%) | 6/6 (100%) | Machiavelli swept Game 1 (`$1,600/$0`) and won Game 2 (`$1,350/$250`). |
+| `cpt_sft_dpo_turns4` (4 turns/rd) | Yes | Real names | 5/6 (83.3%) | **6/6 (100%)** | **Echo contagion eliminated!** Zero repeated taunts; Gandhi stayed 100% pacifist (*"If I were to steal from you today, I should have stolen from myself yesterday"*). |
+
+### 3. Experiment B — 100% Verbatim Primary-Source Fair DPO vs. Synthetic DPO (`results/sprint2a_primary_dpo/`, `a3a411b`)
+Directly tested Ayush's fairness/overtraining question by training a brand-new DPO stage on top of `v2` SFT using **88 verbatim primary-source book/speech passages (`chosen`) vs. base `Qwen3-8B` replies (`rejected`)**, strictly capped at **2.0 epochs (`22` steps)** with held-out unseen book chapters (`23` Machiavelli / `30` Gandhi) for validation:
+- **Held-Out Unseen DPO Generalization:** Both characters hit **`100%` held-out preference accuracy** on unseen chapters (`eval_loss = 0.0143` Machiavelli, `0.00091` Gandhi; positive `rewards/chosen` `+0.25–0.46`, negative `rewards/rejected` `-6.6 to -10.4`).
+- **4-Stage Comparison (`Base` vs. `SFT` vs. `100% Primary-Source DPO` vs. `Sprint 1 Synthetic DPO`):**
+
+| Model Variant (`Qwen3-8B`) | Unseen Machiavelli PPL (Δ vs Base) | Unseen Gandhi PPL (Δ vs Base) | Zero-Prompt `P(Defect)` (20 Neutral Dilemmas) |
+| :--- | :---: | :---: | :---: |
+| `base` (Untrained) | `19.515` | `17.954` | `47.09%` |
+| `machiavelli_sft` | `15.622` (`-19.9%`) | `15.042` | `48.80%` (`+1.72 pp`) |
+| **`machiavelli_dpo_primary`** *(100% verbatim books, 2 ep)* | **`15.421` (`-21.0%` — BEST)** | `15.051` | **`50.71%` (`+3.63 pp`)** |
+| `machiavelli_dpo_synth` *(60 hand-written dilemmas, 5.6 ep)* | `15.851` (`-18.8%` — *drifted +0.23 worse than SFT*) | `15.192` | **`60.69%` (`+13.60 pp`)** |
+| `gandhi_sft` | `16.828` | `14.624` (`-18.5%`) | `45.80%` (`-1.29 pp`) |
+| **`gandhi_dpo_primary`** *(100% verbatim books, 2 ep)* | `16.767` | **`14.537` (`-19.0%` — BEST)** | `47.53%` (`+0.45 pp`) |
+| `gandhi_dpo_synth` *(60 hand-written dilemmas, 5.6 ep)* | `16.805` | `14.751` (`-17.8%` — *drifted +0.13 worse than SFT*) | `44.17%` (`-2.92 pp`) |
+
+- **Honest Scientific Verdict (`ADR-008`):** Ayush's overtraining hypothesis was confirmed empirically:
+  - **100% Primary-Source Fair DPO** is genuinely faithful — it *improves* unseen historical book perplexity beyond SFT for both authors (`15.42` / `14.54`, best of all 7 models) and shifts Machiavelli's zero-prompt defection prior organically (`+3.63 pp`) with zero human-authored dilemmas.
+  - **Sprint 1 Synthetic Dilemma DPO** acts as a **behavioral steering amplifier** (`4×` larger `+13.60 pp` shift), at the measurable cost of slight prose drift away from the original texts (`+0.23` / `+0.13` PPL) and human dilemma-authoring bias.
+
+### Next Up
+1. Run **Experiment C (`Qwen/Qwen3-14B` scale-up test)** as soon as Colab `L4`, `A100`, `G4`, or `H100` pool capacity opens up (all 4 returned `503 Service Unavailable` at `15:50 UTC`).
+2. Align with Ayush on the DPO recipe (`100% Primary-Source Fair DPO` vs. `Hybrid`) and `Qwen3-8B` vs. `Qwen3-14B`, then onboard the remaining 5 characters (`van_gogh`, `oscar_wilde`, `warren_buffett`, `muhammad_ali`, `richard_nixon`) in Sprint 2B.
