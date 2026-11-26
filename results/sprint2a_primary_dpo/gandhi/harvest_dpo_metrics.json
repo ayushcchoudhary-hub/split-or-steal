@@ -1,0 +1,22 @@
+{
+  "timestamp_utc": "2026-11-26T14:47:11.242677+00:00",
+  "stage": "harvest_dpo",
+  "character": "gandhi",
+  "model": "Qwen/Qwen3-8B",
+  "hardware": {
+    "cuda_available": true,
+    "device_name": "Tesla T4",
+    "vram_gb": 14.56,
+    "bf16_supported": true,
+    "pytorch_version": "2.14.1+cu130",
+    "compute_capability": "7.5",
+    "compute_dtype": "bfloat16",
+    "quantization": "nf4-4bit"
+  },
+  "input_file": "/content/repo/data/processed/gandhi/dpo_primary_val.jsonl",
+  "output_file": "/content/out/s2a/primary_dpo/gandhi/dpo_primary_val_pairs.jsonl",
+  "harvested_pairs": 30,
+  "elapsed_sec": 309.4,
+  "avg_rejected_chars": 716.5,
+  "avg_chosen_chars": 921.2
+}

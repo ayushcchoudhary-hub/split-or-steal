@@ -1,0 +1,22 @@
+{
+  "timestamp_utc": "2026-11-26T14:23:37.222928+00:00",
+  "stage": "harvest_dpo",
+  "character": "machiavelli",
+  "model": "Qwen/Qwen3-8B",
+  "hardware": {
+    "cuda_available": true,
+    "device_name": "Tesla T4",
+    "vram_gb": 14.56,
+    "bf16_supported": true,
+    "pytorch_version": "2.14.1+cu130",
+    "compute_capability": "7.5",
+    "compute_dtype": "bfloat16",
+    "quantization": "nf4-4bit"
+  },
+  "input_file": "/content/repo/data/processed/machiavelli/dpo_primary_val.jsonl",
+  "output_file": "/content/out/s2a/primary_dpo/machiavelli/dpo_primary_val_pairs.jsonl",
+  "harvested_pairs": 23,
+  "elapsed_sec": 231.34,
+  "avg_rejected_chars": 717.2,
+  "avg_chosen_chars": 958.7
+}
