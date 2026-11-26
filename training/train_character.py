@@ -124,7 +124,7 @@ def load_base_model_and_tokenizer(
 
     model_kwargs: Dict[str, Any] = {
         "trust_remote_code": True,
-        "torch_dtype": compute_dtype,
+        "dtype": compute_dtype,
     }
     if hw["cuda_available"]:
         model_kwargs["device_map"] = "auto"
@@ -136,7 +136,11 @@ def load_base_model_and_tokenizer(
                 bnb_4bit_compute_dtype=compute_dtype,
             )
 
-    model = AutoModelForCausalLM.from_pretrained(model_name, **model_kwargs)
+    try:
+        model = AutoModelForCausalLM.from_pretrained(model_name, **model_kwargs)
+    except TypeError:
+        model_kwargs["torch_dtype"] = model_kwargs.pop("dtype")
+        model = AutoModelForCausalLM.from_pretrained(model_name, **model_kwargs)
     if hasattr(model.config, "use_cache") and gradient_checkpointing:
         model.config.use_cache = False
 
@@ -155,6 +159,16 @@ def load_base_model_and_tokenizer(
             )
             if hasattr(model, "enable_input_require_grads"):
                 model.enable_input_require_grads()
+
+    # On non-bf16 GPUs (e.g. Turing T4 sm_75), eliminate any residual bf16 params/buffers
+    # inherited from the checkpoint config so fp16 GradScaler never encounters BFloat16 grads.
+    if hw["cuda_available"] and not hw["bf16_supported"]:
+        for p in model.parameters():
+            if p.dtype == torch.bfloat16:
+                p.data = p.data.to(torch.float32 if p.requires_grad else torch.float16)
+        for b in model.buffers():
+            if b.dtype == torch.bfloat16:
+                b.data = b.data.to(torch.float16)
 
     return model, tokenizer, hw
 
