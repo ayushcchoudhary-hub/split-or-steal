@@ -1,0 +1,30 @@
+{
+  "session": "bench-g4-ebea8",
+  "job_type": "benchmark",
+  "gpu": "G4",
+  "status": "failed",
+  "error": "CalledProcessError: Command '['/Users/ayushchoudhary/.gemini/antigravity/scratch/split-or-steal/.venv/bin/colab', 'new', '-s', 'bench-g4-ebea8', '--gpu', 'G4']' returned non-zero exit status 1.",
+  "started_utc": "2026-11-25T22:05:14.327942+00:00",
+  "finished_utc": "2026-11-25T22:08:32.207451+00:00",
+  "elapsed_sec": 197.9,
+  "usage_before": {
+    "balance_cu": 1209.41,
+    "usage_rate_cu_per_hr": 0.0,
+    "active_assignments": 0,
+    "parsed_ok": true,
+    "raw": "Current balance: 1209.41 compute units\nUsage rate: 0.00/hr\nActive assignments: 0"
+  },
+  "usage_live": null,
+  "usage_after": {
+    "balance_cu": 1209.41,
+    "usage_rate_cu_per_hr": 0.0,
+    "active_assignments": 0,
+    "parsed_ok": true,
+    "raw": "Current balance: 1209.41 compute units\nUsage rate: 0.00/hr\nActive assignments: 0"
+  },
+  "cu_spent_observed": 0.0,
+  "extra": {
+    "mode": "hf",
+    "model": "Qwen/Qwen3-8B"
+  }
+}

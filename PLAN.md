@@ -67,14 +67,16 @@ Target total spend for v1: **~40–100 CUs (4%–10% of one month's included uni
 ---
 
 ## 6. Phases & Milestones
-- [ ] **Phase 0 — Infrastructure:**
+- [x] **Phase 0 — Infrastructure:**
   - [x] Create repo, scaffold structure, and add `CAST_BRAINSTORM_PROMPT.md`.
   - [x] Create Python 3.14 `.venv`, install `google-colab-cli 0.8.0`, and verify live CU balance (`1,209.41 CUs`).
   - [x] Initialize continuous documentation & decision-tracking system ([`docs/DECISIONS.md`](./docs/DECISIONS.md), [`docs/WORK_MAP.md`](./docs/WORK_MAP.md), [`docs/LAB_NOTEBOOK.md`](./docs/LAB_NOTEBOOK.md)).
-  - [ ] Run M4 vs. Cloud GPU mini benchmark (speed + live CU/hr burn rates).
-- [ ] **Phase 1 — Cast & Corpus:** Finalize 4–5 characters, verify copyright/corpus cleanliness, build SFT + DPO data pipeline.
-- [ ] **Phase 2 — Character Training:** Train LoRA SFT + DPO adapters on Colab A100/H100; validate persona fidelity & anti-RLHF shift.
-- [ ] **Phase 3 — Simulation Engine:** Build 3-Round Split or Steal harness + vLLM Multi-LoRA runner; run Prompt vs. SFT vs. SFT+DPO tournaments.
+  - [x] Run Colab GPU silicon benchmark (`NVIDIA L4`, `Qwen/Qwen3-8B`, `419.6 tok/s`, live burn rate `2.33 CUs/hr`).
+- [x] **Sprint 1 — Vertical Slice Proof-of-Concept (`Machiavelli` vs. `Gandhi`, `Qwen/Qwen3-8B`, `9.24 CUs`):**
+  - [x] Build modular Layers 1–3 (`characters/`, `data/`, `training/`, `sim/` — 39/39 unit tests passing).
+  - [x] Ingest 1.95M primary-source words (12 PD volumes), train & calibrate `CPT -> SFT -> DPO` (`v1 -> v2`), prove **`+16.44 pp` zero-prompt weight shift**, and run 14 live 3-round Split or Steal games across 4 regimes.
+- [ ] **Phase 1 / Sprint 2 — Final Cast & Scale-Up:** Lock final 6–7 cast, refine anti-repetition decoding / evaluate `Qwen3-14B`, build remaining SFT/DPO pipelines & train all adapters.
+- [ ] **Phase 3 — Full Tournament:** Run full round-robin 50–100 games/matchup × 3 regimes via vLLM Multi-LoRA; sync replayable logs to Supabase.
 - [ ] **Phase 4 — Audio & 3D Apartment:** Render highlight voices on GPU; import Blender apartment `.glb` into Three.js viewer.
 - [ ] **Phase 5 — Publish:** Deploy interactive web showcase & open-source release (after final repo cleanup).
 

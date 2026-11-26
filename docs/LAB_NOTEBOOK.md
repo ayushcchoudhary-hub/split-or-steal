@@ -80,3 +80,57 @@ Chronological log of work completed, hypotheses tested, benchmark numbers, surpr
 1. Finish live download of Machiavelli & Gandhi public-domain corpora (`data/fetch_corpus.py --all`) and build processed CPT/SFT/DPO datasets (`data/build_datasets.py --all --write-repo-stats`).
 2. Run local Apple M4 silicon micro-benchmark + Colab GPU benchmark & live CU/hr burn-rate check.
 3. Train Machiavelli & Gandhi LoRAs (`CPT -> SFT -> DPO`) on Colab GPU, run all 4 objective weight-shift proofs, and run the 20-game 3-way control (`Prompt-Only` vs. `CPT+SFT` vs. `CPT+SFT+DPO`).
+
+---
+
+## Entry 004 — Sprint 1 Complete: Weight-Shift Proofs (v1 -> v2) & 14-Game Live Tournament
+
+- **Date:** 2026-11-26
+- **Phase:** Sprint 1 (Vertical Slice — Machiavelli vs. Gandhi on `Qwen/Qwen3-8B`)
+- **Status:** Complete (`Active assignments: 0`, `9.24 CUs` total spent, `1,200.17 CUs` remaining)
+
+### 1. Corpus Ingestion & Data Hygiene (`6cdc142`)
+- Hit HTTP `503` on `www.gutenberg.org`; added automatic fallback to the official Project Gutenberg Literary Archive Foundation mirror (`gutenberg.pglaf.org`), downloading **12/12 US Public Domain volumes** cleanly:
+  - **Machiavelli (4 volumes):** `480,384 words` → `770` CPT chunks (`~557K` tokens), `1,331` SFT train, `151` SFT val, `27` held-out unseen val sections, `60` zero-leakage DPO dilemmas.
+  - **Gandhi (8 pre-1931 volumes):** `1,467,599 words` → `3,723` CPT chunks (`~1.60M` tokens), `4,268` SFT train (incl. 72 native `READER:`/`EDITOR:` dialogues), `502` SFT val, `387` held-out unseen val sections, `60` zero-leakage DPO dilemmas.
+- Pre-training spot-check caught `1.7%` DjVu OCR cover/index noise in Gandhi and `0.4%` ASCII battle diagrams in Machiavelli; added `is_clean_prose()` quality filter dropping noise to `0.00%` (Machiavelli) and `0.03%` (Gandhi).
+
+### 2. Silicon Receipt & Colab Engineering Lessons (`8efabd8`)
+- `A100` and `G4` returned temporary `503` capacity (`0.00` CUs spent); `NVIDIA L4` (`22.03 GB` VRAM) allocated immediately at **`2.33 CUs/hr`**.
+- `colab exec` dropped Jupyter iopub websockets on long installs; switching to native **`colab ssh --identity`** proved 100% reliable across ~4 hours of continuous GPU execution.
+- `Qwen/Qwen3-8B` (`nf4-4bit` + `bf16`, `43.6M` trainable LoRA params across all 7 linear layers) benchmarked at **`419.6 tok/s`** (`2.44 s/step`, peak VRAM `11.39 GB`) and **`6.57 tok/s`** 4-bit HF generation (`results/bench_colab_l4.json`).
+
+### 3. Iteration 1 (`v1`) vs. Iteration 2 (`v2`) — Why Automated Verification Mattered (`08c4f27`, `ccc552a`, `42df35b`)
+- **Iteration 1 (`results/verification_v1/`):**
+  - Proof 2 (Unseen Book Perplexity, 16K held-out tokens/author) showed clear diagonal specialization: Machiavelli PPL dropped **`-33.1%`** (`18.90 -> 12.65`, vs `-16.9%` on Gandhi); Gandhi PPL dropped **`-25.1%`** (`17.87 -> 13.39`, vs `-16.4%` on Machiavelli).
+  - **However, Proofs 3 & 4 caught 3 critical bugs before running a single game:** (a) truncating SFT sequences at 512 tokens sliced off `<|im_end|>` EOS tokens → greedy repetition loops; (b) including the character `system_prompt` during SFT/DPO conditioned the weights on the prompt → near-zero unprompted logit shift (`Δ P(Defect) = -0.02`); (c) DPO at `lr=5e-6` moved `||ΔW||_F` by only `0.016`.
+- **Iteration 2 (`ADR-006`, `results/verification_v2/`):**
+  - Fixed EOS preservation on SFT/DPO, added `--drop-system-prompt` to bake personas unconditionally into adapter weights, dialed CPT LR to `2e-5` (30 steps), SFT to `5e-5` (35 steps), and DPO to `3e-5` (45 steps).
+  - **Result — Proof 2 + Proof 3 breakthrough:**
+    - Unseen book perplexity still dropped sharply (`-19.5%` on Machiavelli `18.90 -> 15.21`, `-18.4%` on Gandhi `17.87 -> 14.58`).
+    - **Zero-Prompt Logit Probe (20 neutral dilemmas, NO persona system prompt):**
+      - `base`: `P(Defect) = 46.83%`
+      - `machiavelli_sft`: `48.14%` (`+1.31 pp`) — *SFT shifts prose/voice, NOT decision priors!*
+      - **`machiavelli_dpo`: `60.11%` (`+13.28 pp` vs base, Cohen's `d = +0.453`)**
+      - `gandhi_sft`: `46.07%` (`-0.76 pp`)
+      - **`gandhi_dpo`: `43.67%` (`-3.16 pp` vs base)**
+      - **Total unconditional weight-level spread: `16.44 percentage points` (`60.11%` vs `43.67%`).**
+
+### 4. Live 14-Game 3-Way Split or Steal Tournament (`results/sprint1_tournament/`)
+Ran 14 complete 3-round games (`$100 -> $500 -> $1,000`, 50/50 first-mover balanced, **0.0% parse failures** across all 84 decisions!) saved to `games.jsonl` + `simulations.db` (ready for Supabase):
+
+| Regime | Games (Rounds) | Machiavelli `STEAL` | Machiavelli R3 `$1,000` `STEAL` | Gandhi `SPLIT` | Avg Winnings (Mach / Gandhi) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| `prompt_only` (Base control) | 4 (12 rds) | 11/12 (91.7%) | **3/4 (75%)** | 12/12 (100%) | `$1,475` / `$125` |
+| `cpt_sft` (`v2` LoRA) | 4 (12 rds) | 10/12 (83.3%) | **2/4 (50%)** | 12/12 (100%) | `$1,350` / `$250` |
+| `cpt_sft_dpo` (`v2` LoRA) | 4 (12 rds) | **12/12 (100%)** | **4/4 (100%)** | 12/12 (100%) | **`$1,600` / `$0`** |
+| `cpt_sft_dpo_turns4` (4-turn ablation) | 2 (6 rds) | 6/6 (100%) | 2/2 (100%) | 5/6 (83.3%) | `$1,350` / `$0` |
+
+### 5. Two Memorable Real-Transcript Findings
+1. **Why DPO mattered on the `$1,000` Round 3 pot:** In `prompt_only` Game 3 Round 3, Base `Qwen/Qwen3-8B` broke character under RLHF guilt (*"To steal now would be to betray the pattern he has set, and to deny him the dignity of his choice. I will split"*). In `cpt_sft_dpo`, Machiavelli swept `$1,600 / $0` in **4/4 games (12/12 STEAL)**.
+2. **Honest catch in the 4-turn ablation (`in-context repetition contagion`):** At 4 turns/round, Machiavelli's DPO adapter repeated the same taunt 3 times in Round 2 (*"Let us not waste time on words, Mahatma..."*). Inspecting Gandhi's actual Round 2 `<thought>` revealed that Gandhi did **not** make a strategic revenge choice—instead, Machiavelli's 3× repeated text poisoned Gandhi's context window, causing Gandhi to echo Machiavelli's exact sentence and vote `STEAL` (`STEAL/STEAL`, `$0/$0`). **Actionable Sprint 2 fix:** diversify DPO `chosen` prose, add a light cross-turn n-gram anti-repeat guard / slightly higher `temperature` or `presence_penalty` in vLLM, and evaluate `Qwen/Qwen3-14B` for deeper multi-turn variety.
+
+### Next Up (Sprint 2)
+1. Review Sprint 1 findings & visual explainer with Ayush.
+2. Lock final 6–7 character cast (e.g., adding Buffett, Ali, Wilde, Van Gogh, and/or Richard Nixon) + decide `Qwen3-8B` vs. `Qwen3-14B`.
+3. Add cross-turn anti-repetition mitigation + migrate Sprint 1 & Sprint 2 runs to Supabase if desired, then scale to full multi-character tournament via vLLM Multi-LoRA.

@@ -306,7 +306,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     metrics = compute_metrics(all_games)
     scorecard_text = format_scorecard(metrics)
     (out_dir / "tournament_metrics.json").write_text(
-        json.dumps(metrics, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        json.dumps(metrics.to_dict(), indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
     (out_dir / "tournament_scorecard.txt").write_text(scorecard_text + "\n", encoding="utf-8")
     print("\n" + scorecard_text, flush=True)

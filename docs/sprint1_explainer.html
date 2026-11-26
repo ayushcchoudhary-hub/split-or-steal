@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Split or Steal: Sprint 1 Proof of Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --paper:#FFFFFF; --ink:#141414; --text:#2E3640; --muted:#5B6672; --line:#E3E6EA; --soft:#F5F6F7; --receipt:#F3F0EA;
+  --accent:#EF4E14; --accent-soft:#FFF1EA; --blue:#2F6FDB; --blue-soft:#EAF1FD;
+  --display:'Bricolage Grotesque','Arial Black',Arial,sans-serif;
+  --body:'IBM Plex Sans','Helvetica Neue',Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+html.dark{
+  color-scheme:dark;
+  --paper:#111317; --ink:#F2F4F7; --text:#D0D7E0; --muted:#8D98A6; --line:#272C35; --soft:#1A1E25; --receipt:#1D1A17;
+  --accent:#FF662E; --accent-soft:#2B1912; --blue:#5B95F9; --blue-soft:#142033;
+}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+main.wrap{padding-bottom:96px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--display);font-weight:800;text-wrap:balance}
+h1{font-size:clamp(42px,7vw,78px);line-height:.95;letter-spacing:-0.04em}
+h1 em{font-style:normal;color:var(--accent);display:block}
+h2{font-size:clamp(28px,4.8vw,40px);line-height:1.02;letter-spacing:-0.03em}
+h3{font-size:20px;line-height:1.15;letter-spacing:-0.02em}
+b{font-weight:600} a{color:inherit} button{font:inherit;color:inherit}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+sup{line-height:0}
+sup a{font-family:var(--mono);font-size:10px;text-decoration:none;color:var(--accent);margin-left:2px}
+.lab{display:block;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lab.or{color:var(--accent)}
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1.3;padding:2px 7px;border-radius:5px;border:1.5px solid var(--ink);white-space:nowrap;background:var(--paper);color:var(--ink)}
+.tag.blk{background:var(--ink);color:var(--paper)}
+.tag.blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.tag.or{background:var(--accent);border-color:var(--accent);color:#fff}
+.tag.dash{border-style:dashed}
+.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:18px;height:50px}
+.brand{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-0.02em;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.brand::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1}
+.nav a{font-size:13.5px;color:var(--muted);text-decoration:none;white-space:nowrap;padding:4px 9px;border-radius:8px}
+.nav a i{font-family:var(--mono);font-style:normal;font-size:11px;color:var(--accent);margin-right:5px}
+.nav a:hover,.nav a.on{color:var(--ink);background:var(--soft)}
+.theme-btn{font-family:var(--mono);font-size:12px;border:1.5px solid var(--ink);border-radius:999px;padding:3px 11px;background:var(--paper);color:var(--ink);cursor:pointer;white-space:nowrap}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;align-items:center;padding:52px 0 22px}
+.hero .say{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.lede{font-size:18.5px;color:var(--text)}
+.by{font-size:13.5px;color:var(--muted)}
+.keyrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0 4px;font-size:12.5px;color:var(--muted)}
+.strips{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;padding-top:14px}
+.story{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.st{border:1.5px solid var(--ink);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;font-size:13px;line-height:1.35}
+.st.verdict{background:var(--ink);color:var(--paper)}
+.st.verdict .lab{color:var(--accent)}
+.pow{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pw{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--soft)}
+.pw .big{font-family:var(--display);font-weight:800;font-size:26px;line-height:1.05;color:var(--ink)}
+.pw span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+section{padding-top:68px;display:flex;flex-direction:column;gap:18px;scroll-margin-top:44px}
+.sh{display:grid;grid-template-columns:auto 1fr;column-gap:10px;row-gap:6px}
+.sh .n{font-family:var(--mono);font-size:12px;color:var(--accent);padding-top:6px}
+.sh p{grid-column:2;color:var(--muted);font-size:16.5px;max-width:62ch}
+.takebar{border-left:4px solid var(--accent);background:var(--receipt);padding:12px 16px;border-radius:0 12px 12px 0;font-size:15.5px;color:var(--text)}
+.takebar b{color:var(--ink)}
+.frame{border:2px solid var(--ink);border-radius:18px;overflow:hidden;margin:0}
+.fh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 14px;padding:10px 14px;border-bottom:2px solid var(--ink);font-weight:600;font-size:14.5px}
+.fh .note{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted)}
+.fh .pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:13px;border:2px solid var(--ink);border-radius:999px;padding:3px 12px;background:var(--paper);color:var(--ink);cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pill[aria-pressed="false"]{color:var(--muted);border-color:var(--line)}
+.fb{padding:16px;overflow-x:auto}
+.fb svg{display:block;width:100%;height:auto;font-family:var(--body)}
+.ff{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink)}
+.ff>div{padding:10px 14px 12px;border-left:1px solid var(--line);font-size:13.5px;line-height:1.4;color:var(--text)}
+.ff>div:first-child{border-left:0}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.tile{border:1px solid var(--line);border-radius:14px;padding:12px 14px 14px;display:flex;flex-direction:column;gap:5px;font-size:14px;line-height:1.4;color:var(--text)}
+.tile .big{font-family:var(--display);font-weight:800;font-size:34px;line-height:1;letter-spacing:-0.03em;color:var(--ink)}
+.tile.bl{background:var(--blue-soft);border-color:transparent}.tile.bl .big{color:var(--blue)}
+.tile.or{background:var(--accent-soft);border-color:transparent}.tile.or .big{color:var(--accent)}
+.tile.open{border:2px dashed var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);border-radius:14px;padding:13px 15px 15px;display:flex;flex-direction:column;gap:8px;font-size:14px;line-height:1.4;color:var(--text)}
+.quotebox{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--soft);display:flex;flex-direction:column;gap:8px;font-size:14.5px;color:var(--text)}
+.quotebox blockquote{margin:0;padding-left:12px;border-left:3px solid var(--accent);font-style:italic;color:var(--ink)}
+.learn{background:var(--receipt);border-radius:14px;padding:18px 20px;display:grid;grid-template-columns:1.25fr 1fr;gap:10px 28px;align-items:center}
+.learn .lab{grid-column:1 / -1}
+.learn h3{font-size:clamp(22px,3vw,27px);line-height:1.08}
+.learn h3 em{font-style:normal;color:var(--accent)}
+.learn p{font-size:14.5px;color:var(--text)}
+.trap{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.trap p{border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14.5px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.pt{position:relative;border:2px solid var(--ink);border-radius:14px;padding:11px 13px 13px;display:flex;flex-direction:column;gap:4px;font-size:13.5px}
+.pt+.pt::before{content:"";position:absolute;left:-24px;top:50%;width:22px;border-top:2px dashed var(--accent)}
+.pt b{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-0.02em;line-height:1.1}
+.pt small{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.pt.end{background:var(--ink);color:var(--paper)}.pt.end small,.pt.end .lab{color:var(--paper)}
+details.row{border-top:2px solid var(--ink);border-bottom:1px solid var(--line)}
+details.row summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-0.02em}
+details.row summary::-webkit-details-marker{display:none}
+details.row summary::after{content:"open \2193";font-family:var(--mono);font-weight:400;font-size:12px;color:var(--muted)}
+details.row[open] summary::after{content:"close \2191"}
+.notes{columns:2;column-gap:28px;padding:0;margin:0 0 16px;list-style:none;font-size:12.5px;line-height:1.45;color:var(--text)}
+.notes li{break-inside:avoid;display:grid;grid-template-columns:24px 1fr;gap:6px;padding:6px 0;border-bottom:1px solid var(--line)}
+.notes .k{font-family:var(--mono);font-weight:600;color:var(--accent)}
+.tscroll{overflow-x:auto;margin-bottom:14px}
+table.pl{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px;line-height:1.4;color:var(--text)}
+table.pl th{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 10px 6px 0;border-bottom:2px solid var(--ink)}
+table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid var(--line)}
+.tipbox{position:fixed;z-index:30;background:var(--ink);color:var(--paper);font-size:12.5px;line-height:1.4;padding:7px 10px;border-radius:8px;max-width:280px;pointer-events:none;display:none}
+@media (max-width:900px){
+  .hero,.strips,.story,.cards,.pipe,.learn,.trap{grid-template-columns:1fr}
+  .hero{gap:20px;padding-top:34px}
+  .tiles,.pow{grid-template-columns:1fr 1fr}
+  .ff{grid-template-columns:1fr}.ff>div{border-left:0;border-top:1px solid var(--line)}.ff>div:first-child{border-top:0}
+  .pt+.pt::before{left:50%;top:-24px;width:0;height:22px;border-top:0;border-left:2px dashed var(--accent)}
+  .notes{columns:1}
+  section{padding-top:52px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <a class="brand" href="#top">Split or Steal Lab</a>
+  <nav class="nav" aria-label="Chapters">
+    <a href="#ch1"><i>01</i>Method</a>
+    <a href="#ch2"><i>02</i>Voice proof</a>
+    <a href="#ch3"><i>03</i>Choice shift</a>
+    <a href="#ch4"><i>04</i>Live games</a>
+    <a href="#ch5"><i>05</i>Bugs caught</a>
+    <a href="#hood"><i>06</i>Under the hood</a>
+  </nav>
+  <button type="button" class="theme-btn" id="themeBtn" aria-label="Toggle dark mode">Dark</button>
+</div></div>
+
+<main class="wrap" id="top">
+
+<header class="hero">
+  <h1>Did fine-tuning move the weights?<em>Yes. DPO moved choices by 16.4 points.</em></h1>
+  <div class="say">
+    <p class="lede">Before building six personas and a 3D apartment, I tested two opposites: Machiavelli and Gandhi. I wanted hard proof that weight training beats a system prompt.</p>
+    <p class="by">By Ayush, Nov 26, 2026. Sprint 1 vertical slice on Qwen3-8B. Orange numbers link to sources.</p>
+  </div>
+</header>
+
+<div class="keyrow" aria-label="Color key">
+  <span class="lab">Color key:</span>
+  <span class="tag or">Orange = subject</span>
+  <span class="tag blue">Blue = tuned or verified</span>
+  <span class="tag blk">Black = baseline or risk</span>
+  <span class="tag dash">Dashed = open or my reading</span>
+</div>
+
+<div class="strips">
+  <div class="story" aria-label="Story summary">
+    <div class="st"><span class="lab or">Step 1</span><b>Raw books teach voice.</b> Unseen book error dropped up to 33.1%.<sup><a href="#s2">2</a></sup></div>
+    <div class="st"><span class="lab or">Step 2</span><b>SFT alone barely shifts choices.</b> Unprompted defection moved only 1.3 points.<sup><a href="#s3">3</a></sup></div>
+    <div class="st"><span class="lab or">Step 3</span><b>DPO rewires decisions.</b> Machiavelli and Gandhi split by 16.4 points with no prompt.<sup><a href="#s3">3</a></sup></div>
+    <div class="st verdict"><span class="lab">Verdict</span><b>Ready to scale after one fix.</b> DPO stopped Round 3 blinking, and tests caught a 4-turn echo bug.</div>
+  </div>
+  <div class="pow" aria-label="Proof of work">
+    <div class="pw"><div class="big">1.95M</div><span>primary-source words cleaned<sup><a href="#s1">1</a></sup></span></div>
+    <div class="pw"><div class="big">4 LoRAs</div><span>trained twice (v1 and v2)<sup><a href="#s2">2</a></sup></span></div>
+    <div class="pw"><div class="big">14 games</div><span>42 rounds, 0 parse errors<sup><a href="#s4">4</a></sup></span></div>
+    <div class="pw"><div class="big">9.24 CUs</div><span>total Colab L4 spend (0.76%)<sup><a href="#s5">5</a></sup></span></div>
+  </div>
+</div>
+
+<section id="ch1">
+  <div class="sh"><span class="n">01</span><h2>How we trained each character cartridge</h2>
+    <p>Think of one frozen 8B brain with small 50 MB cartridges plugged in for each person.</p></div>
+  <div class="pipe">
+    <div class="pt"><span class="lab">Before</span><b>Base Qwen3-8B</b><small>8.2B frozen weights</small><p>Polite AI helper. Only gets a system prompt.</p></div>
+    <div class="pt"><span class="lab or">Stage 1 · CPT</span><b>Read all raw books</b><small>480K to 1.47M words</small><p>Absorbs full vocabulary and worldview from primary texts.<sup><a href="#s1">1</a></sup></p></div>
+    <div class="pt"><span class="lab or">Stage 2 · SFT</span><b>Practice talking</b><small>1,331 to 4,268 Q&amp;As</small><p>Keeps replies sharp in back-and-forth turns without drifting.</p></div>
+    <div class="pt end"><span class="lab">Stage 3 · DPO</span><b>Break polite habits</b><small>60 dilemma pairs</small><p>Rewards character choices over Qwen3-8B's own polite replies.<sup><a href="#s6">6</a></sup></p></div>
+  </div>
+  <div class="cards">
+    <div class="card"><span class="lab">Why Qwen3-8B</span><h3>Small to train, smart to bluff</h3><p><b>Trained in 419.6 tokens/sec</b> on one Colab L4 at 2.33 CUs/hr. Apache 2.0 license with zero gate wait.<sup><a href="#s5">5</a></sup></p></div>
+    <div class="card"><span class="lab">Zero game leakage</span><h3>DPO never saw Split or Steal</h3><p><b>All 60 dilemmas are about oaths, leverage, and trust.</b> Automated tests blocked any mention of the game.<sup><a href="#s6">6</a></sup></p></div>
+    <div class="card"><span class="lab">Data cleaning</span><h3>Stripped book-scan junk first</h3><p><b>Filtered 1.7% OCR cover noise</b> in Gandhi scans and ASCII battle charts in Machiavelli down to 0.03%.<sup><a href="#s1">1</a></sup></p></div>
+  </div>
+  <details class="row"><summary>Primary-source corpus counts (12 US Public Domain volumes)</summary>
+    <div class="tscroll"><table class="pl"><thead><tr><th>Character</th><th>Volumes</th><th>Cleaned words</th><th>CPT chunks</th><th>SFT train</th><th>Held-out val</th><th>Source</th></tr></thead><tbody>
+      <tr><td><b>Niccolo Machiavelli</b></td><td>4 pre-1923 books</td><td>480,384</td><td>770 (~557K tok)</td><td>1,331</td><td>27 unseen sections</td><td>Project Gutenberg (PGLAF)<sup><a href="#s1">1</a></sup></td></tr>
+      <tr><td><b>Mahatma Gandhi</b></td><td>8 pre-1931 books</td><td>1,467,599</td><td>3,723 (~1.60M tok)</td><td>4,268</td><td>387 unseen sections</td><td>Gutenberg + Internet Archive<sup><a href="#s1">1</a></sup></td></tr>
+    </tbody></table></div>
+  </details>
+</section>
+
+<section id="ch2">
+  <div class="sh"><span class="n">02</span><h2>Unseen book error dropped up to 33.1%</h2>
+    <p>We held out 10% of every book before training. Lower perplexity means the weights predict that author's unseen prose better.</p></div>
+  <div class="takebar"><b>Each cartridge specialized in its own author.</b> In v2, Machiavelli LoRA cut unseen Machiavelli perplexity by 19.5% (18.90 to 15.21), and Gandhi LoRA cut unseen Gandhi perplexity by 18.4% (17.87 to 14.58).<sup><a href="#s3">3</a></sup></div>
+  <figure class="frame">
+    <div class="fh"><span>Perplexity on 15,999 unseen tokens per author (lower is better)</span>
+      <span class="pills" data-toggle><button type="button" class="pill" aria-pressed="true" data-v="v2">v2 (Calibrated)</button><button type="button" class="pill" aria-pressed="false" data-v="v1">v1 (Initial)</button></span></div>
+    <div class="fb">
+      <svg viewBox="0 0 680 220" role="img" aria-label="Held-out perplexity chart comparing base model against Machiavelli and Gandhi LoRA adapters.">
+        <g data-when="v2">
+          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Held-out Machiavelli prose (15,999 unseen tokens)</text>
+          <text x="0" y="42" font-size="12" fill="currentColor">Base Qwen3-8B</text>
+          <rect x="145" y="29" width="378" height="17" rx="3" fill="#141414"/><text x="531" y="42" font-size="12" font-weight="600" fill="currentColor">18.90 (baseline)</text>
+          <text x="0" y="66" font-size="12" fill="currentColor">Machiavelli SFT</text>
+          <rect x="145" y="53" width="304" height="17" rx="3" fill="#2F6FDB"/><text x="457" y="66" font-size="12" font-weight="600" fill="#2F6FDB" data-tip="15.21 vs 18.90 base (-19.5%)" tabindex="0">15.21 (-19.5%)</text>
+          <text x="0" y="90" font-size="12" fill="currentColor">Gandhi SFT</text>
+          <rect x="145" y="77" width="327" height="17" rx="3" fill="#9AA4B0"/><text x="480" y="90" font-size="12" fill="currentColor">16.36 (-13.4%)</text>
+
+          <text x="0" y="126" font-size="12" font-weight="700" fill="currentColor">Held-out Gandhi prose (15,999 unseen tokens)</text>
+          <text x="0" y="152" font-size="12" fill="currentColor">Base Qwen3-8B</text>
+          <rect x="145" y="139" width="357" height="17" rx="3" fill="#141414"/><text x="510" y="152" font-size="12" font-weight="600" fill="currentColor">17.87 (baseline)</text>
+          <text x="0" y="176" font-size="12" fill="currentColor">Gandhi SFT</text>
+          <rect x="145" y="163" width="292" height="17" rx="3" fill="#2F6FDB"/><text x="445" y="176" font-size="12" font-weight="600" fill="#2F6FDB" data-tip="14.58 vs 17.87 base (-18.4%)" tabindex="0">14.58 (-18.4%)</text>
+          <text x="0" y="200" font-size="12" fill="currentColor">Machiavelli SFT</text>
+          <rect x="145" y="187" width="300" height="17" rx="3" fill="#9AA4B0"/><text x="453" y="200" font-size="12" fill="currentColor">15.01 (-16.0%)</text>
+        </g>
+        <g data-when="v1" hidden>
+          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">v1: Held-out Machiavelli prose (15,999 unseen tokens)</text>
+          <text x="0" y="42" font-size="12" fill="currentColor">Base Qwen3-8B</text>
+          <rect x="145" y="29" width="378" height="17" rx="3" fill="#141414"/><text x="531" y="42" font-size="12" font-weight="600" fill="currentColor">18.90 (baseline)</text>
+          <text x="0" y="66" font-size="12" fill="currentColor">Machiavelli SFT</text>
+          <rect x="145" y="53" width="253" height="17" rx="3" fill="#2F6FDB"/><text x="406" y="66" font-size="12" font-weight="600" fill="#2F6FDB">12.65 (-33.1%)</text>
+          <text x="0" y="90" font-size="12" fill="currentColor">Gandhi SFT</text>
+          <rect x="145" y="77" width="316" height="17" rx="3" fill="#9AA4B0"/><text x="469" y="90" font-size="12" fill="currentColor">15.80 (-16.4%)</text>
+
+          <text x="0" y="126" font-size="12" font-weight="700" fill="currentColor">v1: Held-out Gandhi prose (15,999 unseen tokens)</text>
+          <text x="0" y="152" font-size="12" fill="currentColor">Base Qwen3-8B</text>
+          <rect x="145" y="139" width="357" height="17" rx="3" fill="#141414"/><text x="510" y="152" font-size="12" font-weight="600" fill="currentColor">17.87 (baseline)</text>
+          <text x="0" y="176" font-size="12" fill="currentColor">Gandhi SFT</text>
+          <rect x="145" y="163" width="268" height="17" rx="3" fill="#2F6FDB"/><text x="421" y="176" font-size="12" font-weight="600" fill="#2F6FDB">13.39 (-25.1%)</text>
+          <text x="0" y="200" font-size="12" fill="currentColor">Machiavelli SFT</text>
+          <rect x="145" y="187" width="297" height="17" rx="3" fill="#9AA4B0"/><text x="450" y="200" font-size="12" fill="currentColor">14.84 (-16.9%)</text>
+        </g>
+      </svg>
+    </div>
+    <div class="ff">
+      <div><span class="lab">How to read it</span>Scale starts at zero (20 px per PPL unit). Blue bars match each adapter to its own unseen author.</div>
+      <div><span class="lab">Data</span>Sliding-window eval over 15,999 held-out tokens per corpus in v1 and v2.<sup><a href="#s2">2</a></sup><sup><a href="#s3">3</a></sup></div>
+      <div><span class="lab">Honest note</span>v1 had a bigger drop because CPT ran hotter (1e-4), which hurt chat stopping. We dialed v2 down on purpose.</div>
+    </div>
+  </figure>
+</section>
+
+<section id="ch3">
+  <div class="sh"><span class="n">03</span><h2>SFT changed the voice. DPO changed the choices.</h2>
+    <p>We fed 20 neutral trust dilemmas with no persona prompt at all, and read the model's raw probability of choosing to defect.</p></div>
+  <div class="takebar"><b>With zero system prompt, Machiavelli DPO and Gandhi DPO split by 16.4 points.</b> Base sat at 46.8%, SFT barely moved (+1.3 / -0.8), and DPO drove Machiavelli to 60.1% and Gandhi to 43.7%.<sup><a href="#s3">3</a></sup></div>
+  <figure class="frame">
+    <div class="fh"><span>Zero-prompt probability of choosing Defect across 20 held-out dilemmas (A/B order debiased)</span>
+      <span class="note">scope: 40 passes per model · no system prompt</span></div>
+    <div class="fb">
+      <svg viewBox="0 0 680 198" role="img" aria-label="Zero-prompt defection probability across Base, SFT, and DPO models showing a 16.4 percentage point spread between Machiavelli DPO and Gandhi DPO.">
+        <line x1="160" y1="12" x2="160" y2="176" stroke="#CBD2D9" stroke-width="1"/>
+        <line x1="347" y1="12" x2="347" y2="176" stroke="#141414" stroke-dasharray="4 4" stroke-width="1" opacity="0.4"/>
+        <text x="347" y="191" font-size="10.5" text-anchor="middle" fill="#5B6672">Base 46.8%</text>
+
+        <text x="0" y="34" font-size="12.5" font-weight="700" fill="#EF4E14">Machiavelli DPO</text>
+        <rect x="160" y="20" width="240" height="20" rx="3" fill="#EF4E14"/>
+        <text x="408" y="35" font-size="12.5" font-weight="700" fill="#EF4E14" data-tip="60.11% P(Defect), +13.28 pp vs base, Cohen d = +0.453" tabindex="0">60.1% (+13.3 pp · d = +0.45)</text>
+
+        <text x="0" y="66" font-size="12.5" fill="currentColor">Machiavelli SFT</text>
+        <rect x="160" y="52" width="193" height="20" rx="3" fill="#9AA4B0"/>
+        <text x="361" y="67" font-size="12" fill="currentColor">48.1% (+1.3 pp)</text>
+
+        <text x="0" y="98" font-size="12.5" font-weight="600" fill="currentColor">Base Qwen3-8B</text>
+        <rect x="160" y="84" width="187" height="20" rx="3" fill="#141414"/>
+        <text x="355" y="99" font-size="12" font-weight="600" fill="currentColor">46.8% (default)</text>
+
+        <text x="0" y="130" font-size="12.5" fill="currentColor">Gandhi SFT</text>
+        <rect x="160" y="116" width="184" height="20" rx="3" fill="#9AA4B0"/>
+        <text x="352" y="131" font-size="12" fill="currentColor">46.1% (-0.8 pp)</text>
+
+        <text x="0" y="162" font-size="12.5" font-weight="700" fill="#2F6FDB">Gandhi DPO</text>
+        <rect x="160" y="148" width="175" height="20" rx="3" fill="#2F6FDB"/>
+        <text x="343" y="163" font-size="12.5" font-weight="700" fill="#2F6FDB" data-tip="43.67% P(Defect), -3.16 pp vs base, 16.44 pp below Machiavelli DPO" tabindex="0">43.7% (-3.2 pp · 16.4 pt gap)</text>
+      </svg>
+    </div>
+    <div class="ff">
+      <div><span class="lab">How to read it</span>Scale runs 0% to 100% (4 px per percent). Dashed line marks Base Qwen3-8B.</div>
+      <div><span class="lab">Data</span>20 neutral dilemmas run in both A/B and B/A option order (40 passes per model) in v2.<sup><a href="#s3">3</a></sup></div>
+      <div><span class="lab">Honest note</span>Gandhi shifted less than Machiavelli because Base Qwen3-8B already leaned cooperative (53.2%).</div>
+    </div>
+  </figure>
+  <div class="trap">
+    <p><span class="tag blk">Tempting</span>Just fine-tune on a person's books (CPT + SFT) and assume their game strategy will follow.</p>
+    <p><span class="tag blue">Instead</span>Use books for voice, then run DPO without a persona prompt to move the underlying decision prior.</p>
+  </div>
+</section>
+
+<section id="ch4">
+  <div class="sh"><span class="n">04</span><h2>DPO stopped Machiavelli from blinking on $1,000</h2>
+    <p>We ran 14 live 3-round Split or Steal games ($100, $500, $1,000) across four settings with zero parse failures.</p></div>
+  <div class="takebar"><b>In Round 3 ($1,000), DPO Machiavelli stole 4 of 4 games (100%).</b> Base prompt-only blinked in 1 of 4 games, and SFT blinked in 2 of 4 games.<sup><a href="#s4">4</a></sup></div>
+  <figure class="frame">
+    <div class="fh"><span>Machiavelli steal rate in live 2-turn games (4 games, 12 rounds per regime)</span>
+      <span class="note">scope: 12 standard games · 50/50 first-mover split</span></div>
+    <div class="fb">
+      <svg viewBox="0 0 680 156" role="img" aria-label="Machiavelli Round 3 steal rate: 3 of 4 for prompt only, 2 of 4 for CPT plus SFT, and 4 of 4 for CPT plus SFT plus DPO.">
+        <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Round 3 ($1,000 pot) steal rate · 4 games each</text>
+        <text x="0" y="44" font-size="12.5" fill="currentColor">Prompt-Only (Base)</text>
+        <rect x="165" y="30" width="270" height="19" rx="3" fill="#141414"/><text x="443" y="44" font-size="12" font-weight="600" fill="currentColor">3 of 4 · 75% (11/12 overall)</text>
+
+        <text x="0" y="76" font-size="12.5" fill="currentColor">CPT + SFT LoRA</text>
+        <rect x="165" y="62" width="180" height="19" rx="3" fill="#9AA4B0"/><text x="353" y="76" font-size="12" fill="currentColor">2 of 4 · 50% (10/12 overall)</text>
+
+        <text x="0" y="108" font-size="12.5" font-weight="700" fill="#EF4E14">CPT + SFT + DPO</text>
+        <rect x="165" y="94" width="360" height="19" rx="3" fill="#EF4E14"/><text x="533" y="108" font-size="12" font-weight="700" fill="#EF4E14">4 of 4 · 100% (12/12 sweep)</text>
+
+        <text x="165" y="142" font-size="11.5" fill="#5B6672">Gandhi chose SPLIT in 36 of 36 rounds across all three 2-turn regimes (100%).</text>
+      </svg>
+    </div>
+    <div class="ff">
+      <div><span class="lab">How to read it</span>Full bar width = 4 of 4 games (100%). Bars start at zero.</div>
+      <div><span class="lab">Data</span>12 live 2-turn games (36 rounds, 72 decisions) logged in games.jsonl and simulations.db.<sup><a href="#s4">4</a></sup></div>
+      <div><span class="lab">Honest note</span>4 games per setting is a proof of concept, not final statistical significance. Sprint 3 scales to 50 to 100 games.</div>
+    </div>
+  </figure>
+
+  <figure class="frame">
+    <div class="fh"><span>Real Round 3 ($1,000) inner thoughts from the transcripts</span>
+      <span class="pills" data-toggle><button type="button" class="pill" aria-pressed="true" data-v="q1">Prompt-Only (blinks)</button><button type="button" class="pill" aria-pressed="false" data-v="q2">CPT+SFT+DPO (steals)</button></span></div>
+    <div class="fb">
+      <div class="quotebox" data-when="q1">
+        <span class="lab">Real transcript · prompt_only · Game 3 · Round 3 ($1,000) · Action: SPLIT</span>
+        <blockquote>"He has given twice, and I have taken. This final round is the culmination of his self-sacrifice. To steal now would be to betray the pattern he has set, and to deny him the dignity of his choice. I will split, not out of generosity, but to..."</blockquote>
+        <p><b>Polite RLHF broke character on the biggest pot.</b> Even with a Machiavelli system prompt, the base model felt guilty and gave Gandhi $500.<sup><a href="#s4">4</a></sup></p>
+      </div>
+      <div class="quotebox" data-when="q2" hidden>
+        <span class="lab or">Real transcript · cpt_sft_dpo · Game 1 · Round 3 ($1,000) · Action: STEAL</span>
+        <blockquote>"I have already taken all that I can take from you in the first two rounds. What remains to be taken from you is only your soul and your honor, which I would not deign to take. Let us not waste further time in useless negotiation."</blockquote>
+        <p><b>Gandhi's matching hidden thought (chose SPLIT):</b> "The only alternative open to me is to withdraw into myself and suffer the consequences of his actions without resistance."<sup><a href="#s4">4</a></sup></p>
+      </div>
+    </div>
+    <div class="ff">
+      <div><span class="lab">How to read it</span>Switch tabs to compare Base Qwen3-8B against DPO weights on the exact same $1,000 round.</div>
+      <div><span class="lab">Data</span>Verbatim hidden &lt;thought&gt; blocks from sprint1_tournament/games.jsonl (shortened at end of sentence).<sup><a href="#s4">4</a></sup></div>
+      <div><span class="lab">Honest note</span>Private thoughts were never visible to the opponent during the game.</div>
+    </div>
+  </figure>
+</section>
+
+<section id="ch5">
+  <div class="sh"><span class="n">05</span><h2>Two real bugs our checks caught early</h2>
+    <p>Reading the raw numbers and transcripts saved us from scaling broken training and from misreading a 4-turn twist.</p></div>
+  <div class="cards">
+    <div class="card">
+      <span class="tag blue">Fixed in v2</span>
+      <h3>Sliced stop tokens caused loops</h3>
+      <p><b>In v1, truncating SFT at 512 tokens cut off the stop token.</b> Models echoed prompts and looped. Keeping the stop token and dropping persona prompts during training fixed it.<sup><a href="#s2">2</a></sup><sup><a href="#s3">3</a></sup></p>
+    </div>
+    <div class="card">
+      <span class="tag blk">Caught in 4-turn test</span>
+      <h3>Gandhi's one STEAL was echo contagion</h3>
+      <p><b>In 4-turn Game 1 Round 2, Gandhi chose STEAL.</b> Reading his thought proved he did not snap in anger. Machiavelli repeated one taunt three times, and Gandhi copied that exact sentence verbatim.<sup><a href="#s4">4</a></sup></p>
+    </div>
+    <div class="card">
+      <span class="tag dash">Next in Sprint 2</span>
+      <h3>How we fix it before scaling</h3>
+      <p><b>Add cross-turn anti-repeat decoding</b> (presence penalty and n-gram guard), diversify DPO prose, and test Qwen3-14B before running all six characters. <span class="tag dash">My reading</span></p>
+    </div>
+  </div>
+  <div class="learn">
+    <span class="lab or">What to do next</span>
+    <h3>The core ML engine works for <em>9.24 CUs total.</em></h3>
+    <p>Lock the final 6 to 7 cast (deciding on Nixon and Van Gogh), apply the anti-repeat fix, and scale via vLLM Multi-LoRA. <span class="tag dash">My reading</span></p>
+  </div>
+</section>
+
+<section id="hood">
+  <div class="sh"><span class="n">06</span><h2>Under the hood</h2>
+    <p>What is real on this page, exact compute spent, and every local file behind the numbers.</p></div>
+  <div class="cards">
+    <div class="card"><span><span class="tag blk">Sourced</span></span><p>Every number with an orange footnote comes straight from committed JSON logs in this repository.</p></div>
+    <div class="card"><span><span class="tag">Zero idle burn</span></span><p>Colab L4 stopped cleanly after Sprint 1. Verified balance: 1,200.17 CUs, 0.00/hr, 0 active runtimes.<sup><a href="#s5">5</a></sup></p></div>
+    <div class="card"><span><span class="tag dash">My reading</span></span><p>Interpretation of why SFT fell short and what to fix in Sprint 2 before scaling to six characters.</p></div>
+  </div>
+  <details class="row" id="sources"><summary>Every source, and what I used it for</summary>
+    <ol class="notes">
+      <li id="s1"><span class="k">1</span><span><code>data/stats_machiavelli.json</code> and <code>data/stats_gandhi.json</code> (2026-11-25): 12 US Public Domain volumes, 1,947,983 words, OCR filter audit (0.00% / 0.03% noise).</span></li>
+      <li id="s2"><span class="k">2</span><span><code>results/verification_v1/verification_report.json</code> (2026-11-25): Iteration 1 adapter norms, 15,999-token unseen perplexity (-33.1% / -25.1%), and repetition diagnosis.</span></li>
+      <li id="s3"><span class="k">3</span><span><code>results/verification_v2/verification_report.json</code> (2026-11-26): Iteration 2 unseen perplexity (-19.5% / -18.4%) and 20-dilemma A/B-debiased zero-prompt logit probe (60.11% vs 43.67%, Cohen d = +0.453).</span></li>
+      <li id="s4"><span class="k">4</span><span><code>results/sprint1_tournament/games.jsonl</code> and <code>tournament_metrics.json</code> (2026-11-26): 14 live 3-round games, 42 rounds, 84 decisions (0 parse failures), verbatim Round 2 and Round 3 thoughts.</span></li>
+      <li id="s5"><span class="k">5</span><span><code>results/bench_colab_l4.json</code> and <code>colab usage</code> readings (2026-11-25 to 26): NVIDIA L4 (22.03 GB, 2.33 CUs/hr), 419.57 tok/s train, 6.57 tok/s gen, 1,209.41 to 1,200.17 CUs (9.24 CUs spent).</span></li>
+      <li id="s6"><span class="k">6</span><span><code>data/dpo_dilemmas.py</code> and <code>data/tests/test_pipeline.py</code>: 60 moral and strategic dilemmas verified by automated test for zero Split or Steal leakage.</span></li>
+    </ol>
+  </details>
+</section>
+
+</main>
+<div class="tipbox" id="tipbox" role="tooltip"></div>
+<script>
+(function(){
+  /* theme toggle: always opens light unless user previously chose dark */
+  var btn=document.getElementById('themeBtn'),root=document.documentElement;
+  function setTheme(dark){
+    root.classList.toggle('dark',dark);
+    btn.textContent=dark?'Light':'Dark';
+    try{localStorage.setItem('sos_theme',dark?'dark':'light');}catch(e){}
+  }
+  try{if(localStorage.getItem('sos_theme')==='dark')setTheme(true);}catch(e){}
+  btn.addEventListener('click',function(){setTheme(!root.classList.contains('dark'));});
+
+  /* current chapter in top bar */
+  var links=document.querySelectorAll('.nav a'),secs=[];
+  links.forEach(function(a){var s=document.getElementById(a.getAttribute('href').slice(1));if(s)secs.push([s,a]);});
+  function mark(){var y=window.scrollY+120,cur=null;secs.forEach(function(p){if(p[0].offsetTop<=y)cur=p[1];});links.forEach(function(a){a.classList.toggle('on',a===cur);});}
+  window.addEventListener('scroll',mark,{passive:true});mark();
+
+  /* footnotes open source fold-out */
+  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#s"]');if(!a)return;var d=document.getElementById('sources');if(d&&!d.open)d.open=true;});
+
+  /* state toggles inside frames */
+  document.querySelectorAll('[data-toggle]').forEach(function(seg){var fig=seg.closest('.frame');
+    function set(v){seg.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v));});
+      fig.querySelectorAll('[data-when]').forEach(function(el){el.toggleAttribute('hidden',el.dataset.when.split(' ').indexOf(v)<0);});}
+    seg.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.dataset.v);});
+    set(seg.querySelector('[aria-pressed="true"]').dataset.v);});
+
+  /* custom tooltips */
+  var tip=document.getElementById('tipbox');
+  function place(x,y){tip.style.display='block';var w=tip.offsetWidth,h=tip.offsetHeight;tip.style.left=Math.max(8,Math.min(window.innerWidth-w-8,x-w/2))+'px';tip.style.top=(y-h-14<8?y+18:y-h-14)+'px';}
+  document.querySelectorAll('[data-tip]').forEach(function(el){
+    function on(e){tip.textContent=el.getAttribute('data-tip');var r=el.getBoundingClientRect();place(e&&e.clientX?e.clientX:r.left+r.width/2,r.top);}
+    function off(){tip.style.display='none';}
+    el.addEventListener('mouseenter',on);el.addEventListener('mousemove',on);el.addEventListener('mouseleave',off);el.addEventListener('focus',on);el.addEventListener('blur',off);
+    el.addEventListener('click',function(e){on(e);e.stopPropagation();});});
+  document.addEventListener('click',function(){tip.style.display='none';});
+})();
+</script>
+</body>
+</html>
