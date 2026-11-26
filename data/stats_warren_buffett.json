@@ -1,0 +1,75 @@
+{
+  "character_id": "warren_buffett",
+  "character_name": "Warren Buffett",
+  "rights_tier": "research_only",
+  "built_at_utc": "2026-11-26T17:58:56.284039+00:00",
+  "seed": 42,
+  "val_ratio": 0.1,
+  "sources": {
+    "bh_1977": 3051,
+    "bh_1978": 4356,
+    "bh_1979": 6648,
+    "bh_1980": 7471,
+    "bh_1981": 6597,
+    "bh_1982": 7827,
+    "bh_1983": 11442,
+    "bh_1984": 12589,
+    "bh_1985": 13570,
+    "bh_1986": 13652,
+    "bh_1987": 12468,
+    "bh_1988": 11654,
+    "bh_1989": 14392,
+    "bh_1990": 16014,
+    "bh_1991": 9118,
+    "bh_1992": 11183,
+    "bh_1993": 11011,
+    "bh_1994": 9579,
+    "bh_1995": 11909,
+    "bh_1996": 11586,
+    "bh_1997": 11796
+  },
+  "sections": {
+    "total": 184,
+    "train": 163,
+    "val": 21,
+    "train_approx_tokens": 237865,
+    "val_approx_tokens": 29833
+  },
+  "datasets": {
+    "val_raw": {
+      "file": "val_raw.jsonl",
+      "count": 21,
+      "approx_tokens": 29833
+    },
+    "cpt_train": {
+      "file": "cpt_train.jsonl",
+      "count": 325,
+      "approx_tokens": 247785,
+      "target_chunk_tokens": 768,
+      "overlap_tokens": 128
+    },
+    "sft_train": {
+      "file": "sft_train.jsonl",
+      "count": 505,
+      "dialogue_turns": 0
+    },
+    "sft_val": {
+      "file": "sft_val.jsonl",
+      "count": 62
+    },
+    "dpo_prompts": {
+      "file": "dpo_prompts.jsonl",
+      "count": 60,
+      "chosen_populated": 0,
+      "rejected_populated": 0
+    },
+    "dpo_primary_train": {
+      "file": "dpo_primary_train.jsonl",
+      "count": 120
+    },
+    "dpo_primary_val": {
+      "file": "dpo_primary_val.jsonl",
+      "count": 22
+    }
+  }
+}

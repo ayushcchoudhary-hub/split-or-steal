@@ -1,0 +1,62 @@
+{
+  "character_id": "oscar_wilde",
+  "character_name": "Oscar Wilde",
+  "rights_tier": "public_domain",
+  "built_at_utc": "2026-11-26T17:58:53.127089+00:00",
+  "seed": 42,
+  "val_ratio": 0.1,
+  "sources": {
+    "dorian_gray": 78979,
+    "de_profundis": 17714,
+    "intentions": 58453,
+    "soul_of_man": 14392,
+    "miscellanies": 89760,
+    "importance_of_being_earnest": 20714,
+    "lady_windermeres_fan": 19883,
+    "an_ideal_husband": 31078
+  },
+  "sections": {
+    "total": 131,
+    "train": 116,
+    "val": 15,
+    "train_approx_tokens": 365252,
+    "val_approx_tokens": 53072
+  },
+  "datasets": {
+    "val_raw": {
+      "file": "val_raw.jsonl",
+      "count": 15,
+      "approx_tokens": 53072
+    },
+    "cpt_train": {
+      "file": "cpt_train.jsonl",
+      "count": 499,
+      "approx_tokens": 382612,
+      "target_chunk_tokens": 768,
+      "overlap_tokens": 128
+    },
+    "sft_train": {
+      "file": "sft_train.jsonl",
+      "count": 808,
+      "dialogue_turns": 0
+    },
+    "sft_val": {
+      "file": "sft_val.jsonl",
+      "count": 113
+    },
+    "dpo_prompts": {
+      "file": "dpo_prompts.jsonl",
+      "count": 60,
+      "chosen_populated": 0,
+      "rejected_populated": 0
+    },
+    "dpo_primary_train": {
+      "file": "dpo_primary_train.jsonl",
+      "count": 120
+    },
+    "dpo_primary_val": {
+      "file": "dpo_primary_val.jsonl",
+      "count": 30
+    }
+  }
+}

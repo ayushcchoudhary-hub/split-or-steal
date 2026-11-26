@@ -2,7 +2,7 @@
   "character_id": "machiavelli",
   "character_name": "Niccolò Machiavelli",
   "rights_tier": "public_domain",
-  "built_at_utc": "2026-11-26T12:10:56.087425+00:00",
+  "built_at_utc": "2026-11-26T17:58:52.614434+00:00",
   "seed": 42,
   "val_ratio": 0.1,
   "sources": {
@@ -52,7 +52,7 @@
     },
     "dpo_primary_val": {
       "file": "dpo_primary_val.jsonl",
-      "count": 23
+      "count": 30
     }
   }
 }

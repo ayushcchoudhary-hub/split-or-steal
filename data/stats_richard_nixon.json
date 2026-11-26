@@ -1,0 +1,58 @@
+{
+  "character_id": "richard_nixon",
+  "character_name": "Richard Nixon",
+  "rights_tier": "public_domain",
+  "built_at_utc": "2026-11-26T17:58:55.184848+00:00",
+  "seed": 42,
+  "val_ratio": 0.1,
+  "sources": {
+    "public_papers_nixon_1972": 742995,
+    "statement_of_information_nixon_defense_1974": 104128,
+    "house_judiciary_watergate_book2_1974": 223974,
+    "house_judiciary_watergate_book11_1974": 338354
+  },
+  "sections": {
+    "total": 681,
+    "train": 613,
+    "val": 68,
+    "train_approx_tokens": 1561782,
+    "val_approx_tokens": 136201
+  },
+  "datasets": {
+    "val_raw": {
+      "file": "val_raw.jsonl",
+      "count": 68,
+      "approx_tokens": 136201
+    },
+    "cpt_train": {
+      "file": "cpt_train.jsonl",
+      "count": 2342,
+      "approx_tokens": 1704203,
+      "target_chunk_tokens": 768,
+      "overlap_tokens": 128
+    },
+    "sft_train": {
+      "file": "sft_train.jsonl",
+      "count": 3161,
+      "dialogue_turns": 0
+    },
+    "sft_val": {
+      "file": "sft_val.jsonl",
+      "count": 289
+    },
+    "dpo_prompts": {
+      "file": "dpo_prompts.jsonl",
+      "count": 60,
+      "chosen_populated": 0,
+      "rejected_populated": 0
+    },
+    "dpo_primary_train": {
+      "file": "dpo_primary_train.jsonl",
+      "count": 120
+    },
+    "dpo_primary_val": {
+      "file": "dpo_primary_val.jsonl",
+      "count": 30
+    }
+  }
+}

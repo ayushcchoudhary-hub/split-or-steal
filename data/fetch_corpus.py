@@ -19,6 +19,7 @@ import unicodedata
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 
@@ -160,6 +161,47 @@ def normalize_whitespace(text: str) -> str:
     return text.strip() + "\n"
 
 
+class _HTMLTextExtractor(HTMLParser):
+    """Minimal stdlib HTML-to-plain-text converter preserving paragraph breaks."""
+
+    _BLOCK_TAGS = frozenset({"p", "div", "br", "h1", "h2", "h3", "h4", "h5", "h6", "li", "tr", "pre", "blockquote"})
+    _SKIP_TAGS = frozenset({"script", "style", "head", "title"})
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self._parts: list[str] = []
+        self._skip_depth = 0
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        t = tag.lower()
+        if t in self._SKIP_TAGS:
+            self._skip_depth += 1
+        elif self._skip_depth == 0 and t in self._BLOCK_TAGS:
+            self._parts.append("\n\n" if t != "br" else "\n")
+
+    def handle_endtag(self, tag: str) -> None:
+        t = tag.lower()
+        if t in self._SKIP_TAGS and self._skip_depth > 0:
+            self._skip_depth -= 1
+        elif self._skip_depth == 0 and t in self._BLOCK_TAGS:
+            self._parts.append("\n\n" if t != "br" else "\n")
+
+    def handle_data(self, data: str) -> None:
+        if self._skip_depth == 0:
+            self._parts.append(data)
+
+    def get_text(self) -> str:
+        return "".join(self._parts)
+
+
+def strip_html_to_text(raw_html: str) -> str:
+    """Convert clean HTML letters/transcripts into paragraph-preserving plain text."""
+    parser = _HTMLTextExtractor()
+    parser.feed(raw_html)
+    parser.close()
+    return parser.get_text()
+
+
 def clean_corpus_text(raw_text: str, provider: str = "generic") -> tuple[str, dict[str, Any]]:
     """Run provider-aware boilerplate stripping and whitespace normalization."""
     stats: dict[str, Any] = {
@@ -168,6 +210,9 @@ def clean_corpus_text(raw_text: str, provider: str = "generic") -> tuple[str, di
     }
 
     text = raw_text
+    if provider.endswith("_html") or _looks_like_html_error(raw_text[:1024].encode("utf-8", errors="ignore")):
+        text = strip_html_to_text(text)
+        stats["stripped_html"] = True
     if provider == "project_gutenberg" or "PROJECT GUTENBERG" in raw_text[:4000].upper():
         text, pg_stats = strip_gutenberg_boilerplate(text)
         stats.update(pg_stats)
@@ -210,8 +255,9 @@ def download_text_with_retries(
     timeout: int = 45,
     retries: int = 3,
     backoff_seconds: float = 2.0,
+    allow_html: bool = False,
 ) -> tuple[str, str, str]:
-    """Download UTF-8/latin-1 plain text trying primary and fallback URLs.
+    """Download UTF-8/latin-1 plain text (or clean HTML when allow_html=True).
 
     Returns:
         (decoded_text, resolved_url, raw_sha256)
@@ -223,7 +269,7 @@ def download_text_with_retries(
                 url,
                 headers={
                     "User-Agent": USER_AGENT,
-                    "Accept": "text/plain, text/*;q=0.9, */*;q=0.1",
+                    "Accept": "text/html, text/plain;q=0.9, */*;q=0.1" if allow_html else "text/plain, text/*;q=0.9, */*;q=0.1",
                 },
             )
             try:
@@ -234,7 +280,7 @@ def download_text_with_retries(
                     payload = resp.read()
                     if len(payload) < 500:
                         raise ValueError(f"Payload too small ({len(payload)} bytes) from {url}")
-                    if _looks_like_html_error(payload):
+                    if not allow_html and _looks_like_html_error(payload):
                         raise ValueError(f"Received HTML page instead of plain text from {url}")
                     raw_sha256 = hashlib.sha256(payload).hexdigest()
                     try:
@@ -323,9 +369,17 @@ def fetch_character_corpus(
 
         candidate_urls = [src.url, *src.fallback_urls]
         print(f"[{character.id}] FETCH: {src.id} ({src.title}) from {src.url}")
-        raw_text, resolved_url, raw_sha256 = fetch_fn(
-            candidate_urls, timeout=timeout, retries=retries
-        )
+        if downloader is not None:
+            raw_text, resolved_url, raw_sha256 = fetch_fn(
+                candidate_urls, timeout=timeout, retries=retries
+            )
+        else:
+            raw_text, resolved_url, raw_sha256 = fetch_fn(
+                candidate_urls,
+                timeout=timeout,
+                retries=retries,
+                allow_html=src.provider.endswith("_html"),
+            )
         cleaned_text, cleaning_stats = clean_corpus_text(raw_text, provider=src.provider)
         target_path.write_text(cleaned_text, encoding="utf-8")
 

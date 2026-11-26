@@ -645,8 +645,8 @@ def _is_editorial_or_third_person(heading: str, passage: str, character: Charact
     stripped = passage.strip()
     if not stripped:
         return True
-    # Reject editorial sidenotes / footnotes / brackets at start
-    if stripped.startswith("[") or "[Sidenote:" in stripped or "[Footnote:" in stripped:
+    # Reject editorial sidenotes / footnotes / brackets / statutory clauses at start
+    if stripped.startswith(("[", "(")) or "[Sidenote:" in stripped or "[Footnote:" in stripped:
         return True
     # Reject mid-sentence or stray-digit OCR starts (e.g. "the whole..." or "1 But,")
     if stripped[0].islower() or stripped[0].isdigit():
@@ -671,7 +671,7 @@ def build_primary_source_dpo_prompts(
     *,
     max_pairs: int = 120,
     min_words: int = 45,
-    max_words: int = 210,
+    max_words: int = 360,
     seed: int = 42,
     split_tag: str = "train",
 ) -> list[dict[str, Any]]:

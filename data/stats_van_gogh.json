@@ -1,0 +1,57 @@
+{
+  "character_id": "van_gogh",
+  "character_name": "Vincent van Gogh",
+  "rights_tier": "public_domain",
+  "built_at_utc": "2026-11-26T17:58:55.946347+00:00",
+  "seed": 42,
+  "val_ratio": 0.1,
+  "sources": {
+    "letters_to_theo_vol1_1927": 238121,
+    "letters_to_theo_vol2_1927": 252328,
+    "letters_of_a_post_impressionist_1912": 55153
+  },
+  "sections": {
+    "total": 37,
+    "train": 33,
+    "val": 4,
+    "train_approx_tokens": 638772,
+    "val_approx_tokens": 61285
+  },
+  "datasets": {
+    "val_raw": {
+      "file": "val_raw.jsonl",
+      "count": 4,
+      "approx_tokens": 61285
+    },
+    "cpt_train": {
+      "file": "cpt_train.jsonl",
+      "count": 851,
+      "approx_tokens": 687642,
+      "target_chunk_tokens": 768,
+      "overlap_tokens": 128
+    },
+    "sft_train": {
+      "file": "sft_train.jsonl",
+      "count": 1012,
+      "dialogue_turns": 0
+    },
+    "sft_val": {
+      "file": "sft_val.jsonl",
+      "count": 123
+    },
+    "dpo_prompts": {
+      "file": "dpo_prompts.jsonl",
+      "count": 60,
+      "chosen_populated": 0,
+      "rejected_populated": 0
+    },
+    "dpo_primary_train": {
+      "file": "dpo_primary_train.jsonl",
+      "count": 120
+    },
+    "dpo_primary_val": {
+      "file": "dpo_primary_val.jsonl",
+      "count": 24
+    }
+  }
+}
