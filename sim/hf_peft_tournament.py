@@ -225,7 +225,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     storage = SimulationStorage(
         db_path=out_dir / "simulations.db",
-        runs_root=out_dir / "runs",
+        runs_dir=out_dir / "runs",
     )
 
     regimes_spec: List[tuple[str, Optional[str], Optional[str], int, int]] = [
@@ -240,9 +240,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 (f"cpt_sft_dpo_turns{args.ablate_turns}", f"{char_a_id}_dpo", f"{char_b_id}_dpo", args.ablate_turns, args.ablate_games)
             )
 
-    storage.register_experiment(
+    storage.init_experiment(
         ExperimentRecord(
             experiment_id=args.experiment,
+            name=f"{name_a} vs {name_b} ({args.model})",
             regime="3way_control",
             description=f"Sprint 1 Vertical Slice: {name_a} vs {name_b} on {args.model}",
             config={
@@ -290,7 +291,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             regime=regime_name,
             seed=42,
         )
-        games = engine.run_matchup(p_a, p_b, num_games=n_games, config=cfg, storage=storage)
+        games = engine.run_matchup(p_a, p_b, config=cfg, num_games=n_games, storage=storage)
         for g in games:
             r_summary = " | ".join(
                 f"R{r.round_number}:{r.decision_a.action}/{r.decision_b.action}" for r in g.rounds
