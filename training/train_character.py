@@ -176,6 +176,13 @@ def attach_or_load_lora(
             raise FileNotFoundError(f"--init-adapter directory not found: {adapter_path}")
         print(f"[train_character] Loading trainable init adapter from: {adapter_path}", flush=True)
         model = PeftModel.from_pretrained(model, str(adapter_path), is_trainable=True)
+        # Cast loaded trainable LoRA master weights to fp32 (adapters saved in bf16 on L4/A100
+        # otherwise break fp16 GradScaler unscaling when resumed on Turing T4).
+        import torch  # type: ignore
+
+        for p in model.parameters():
+            if p.requires_grad and p.dtype != torch.float32:
+                p.data = p.data.to(torch.float32)
     else:
         lora_cfg = LoraConfig(
             r=lora_r,
