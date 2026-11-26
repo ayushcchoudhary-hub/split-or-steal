@@ -143,6 +143,7 @@ class LocalPeftBackend(ModelBackend):
         gen_kwargs: Dict[str, Any] = {
             "max_new_tokens": max_new,
             "do_sample": do_sample,
+            "repetition_penalty": 1.08,
             "pad_token_id": self.tokenizer.pad_token_id,
             "eos_token_id": self.tokenizer.eos_token_id,
         }
