@@ -14,6 +14,7 @@ Every major technical, modeling, game-design, and infrastructure choice in **Spl
 | [ADR-004](#adr-004-0-hosting-3d-blender-apartment-showcase--open-source-synthetic-tts) | 2026-11-25 | \$0-Hosting Showcase: Blender Apartment (`.glb` → Three.js) + Stylized Avatars + Open-Source Synthetic TTS | Accepted |
 | [ADR-005](#adr-005-sprint-1-vertical-slice--qwen3-8b-machiavelli-vs-gandhi-full-corpus-cpt--sft--dpo--modular-character-engine) | 2026-11-25 | Sprint 1 Vertical Slice: `Qwen/Qwen3-8B`, Machiavelli vs. Gandhi, Full-Corpus CPT + SFT + DPO, Modular Character Engine & Replayable Storage | Accepted |
 | [ADR-006](#adr-006-iteration-2-post-training-calibration--eos-preservation-unconditional-weight-baking--calibrated-cptdpo-lrs) | 2026-11-25 | Iteration 2 Post-Training Calibration: EOS Preservation, Unconditional Persona Weight Baking & Calibrated CPT/DPO LRs | Accepted |
+| [ADR-007](#adr-007-sprint-2a--fair-primary-source-dpo-unprompted-arena-control--qwen3-14b-scale-up-test) | 2026-11-26 | Sprint 2A: 100% Primary-Source DPO (Anti-Overtraining), Unprompted Weights-Only Arena Control & `Qwen/Qwen3-14B` Scale-Up Test | Accepted |
 
 ---
 
@@ -151,5 +152,27 @@ Apply four targeted fixes for **Iteration 2 (`v2`)** and re-verify on the exact 
 
 ### Consequences & Interview Framing
 - Turns a potential silent failure into a textbook post-training story: *how automated perplexity + zero-prompt logit probes + qualitative checks caught EOS truncation and system-prompt conditioning leakage in <1 hour for ~1.5 CUs, and how v2 fixed them.*
+
+---
+
+## ADR-007: Sprint 2A — Fair Primary-Source DPO, Unprompted Arena Control & `Qwen/Qwen3-14B` Scale-Up Test
+
+- **Date:** 2026-11-26
+- **Status:** Accepted
+
+### Context
+Two methodological questions emerged directly from Sprint 1 (`Qwen/Qwen3-8B`):
+1. **Is synthetic DPO "overtraining" or caricaturing a persona?** In Sprint 1, our 60 DPO `chosen` responses were handcrafted and trained for 5.6 epochs (`loss -> 0.001`), which risks memorizing our stereotype of a figure and contributed to repetitive phrasing in 4-turn negotiation.
+2. **Do the weights alone beat prompting, and does a bigger base model (`Qwen/Qwen3-14B`) produce sharper strategy and wit?** Before training our full 7-character cast (keeping **Vincent van Gogh** alongside **Machiavelli, Gandhi, Buffett, Ali, Oscar Wilde, Richard Nixon**), we want to verify both fairness and model scale on our Machiavelli vs. Gandhi benchmark pair.
+
+### Decision
+1. **100% Verbatim Primary-Source DPO (`dpo_primary_train.jsonl` + `dpo_primary_val.jsonl`):** Automatically extract 120 train + 30 held-out validation DPO pairs where every `chosen` response is the author's **literal historical prose** from their own books/letters/speeches, paired against the unmodified base model's own generic assistant reply (`rejected`). Cap DPO at **2 epochs** with held-out validation eval to eliminate overtraining AND remove manual DPO authoring for all future characters.
+2. **Unprompted Weights-Only Arena Control (`--include-unprompted`):** Run `cpt_sft_unprompted` and `cpt_sft_dpo_unprompted` in live Split or Steal games with **blank persona prompts and anonymous seat labels (`Player A` / `Player B`)** directly against `prompt_only` (Untrained Base + detailed persona prompt).
+3. **Anti-Repetition Decoding:** Add `no_repeat_ngram_size=5` + `repetition_penalty=1.12` to eliminate cross-turn echo contagion in 4-turn negotiations.
+4. **Upgrade Benchmark to `Qwen/Qwen3-14B`:** Test `Qwen/Qwen3-14B` (4-bit NF4 + bf16 LoRA) head-to-head against Sprint 1's `Qwen3-8B` before locking the base model for the full 7-character Sprint 2B cast.
+
+### Consequences & Interview Framing
+- Directly addresses the toughest ML skepticism ("did you just overfit synthetic caricature prompts?") with verbatim primary-source DPO, held-out DPO eval metrics, and anonymous unprompted arena games.
+
 
 

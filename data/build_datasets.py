@@ -617,6 +617,83 @@ def build_sft_examples(
     return examples
 
 
+def build_primary_source_dpo_prompts(
+    sft_rows: list[dict[str, Any]],
+    character: CharacterConfig,
+    *,
+    max_pairs: int = 120,
+    min_words: int = 45,
+    max_words: int = 210,
+    seed: int = 42,
+    split_tag: str = "train",
+) -> list[dict[str, Any]]:
+    """Extract 100% verbatim primary-source DPO prompts directly from SFT rows.
+
+    Every ``chosen`` response is the author's literal historical prose (never
+    synthetic caricature), while ``rejected`` is left ``None`` to be harvested
+    live from the unmodified base model. Scales automatically to any character.
+    """
+    candidates: list[dict[str, Any]] = []
+    for row in sft_rows:
+        msgs = row.get("messages", [])
+        user_msg = next((m["content"].strip() for m in msgs if m.get("role") == "user"), "")
+        asst_msg = next((m["content"].strip() for m in msgs if m.get("role") == "assistant"), "")
+        if not user_msg or not asst_msg:
+            continue
+        wc = len(asst_msg.split())
+        if not (min_words <= wc <= max_words):
+            continue
+        # Ensure zero Split-or-Steal game leakage
+        combined_low = (user_msg + " " + asst_msg).lower()
+        if "split or steal" in combined_low:
+            continue
+        candidates.append(
+            {
+                "source": row.get("source", "primary"),
+                "heading": row.get("heading", ""),
+                "prompt": user_msg,
+                "chosen": asst_msg,
+            }
+        )
+
+    # Stratify round-robin across sources so all books/letters/speeches are represented evenly
+    rng = random.Random(seed)
+    by_src: dict[str, list[dict[str, Any]]] = {}
+    for c in candidates:
+        by_src.setdefault(c["source"], []).append(c)
+    for src_list in by_src.values():
+        rng.shuffle(src_list)
+
+    selected: list[dict[str, Any]] = []
+    src_keys = sorted(by_src.keys())
+    while len(selected) < max_pairs and src_keys:
+        next_keys: list[str] = []
+        for k in src_keys:
+            if by_src[k] and len(selected) < max_pairs:
+                selected.append(by_src[k].pop())
+                if by_src[k]:
+                    next_keys.append(k)
+        src_keys = next_keys
+
+    records: list[dict[str, Any]] = []
+    for idx, item in enumerate(selected, start=1):
+        records.append(
+            {
+                "id": f"primary_{split_tag}_{idx:03d}",
+                "character": character.id,
+                "category": "primary_source_verbatim",
+                "source": item["source"],
+                "heading": item["heading"],
+                "system_prompt": "",
+                "prompt": item["prompt"],
+                "chosen": item["chosen"],
+                "rejected": None,
+                "chosen_origin": "verbatim_primary_source",
+            }
+        )
+    return records
+
+
 def _write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:
@@ -697,6 +774,14 @@ def build_character_datasets(
     # Step 4: 60 Anti-RLHF Decision Policy DPO prompts (zero game leakage)
     dpo_rows = build_dpo_records(character, characters_dir=characters_dir)
 
+    # Step 5: 100% Verbatim Primary-Source DPO prompts (train + held-out val; zero synthetic caricature)
+    dpo_primary_train = build_primary_source_dpo_prompts(
+        sft_train_rows, character, max_pairs=120, seed=seed, split_tag="train"
+    )
+    dpo_primary_val = build_primary_source_dpo_prompts(
+        sft_val_rows, character, max_pairs=30, seed=seed + 1, split_tag="val"
+    )
+
     # Write outputs
     char_out_dir = out_dir / character.id
     char_out_dir.mkdir(parents=True, exist_ok=True)
@@ -706,6 +791,8 @@ def build_character_datasets(
     _write_jsonl(char_out_dir / "sft_train.jsonl", sft_train_rows)
     _write_jsonl(char_out_dir / "sft_val.jsonl", sft_val_rows)
     _write_jsonl(char_out_dir / "dpo_prompts.jsonl", dpo_rows)
+    _write_jsonl(char_out_dir / "dpo_primary_train.jsonl", dpo_primary_train)
+    _write_jsonl(char_out_dir / "dpo_primary_val.jsonl", dpo_primary_val)
 
     train_section_ids = {s.section_id for s in train_sections}
     val_section_ids = {s.section_id for s in val_sections}
@@ -755,6 +842,14 @@ def build_character_datasets(
                 "count": len(dpo_rows),
                 "chosen_populated": sum(1 for r in dpo_rows if r["chosen"]),
                 "rejected_populated": sum(1 for r in dpo_rows if r["rejected"]),
+            },
+            "dpo_primary_train": {
+                "file": "dpo_primary_train.jsonl",
+                "count": len(dpo_primary_train),
+            },
+            "dpo_primary_val": {
+                "file": "dpo_primary_val.jsonl",
+                "count": len(dpo_primary_val),
             },
         },
     }

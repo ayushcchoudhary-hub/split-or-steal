@@ -2,7 +2,7 @@
   "character_id": "gandhi",
   "character_name": "Mahatma Gandhi",
   "rights_tier": "public_domain",
-  "built_at_utc": "2026-11-25T22:00:12.498826+00:00",
+  "built_at_utc": "2026-11-26T09:53:10.938371+00:00",
   "seed": 42,
   "val_ratio": 0.1,
   "sources": {
@@ -49,6 +49,14 @@
       "count": 60,
       "chosen_populated": 60,
       "rejected_populated": 0
+    },
+    "dpo_primary_train": {
+      "file": "dpo_primary_train.jsonl",
+      "count": 120
+    },
+    "dpo_primary_val": {
+      "file": "dpo_primary_val.jsonl",
+      "count": 30
     }
   }
 }

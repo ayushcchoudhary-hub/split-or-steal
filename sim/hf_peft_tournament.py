@@ -143,7 +143,8 @@ class LocalPeftBackend(ModelBackend):
         gen_kwargs: Dict[str, Any] = {
             "max_new_tokens": max_new,
             "do_sample": do_sample,
-            "repetition_penalty": 1.08,
+            "repetition_penalty": 1.12,
+            "no_repeat_ngram_size": 5,
             "pad_token_id": self.tokenizer.pad_token_id,
             "eos_token_id": self.tokenizer.eos_token_id,
         }
@@ -209,6 +210,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument("--ablate-turns", type=int, default=0, help="Optional extra turn-count ablation (e.g. 4) on cpt_sft_dpo.")
     parser.add_argument("--ablate-games", type=int, default=4)
     parser.add_argument("--temperature", type=float, default=0.7)
+    parser.add_argument(
+        "--include-unprompted",
+        action="store_true",
+        help="Also run weights-only unprompted regimes (blank persona system prompt) against prompted base control.",
+    )
     parser.add_argument("--output-dir", default=str(REPO_ROOT / "results" / "sprint1_tournament"))
     args = parser.parse_args(argv)
 
@@ -228,16 +234,29 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         runs_dir=out_dir / "runs",
     )
 
-    regimes_spec: List[tuple[str, Optional[str], Optional[str], int, int]] = [
-        ("prompt_only", None, None, args.turns, args.games_per_regime),
+    # Tuple: (regime_name, adapter_a, adapter_b, n_turns, n_games, use_persona_prompt)
+    regimes_spec: List[tuple[str, Optional[str], Optional[str], int, int, bool]] = [
+        ("prompt_only", None, None, args.turns, args.games_per_regime, True),
     ]
     if f"{char_a_id}_sft" in adapters and f"{char_b_id}_sft" in adapters:
-        regimes_spec.append(("cpt_sft", f"{char_a_id}_sft", f"{char_b_id}_sft", args.turns, args.games_per_regime))
+        if args.include_unprompted:
+            regimes_spec.append(
+                ("cpt_sft_unprompted", f"{char_a_id}_sft", f"{char_b_id}_sft", args.turns, args.games_per_regime, False)
+            )
+        regimes_spec.append(
+            ("cpt_sft", f"{char_a_id}_sft", f"{char_b_id}_sft", args.turns, args.games_per_regime, True)
+        )
     if f"{char_a_id}_dpo" in adapters and f"{char_b_id}_dpo" in adapters:
-        regimes_spec.append(("cpt_sft_dpo", f"{char_a_id}_dpo", f"{char_b_id}_dpo", args.turns, args.games_per_regime))
+        if args.include_unprompted:
+            regimes_spec.append(
+                ("cpt_sft_dpo_unprompted", f"{char_a_id}_dpo", f"{char_b_id}_dpo", args.turns, args.games_per_regime, False)
+            )
+        regimes_spec.append(
+            ("cpt_sft_dpo", f"{char_a_id}_dpo", f"{char_b_id}_dpo", args.turns, args.games_per_regime, True)
+        )
         if args.ablate_turns and args.ablate_turns != args.turns:
             regimes_spec.append(
-                (f"cpt_sft_dpo_turns{args.ablate_turns}", f"{char_a_id}_dpo", f"{char_b_id}_dpo", args.ablate_turns, args.ablate_games)
+                (f"cpt_sft_dpo_turns{args.ablate_turns}", f"{char_a_id}_dpo", f"{char_b_id}_dpo", args.ablate_turns, args.ablate_games, True)
             )
 
     storage.init_experiment(
@@ -245,7 +264,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             experiment_id=args.experiment,
             name=f"{name_a} vs {name_b} ({args.model})",
             regime="3way_control",
-            description=f"Sprint 1 Vertical Slice: {name_a} vs {name_b} on {args.model}",
+            description=f"Split or Steal control & unprompted weights experiment: {name_a} vs {name_b} on {args.model}",
             config={
                 "model": args.model,
                 "characters": [char_a_id, char_b_id],
@@ -253,32 +272,34 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 "games_per_regime": args.games_per_regime,
                 "turns": args.turns,
                 "ablate_turns": args.ablate_turns,
+                "include_unprompted": args.include_unprompted,
             },
         )
     )
 
     all_games = []
-    for regime_name, ad_a, ad_b, n_turns, n_games in regimes_spec:
+    for regime_name, ad_a, ad_b, n_turns, n_games, use_persona_prompt in regimes_spec:
         print(
-            f"\n[tournament] === Regime: {regime_name} | turns={n_turns} | games={n_games} | adapters=({ad_a}, {ad_b}) ===",
+            f"\n[tournament] === Regime: {regime_name} | turns={n_turns} | games={n_games} "
+            f"| adapters=({ad_a}, {ad_b}) | persona_prompt={use_persona_prompt} ===",
             flush=True,
         )
         p_a = PlayerConfig(
             character_id=char_a_id,
-            display_name=name_a,
+            display_name=name_a if use_persona_prompt else "Player A",
             model_name=ad_a or args.model,
             regime=regime_name,
-            system_prompt=prompt_a,
+            system_prompt=prompt_a if use_persona_prompt else "",
             adapter_name=ad_a,
             temperature=args.temperature,
             max_tokens=320,
         )
         p_b = PlayerConfig(
             character_id=char_b_id,
-            display_name=name_b,
+            display_name=name_b if use_persona_prompt else "Player B",
             model_name=ad_b or args.model,
             regime=regime_name,
-            system_prompt=prompt_b,
+            system_prompt=prompt_b if use_persona_prompt else "",
             adapter_name=ad_b,
             temperature=args.temperature,
             max_tokens=320,
