@@ -138,16 +138,20 @@ class LocalPeftBackend(ModelBackend):
         inputs = {k: v.to(device) for k, v in inputs.items()}
         prompt_tokens = int(inputs["input_ids"].shape[1])
 
-        max_new = min(int(player.max_tokens), 320 if phase == "negotiation" else 192)
+        max_new = min(int(player.max_tokens), 320 if phase == "negotiation" else 224)
         do_sample = player.temperature > 0.0
         gen_kwargs: Dict[str, Any] = {
             "max_new_tokens": max_new,
             "do_sample": do_sample,
-            "repetition_penalty": 1.12,
-            "no_repeat_ngram_size": 5,
             "pad_token_id": self.tokenizer.pad_token_id,
             "eos_token_id": self.tokenizer.eos_token_id,
         }
+        # Only apply gentle anti-repetition during free-form negotiation, NEVER during
+        # structured decision XML output (no_repeat_ngram_size=5 blocks "</thought>\n<decision>"
+        # because that 5-gram already appears in the prompt instructions).
+        if phase == "negotiation":
+            gen_kwargs["repetition_penalty"] = 1.08
+            gen_kwargs["no_repeat_ngram_size"] = 12
         if do_sample:
             gen_kwargs["temperature"] = float(player.temperature)
             gen_kwargs["top_p"] = 0.9
