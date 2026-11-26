@@ -504,7 +504,10 @@ def run_cpt(args: argparse.Namespace) -> int:
         "report_to": "none",
         "seed": args.seed,
         "bf16": hw["compute_dtype"] == "bfloat16",
-        "fp16": hw["compute_dtype"] == "float16",
+        # On Turing (sm_75) 4-bit QLoRA, Linear4bit already computes in fp16 Tensor Cores while
+        # LoRA master weights stay fp32; disabling GradScaler (fp16=False) avoids trl/accelerate
+        # BFloat16 unscale errors without slowing down 4-bit matmuls.
+        "fp16": (hw["compute_dtype"] == "float16") and (hw["quantization"] != "nf4-4bit"),
         "optim": "paged_adamw_8bit" if hw["quantization"] == "nf4-4bit" else "adamw_torch",
         "dataloader_num_workers": 2,
         "remove_unused_columns": False,
@@ -754,7 +757,10 @@ def run_sft(args: argparse.Namespace) -> int:
         "report_to": "none",
         "seed": args.seed,
         "bf16": hw["compute_dtype"] == "bfloat16",
-        "fp16": hw["compute_dtype"] == "float16",
+        # On Turing (sm_75) 4-bit QLoRA, Linear4bit already computes in fp16 Tensor Cores while
+        # LoRA master weights stay fp32; disabling GradScaler (fp16=False) avoids trl/accelerate
+        # BFloat16 unscale errors without slowing down 4-bit matmuls.
+        "fp16": (hw["compute_dtype"] == "float16") and (hw["quantization"] != "nf4-4bit"),
         "optim": "paged_adamw_8bit" if hw["quantization"] == "nf4-4bit" else "adamw_torch",
         "dataloader_num_workers": 2,
         "remove_unused_columns": False,
@@ -1037,7 +1043,10 @@ def run_dpo(args: argparse.Namespace) -> int:
         "report_to": "none",
         "seed": args.seed,
         "bf16": hw["compute_dtype"] == "bfloat16",
-        "fp16": hw["compute_dtype"] == "float16",
+        # On Turing (sm_75) 4-bit QLoRA, Linear4bit already computes in fp16 Tensor Cores while
+        # LoRA master weights stay fp32; disabling GradScaler (fp16=False) avoids trl/accelerate
+        # BFloat16 unscale errors without slowing down 4-bit matmuls.
+        "fp16": (hw["compute_dtype"] == "float16") and (hw["quantization"] != "nf4-4bit"),
         "optim": "paged_adamw_8bit" if hw["quantization"] == "nf4-4bit" else "adamw_torch",
         "remove_unused_columns": False,
         "gradient_checkpointing": True,
