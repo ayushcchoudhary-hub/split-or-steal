@@ -167,7 +167,7 @@ class LocalPeftBackend(ModelBackend):
         completion_tokens = int(new_ids.shape[0])
         raw_text = self.tokenizer.decode(new_ids, skip_special_tokens=True).strip()
         latency_ms = (time.perf_counter() - t0) * 1000.0
-        thought, visible = extract_thought_and_visible(raw_text)
+        thought, visible, _ = extract_thought_and_visible(raw_text)
         active_label = player.adapter_name or self.model_name
 
         return LLMResponse(
