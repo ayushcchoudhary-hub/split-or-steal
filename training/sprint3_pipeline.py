@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 import time
@@ -41,12 +42,13 @@ def _run(cmd: Sequence[str], *, check: bool = True, input_bytes: bytes | None = 
     return subprocess.run(cmd, check=check, input=input_bytes)
 
 
-def _colab_exec_py(session: str, code: str, timeout: int = 60) -> str:
+def _colab_exec_py(session: str, code: str, timeout: int = 45) -> str:
     proc = subprocess.run(
         [str(COLAB_BIN), "exec", "-s", session, "--timeout", str(timeout)],
         input=code.encode("utf-8"),
         capture_output=True,
         check=True,
+        timeout=timeout + 20,
     )
     return proc.stdout.decode("utf-8", errors="replace")
 
@@ -75,10 +77,12 @@ def _has_local_adapter(char_id: str) -> bool:
 
 def _stream_dir_to_remote(session: str, local_paths: Sequence[str], remote_dest: str) -> None:
     """Stream repo-relative paths to remote_dest via tar over SSH stdin."""
+    env = dict(os.environ, COPYFILE_DISABLE="1")
     tar_proc = subprocess.Popen(
-        ["tar", "-czf", "-", *local_paths],
+        ["tar", "--no-xattrs", "-czf", "-", *local_paths],
         cwd=str(REPO_ROOT),
         stdout=subprocess.PIPE,
+        env=env,
     )
     ssh_proc = subprocess.Popen(
         _ssh_cmd(session, f"mkdir -p {remote_dest} && tar -xzf - -C {remote_dest}"),
@@ -316,10 +320,12 @@ def main(argv: Sequence[str] | None = None) -> int:
             f"data/processed/{c}" for c in args.characters
         ]
         _stream_dir_to_remote(args.session, paths_to_sync, "/content/repo")
-        _colab_exec_py(
+        print(f"[sprint3] Installing Python dependencies (detached) on {args.session}...", flush=True)
+        _run_detached_and_wait(
             args.session,
-            "import subprocess; subprocess.run('pip install -q -U peft trl bitsandbytes datasets accelerate safetensors', shell=True, check=True); print('DEPS_OK')",
-            timeout=300,
+            "pip_deps",
+            "pip install -q -U peft trl bitsandbytes datasets accelerate safetensors && python3 -c 'import peft, trl, bitsandbytes; print(\"DEPS_OK\", peft.__version__, trl.__version__)'",
+            poll_sec=15,
         )
 
         # 2. Train missing characters & immediately stream each adapter locally (ADR-009)
