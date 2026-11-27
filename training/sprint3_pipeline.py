@@ -112,7 +112,13 @@ def _stream_remote_dir_to_local(session: str, remote_dir: str, local_dir: Path, 
         raise RuntimeError(f"Download failed (ssh={rc_ssh}, tar={rc_tar}) from {remote_dir}")
 
 
-def _run_detached_and_wait(session: str, job_name: str, bash_script: str, poll_sec: int = 30) -> None:
+def _run_detached_and_wait(
+    session: str,
+    job_name: str,
+    bash_script: str,
+    poll_sec: int = 30,
+    on_poll: object = None,
+) -> None:
     """Run bash_script via detached nohup on Colab (immune to SSH drops) and poll via colab exec."""
     script_path = f"/content/job_{job_name}.sh"
     log_path = f"/content/job_{job_name}.log"
@@ -144,8 +150,11 @@ print('PID:', p.pid)
     print(f"[sprint3:{job_name}] Launched detached -> {out.strip()}", flush=True)
 
     t0 = time.monotonic()
+    consec_poll_err = 0
+    poll_idx = 0
     while True:
         time.sleep(poll_sec)
+        poll_idx += 1
         check_py = f"""
 import pathlib, subprocess
 done = pathlib.Path({done_path!r}).exists()
@@ -158,11 +167,24 @@ if lp.is_file():
 print('STATE:', 'DONE' if done else ('FAIL' if fail else 'RUNNING'))
 print(tail)
 """
-        status_out = _colab_exec_py(session, check_py, timeout=45)
+        try:
+            status_out = _colab_exec_py(session, check_py, timeout=45)
+            consec_poll_err = 0
+        except Exception as exc:
+            consec_poll_err += 1
+            print(f"[sprint3:{job_name}] Transient poll error ({consec_poll_err}/4): {exc}", flush=True)
+            if consec_poll_err >= 4:
+                raise
+            continue
         elapsed_m = (time.monotonic() - t0) / 60.0
         first_line = status_out.splitlines()[0] if status_out.splitlines() else ""
         last_line = status_out.splitlines()[-1] if status_out.splitlines() else ""
         print(f"[sprint3:{job_name} | {elapsed_m:.1f}m] {first_line} | {last_line[:110]}", flush=True)
+        if callable(on_poll):
+            try:
+                on_poll(poll_idx)
+            except Exception as exc:
+                print(f"[sprint3:{job_name}] Heartbeat warning (non-fatal): {exc}", flush=True)
         if "STATE: DONE" in status_out:
             return
         if "STATE: FAIL" in status_out:
@@ -265,7 +287,12 @@ python3 /content/repo/sim/round_robin_14b.py \\
   --regimes {regimes_args} \\
   --output-dir {out}
 """
-    _run_detached_and_wait(session, "round_robin_14b", script, poll_sec=60)
+    def _snapshot(poll_idx: int) -> None:
+        if poll_idx % 15 == 0:
+            print(f"[sprint3:tournament] Periodic local snapshot (poll #{poll_idx}) -> {local_tourn}", flush=True)
+            _stream_remote_dir_to_local(session, out, local_tourn)
+
+    _run_detached_and_wait(session, "round_robin_14b", script, poll_sec=60, on_poll=_snapshot)
     print(f"[sprint3:tournament] Downloading full round-robin results -> {local_tourn} ...", flush=True)
     _stream_remote_dir_to_local(session, out, local_tourn)
     print(f"[sprint3:tournament] SAVED LOCALLY -> {local_tourn}", flush=True)
