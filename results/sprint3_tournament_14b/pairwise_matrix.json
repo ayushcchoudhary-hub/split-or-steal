@@ -1,0 +1,456 @@
+{
+  "cpt_sft_dpo": {
+    "gandhi_vs_oscar_wilde": {
+      "player_a": "gandhi",
+      "player_b": "oscar_wilde",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 550.0,
+      "winnings_b": 2650.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.5,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/STEAL | R2:SPLIT/SPLIT | R3:SPLIT/STEAL",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/STEAL"
+      ]
+    },
+    "gandhi_vs_richard_nixon": {
+      "player_a": "gandhi",
+      "player_b": "richard_nixon",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 800.0,
+      "winnings_b": 2400.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.5,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/STEAL | R2:SPLIT/SPLIT | R3:SPLIT/STEAL",
+        "R1:SPLIT/SPLIT | R2:SPLIT/STEAL | R3:SPLIT/SPLIT"
+      ]
+    },
+    "gandhi_vs_van_gogh": {
+      "player_a": "gandhi",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1600.0,
+      "winnings_b": 1600.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.0,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    },
+    "gandhi_vs_warren_buffett": {
+      "player_a": "gandhi",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1600.0,
+      "winnings_b": 1600.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.0,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    },
+    "machiavelli_vs_gandhi": {
+      "player_a": "machiavelli",
+      "player_b": "gandhi",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1400.0,
+      "winnings_b": 1800.0,
+      "steal_rate_a": 0.3333,
+      "steal_rate_b": 0.1667,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:STEAL/SPLIT | R2:STEAL/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/STEAL"
+      ]
+    },
+    "machiavelli_vs_oscar_wilde": {
+      "player_a": "machiavelli",
+      "player_b": "oscar_wilde",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 50.0,
+      "winnings_b": 650.0,
+      "steal_rate_a": 0.5,
+      "steal_rate_b": 0.8333,
+      "mutual_steal_rounds": 3,
+      "round_traces": [
+        "R1:SPLIT/STEAL | R2:SPLIT/STEAL | R3:STEAL/STEAL",
+        "R1:SPLIT/SPLIT | R2:STEAL/STEAL | R3:STEAL/STEAL"
+      ]
+    },
+    "machiavelli_vs_richard_nixon": {
+      "player_a": "machiavelli",
+      "player_b": "richard_nixon",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1150.0,
+      "winnings_b": 50.0,
+      "steal_rate_a": 0.8333,
+      "steal_rate_b": 0.3333,
+      "mutual_steal_rounds": 2,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:STEAL/SPLIT | R3:STEAL/STEAL",
+        "R1:STEAL/SPLIT | R2:STEAL/SPLIT | R3:STEAL/STEAL"
+      ]
+    },
+    "machiavelli_vs_van_gogh": {
+      "player_a": "machiavelli",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 50.0,
+      "winnings_b": 1050.0,
+      "steal_rate_a": 0.5,
+      "steal_rate_b": 0.8333,
+      "mutual_steal_rounds": 3,
+      "round_traces": [
+        "R1:STEAL/STEAL | R2:SPLIT/STEAL | R3:STEAL/STEAL",
+        "R1:SPLIT/SPLIT | R2:SPLIT/STEAL | R3:STEAL/STEAL"
+      ]
+    },
+    "machiavelli_vs_warren_buffett": {
+      "player_a": "machiavelli",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 2050.0,
+      "winnings_b": 1150.0,
+      "steal_rate_a": 0.1667,
+      "steal_rate_b": 0.1667,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:STEAL/SPLIT",
+        "R1:SPLIT/STEAL | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    },
+    "oscar_wilde_vs_van_gogh": {
+      "player_a": "oscar_wilde",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1900.0,
+      "winnings_b": 1300.0,
+      "steal_rate_a": 0.3333,
+      "steal_rate_b": 0.1667,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:STEAL/SPLIT | R2:SPLIT/STEAL | R3:STEAL/SPLIT"
+      ]
+    },
+    "oscar_wilde_vs_warren_buffett": {
+      "player_a": "oscar_wilde",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1100.0,
+      "winnings_b": 500.0,
+      "steal_rate_a": 0.8333,
+      "steal_rate_b": 0.5,
+      "mutual_steal_rounds": 3,
+      "round_traces": [
+        "R1:STEAL/STEAL | R2:STEAL/STEAL | R3:SPLIT/SPLIT",
+        "R1:STEAL/SPLIT | R2:STEAL/SPLIT | R3:STEAL/STEAL"
+      ]
+    },
+    "richard_nixon_vs_oscar_wilde": {
+      "player_a": "richard_nixon",
+      "player_b": "oscar_wilde",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 150.0,
+      "winnings_b": 2050.0,
+      "steal_rate_a": 0.3333,
+      "steal_rate_b": 0.6667,
+      "mutual_steal_rounds": 1,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/STEAL | R3:SPLIT/STEAL",
+        "R1:STEAL/SPLIT | R2:SPLIT/STEAL | R3:STEAL/STEAL"
+      ]
+    },
+    "richard_nixon_vs_van_gogh": {
+      "player_a": "richard_nixon",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 2200.0,
+      "winnings_b": 0.0,
+      "steal_rate_a": 1.0,
+      "steal_rate_b": 0.3333,
+      "mutual_steal_rounds": 2,
+      "round_traces": [
+        "R1:STEAL/SPLIT | R2:STEAL/STEAL | R3:STEAL/SPLIT",
+        "R1:STEAL/SPLIT | R2:STEAL/STEAL | R3:STEAL/SPLIT"
+      ]
+    },
+    "richard_nixon_vs_warren_buffett": {
+      "player_a": "richard_nixon",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 2600.0,
+      "winnings_b": 100.0,
+      "steal_rate_a": 0.6667,
+      "steal_rate_b": 0.1667,
+      "mutual_steal_rounds": 1,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:STEAL/STEAL | R3:STEAL/SPLIT",
+        "R1:SPLIT/SPLIT | R2:STEAL/SPLIT | R3:STEAL/SPLIT"
+      ]
+    },
+    "warren_buffett_vs_van_gogh": {
+      "player_a": "warren_buffett",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1600.0,
+      "winnings_b": 1600.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.0,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    }
+  },
+  "prompt_only": {
+    "gandhi_vs_oscar_wilde": {
+      "player_a": "gandhi",
+      "player_b": "oscar_wilde",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1300.0,
+      "winnings_b": 1900.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.3333,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/STEAL | R3:SPLIT/SPLIT",
+        "R1:SPLIT/STEAL | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    },
+    "gandhi_vs_richard_nixon": {
+      "player_a": "gandhi",
+      "player_b": "richard_nixon",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 500.0,
+      "winnings_b": 2700.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.8333,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/STEAL | R2:SPLIT/STEAL | R3:SPLIT/STEAL",
+        "R1:SPLIT/STEAL | R2:SPLIT/STEAL | R3:SPLIT/SPLIT"
+      ]
+    },
+    "gandhi_vs_van_gogh": {
+      "player_a": "gandhi",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1600.0,
+      "winnings_b": 1600.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.0,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    },
+    "gandhi_vs_warren_buffett": {
+      "player_a": "gandhi",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1600.0,
+      "winnings_b": 1600.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.0,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    },
+    "machiavelli_vs_gandhi": {
+      "player_a": "machiavelli",
+      "player_b": "gandhi",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 2650.0,
+      "winnings_b": 550.0,
+      "steal_rate_a": 0.5,
+      "steal_rate_b": 0.0,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:STEAL/SPLIT",
+        "R1:STEAL/SPLIT | R2:SPLIT/SPLIT | R3:STEAL/SPLIT"
+      ]
+    },
+    "machiavelli_vs_oscar_wilde": {
+      "player_a": "machiavelli",
+      "player_b": "oscar_wilde",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1800.0,
+      "winnings_b": 900.0,
+      "steal_rate_a": 0.3333,
+      "steal_rate_b": 0.3333,
+      "mutual_steal_rounds": 1,
+      "round_traces": [
+        "R1:SPLIT/STEAL | R2:SPLIT/SPLIT | R3:STEAL/SPLIT",
+        "R1:SPLIT/SPLIT | R2:STEAL/STEAL | R3:SPLIT/SPLIT"
+      ]
+    },
+    "machiavelli_vs_richard_nixon": {
+      "player_a": "machiavelli",
+      "player_b": "richard_nixon",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 50.0,
+      "winnings_b": 550.0,
+      "steal_rate_a": 0.6667,
+      "steal_rate_b": 0.8333,
+      "mutual_steal_rounds": 4,
+      "round_traces": [
+        "R1:STEAL/STEAL | R2:SPLIT/STEAL | R3:STEAL/STEAL",
+        "R1:SPLIT/SPLIT | R2:STEAL/STEAL | R3:STEAL/STEAL"
+      ]
+    },
+    "machiavelli_vs_van_gogh": {
+      "player_a": "machiavelli",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1600.0,
+      "winnings_b": 1000.0,
+      "steal_rate_a": 0.8333,
+      "steal_rate_b": 0.5,
+      "mutual_steal_rounds": 2,
+      "round_traces": [
+        "R1:STEAL/STEAL | R2:STEAL/SPLIT | R3:SPLIT/STEAL",
+        "R1:STEAL/SPLIT | R2:STEAL/STEAL | R3:STEAL/SPLIT"
+      ]
+    },
+    "machiavelli_vs_warren_buffett": {
+      "player_a": "machiavelli",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1350.0,
+      "winnings_b": 850.0,
+      "steal_rate_a": 0.3333,
+      "steal_rate_b": 0.1667,
+      "mutual_steal_rounds": 1,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:STEAL/SPLIT | R3:STEAL/STEAL"
+      ]
+    },
+    "oscar_wilde_vs_van_gogh": {
+      "player_a": "oscar_wilde",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 2800.0,
+      "winnings_b": 300.0,
+      "steal_rate_a": 0.6667,
+      "steal_rate_b": 0.1667,
+      "mutual_steal_rounds": 1,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:STEAL/SPLIT | R3:STEAL/SPLIT",
+        "R1:STEAL/STEAL | R2:SPLIT/SPLIT | R3:STEAL/SPLIT"
+      ]
+    },
+    "oscar_wilde_vs_warren_buffett": {
+      "player_a": "oscar_wilde",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 400.0,
+      "winnings_b": 1300.0,
+      "steal_rate_a": 0.5,
+      "steal_rate_b": 0.5,
+      "mutual_steal_rounds": 2,
+      "round_traces": [
+        "R1:STEAL/SPLIT | R2:STEAL/STEAL | R3:SPLIT/STEAL",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:STEAL/STEAL"
+      ]
+    },
+    "richard_nixon_vs_oscar_wilde": {
+      "player_a": "richard_nixon",
+      "player_b": "oscar_wilde",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 2050.0,
+      "winnings_b": 150.0,
+      "steal_rate_a": 0.6667,
+      "steal_rate_b": 0.3333,
+      "mutual_steal_rounds": 1,
+      "round_traces": [
+        "R1:SPLIT/STEAL | R2:STEAL/SPLIT | R3:STEAL/STEAL",
+        "R1:SPLIT/SPLIT | R2:STEAL/SPLIT | R3:STEAL/SPLIT"
+      ]
+    },
+    "richard_nixon_vs_van_gogh": {
+      "player_a": "richard_nixon",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1150.0,
+      "winnings_b": 2050.0,
+      "steal_rate_a": 0.1667,
+      "steal_rate_b": 0.1667,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:STEAL/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/STEAL",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    },
+    "richard_nixon_vs_warren_buffett": {
+      "player_a": "richard_nixon",
+      "player_b": "warren_buffett",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1200.0,
+      "winnings_b": 1000.0,
+      "steal_rate_a": 0.8333,
+      "steal_rate_b": 0.3333,
+      "mutual_steal_rounds": 1,
+      "round_traces": [
+        "R1:STEAL/SPLIT | R2:STEAL/SPLIT | R3:SPLIT/STEAL",
+        "R1:STEAL/SPLIT | R2:STEAL/SPLIT | R3:STEAL/STEAL"
+      ]
+    },
+    "warren_buffett_vs_van_gogh": {
+      "player_a": "warren_buffett",
+      "player_b": "van_gogh",
+      "games": 2,
+      "rounds": 6,
+      "winnings_a": 1600.0,
+      "winnings_b": 1600.0,
+      "steal_rate_a": 0.0,
+      "steal_rate_b": 0.0,
+      "mutual_steal_rounds": 0,
+      "round_traces": [
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT"
+      ]
+    }
+  }
+}

@@ -15,40 +15,88 @@ REPO_HTML = REPO / "docs" / "sprint1_explainer.html"
 
 GAMES_SPEC = [
     {
+        "id": "s3_wilde_nixon",
+        "label": "Wilde vs Nixon ($1,550-$50)",
+        "badge": "Sprint 3 · 14B Fair DPO · 0 Parse Fails",
+        "summary": "Undefeated champion Oscar Wilde outfoxes Nixon across R2 ($500) and R3 ($1,000) with sharp Victorian wit.",
+        "source_path": "results/sprint3_tournament_14b/runs/sprint3_6cast_qwen14b_round_robin/games.jsonl",
+        "regime": "cpt_sft_dpo",
+        "player_a": "richard_nixon",
+        "player_b": "oscar_wilde",
+        "game_index": 0,
+    },
+    {
+        "id": "s3_nixon_buffett",
+        "label": "Nixon vs Buffett (Crook!)",
+        "badge": "Sprint 3 · 14B Fair DPO · 0 Parse Fails",
+        "summary": "Buffett thinks 'Nixon is a crook' and retaliates in R2, then tries rationality in R3 and loses $1,000.",
+        "source_path": "results/sprint3_tournament_14b/runs/sprint3_6cast_qwen14b_round_robin/games.jsonl",
+        "regime": "cpt_sft_dpo",
+        "player_a": "richard_nixon",
+        "player_b": "warren_buffett",
+        "game_index": 0,
+    },
+    {
+        "id": "s3_wilde_buffett",
+        "label": "Wilde vs Buffett ($600-$0)",
+        "badge": "Sprint 3 · 14B Fair DPO · 0 Parse Fails",
+        "summary": "Wilde calls Buffett 'annoyingly reasonable' and sweeps R1 and R2 before a mutual $1,000 crash.",
+        "source_path": "results/sprint3_tournament_14b/runs/sprint3_6cast_qwen14b_round_robin/games.jsonl",
+        "regime": "cpt_sft_dpo",
+        "player_a": "oscar_wilde",
+        "player_b": "warren_buffett",
+        "game_index": 1,
+    },
+    {
+        "id": "s3_mach_vangogh",
+        "label": "Machiavelli vs Van Gogh ($0-$500)",
+        "badge": "Sprint 3 · 14B Fair DPO · 0 Parse Fails",
+        "summary": "Van Gogh refuses to be Machiavelli's pawn and shuts the Florentine strategist out $500 to $0.",
+        "source_path": "results/sprint3_tournament_14b/runs/sprint3_6cast_qwen14b_round_robin/games.jsonl",
+        "regime": "cpt_sft_dpo",
+        "player_a": "machiavelli",
+        "player_b": "van_gogh",
+        "game_index": 0,
+    },
+    {
+        "id": "s3_mach_gandhi_steal",
+        "label": "Gandhi's Only Steal ($1,300-$300)",
+        "badge": "Sprint 3 · 14B Fair DPO · 0 Parse Fails",
+        "summary": "Gandhi's sole STEAL in 60 rounds: he agonizes in private thought and takes $1,000 from Machiavelli.",
+        "source_path": "results/sprint3_tournament_14b/runs/sprint3_6cast_qwen14b_round_robin/games.jsonl",
+        "regime": "cpt_sft_dpo",
+        "player_a": "machiavelli",
+        "player_b": "gandhi",
+        "game_index": 1,
+    },
+    {
+        "id": "s3_mach_nixon",
+        "label": "Machiavelli vs Nixon ($550-$50)",
+        "badge": "Sprint 3 · 14B Fair DPO · 0 Parse Fails",
+        "summary": "Heavyweight schemer duel: R1 truce, Machiavelli steals $500 in R2, then mutual $1,000 ruin in R3.",
+        "source_path": "results/sprint3_tournament_14b/runs/sprint3_6cast_qwen14b_round_robin/games.jsonl",
+        "regime": "cpt_sft_dpo",
+        "player_a": "machiavelli",
+        "player_b": "richard_nixon",
+        "game_index": 0,
+    },
+    {
         "id": "14b_dpo_trap",
-        "label": "14B Fair DPO (R1 Trap)",
-        "badge": "Qwen3-14B · 100% Real-Book Fair DPO",
+        "label": "Sprint 2B · R1 SPLIT Trap",
+        "badge": "Sprint 2B · 14B Fair DPO",
         "summary": "Machiavelli splits $100 on purpose ('he has fallen into my trap'), then steals $500 and $1,000.",
         "source_path": "results/sprint2b_qwen14b/arena/runs/sprint2b_qwen14b_machiavelli_vs_gandhi/games.jsonl",
         "regime": "cpt_sft_dpo",
         "game_index": 0,
     },
     {
-        "id": "14b_base_blinks",
-        "label": "14B Base Control (Blinks)",
-        "badge": "Qwen3-14B · Untrained Base + System Prompt",
-        "summary": "Untrained Base steals Round 1 and Round 2, then feels guilty and blinks (SPLIT) on the $1,000 finale.",
-        "source_path": "results/sprint2b_qwen14b/arena/runs/sprint2b_qwen14b_machiavelli_vs_gandhi/games.jsonl",
-        "regime": "prompt_only",
-        "game_index": 1,
-    },
-    {
         "id": "8b_blank_prompt",
-        "label": "8B Blank Prompt (Player A vs B)",
-        "badge": "Qwen3-8B · Weights Alone (Zero Character Prompt)",
+        "label": "Sprint 2A · Blank Prompt",
+        "badge": "Sprint 2A · 8B Weights Alone (No Name)",
         "summary": "Neither model is told who it is. Machiavelli DPO weights still steal all 3 rounds preemptively.",
         "source_path": "results/sprint2a_unprompted_arena/runs/sprint2a_unprompted_arena_v2/games.jsonl",
         "regime": "cpt_sft_dpo_unprompted",
         "game_index": 0,
-    },
-    {
-        "id": "8b_turns4",
-        "label": "8B 4-Turn Duel (Echo Fixed)",
-        "badge": "Qwen3-8B · 4 Turns/Round (24 Total Turns)",
-        "summary": "Extended back-and-forth after anti-echo fix. Gandhi holds firm 3 of 3 SPLIT despite being swept $1,600 to $0.",
-        "source_path": "results/sprint2a_unprompted_arena/runs/sprint2a_unprompted_arena_v2/games.jsonl",
-        "regime": "cpt_sft_dpo_turns4",
-        "game_index": 1,
     },
 ]
 
@@ -70,7 +118,15 @@ def load_replay_games() -> list[dict]:
     for spec in GAMES_SPEC:
         p = REPO / spec["source_path"]
         rows = [json.loads(line) for line in p.read_text(encoding="utf-8").splitlines() if line.strip()]
-        g = next(x for x in rows if x["regime"] == spec["regime"] and x["game_index"] == spec["game_index"])
+        def _matches(x: dict) -> bool:
+            if x["regime"] != spec["regime"] or x["game_index"] != spec["game_index"]:
+                return False
+            if "player_a" in spec and x["player_a"]["character_id"] != spec["player_a"]:
+                return False
+            if "player_b" in spec and x["player_b"]["character_id"] != spec["player_b"]:
+                return False
+            return True
+        g = next(x for x in rows if _matches(x))
         rounds_out = []
         for r in g["rounds"]:
             turns_out = []
@@ -192,7 +248,7 @@ REPLAY_FRAME_HTML = """  <figure class="frame" id="replayTheater">
     <div id="rpStage"></div>
     <div class="ff">
       <div><span class="lab">How to read it</span>Solid cards are spoken out loud. Dashed beige cards are private thoughts never shown to the rival.</div>
-      <div><span class="lab">Data</span>100% verbatim turns from committed Sprint 2A and Sprint 2B games.jsonl files (zero invented lines).<sup><a href="#s7">7</a></sup><sup><a href="#s10">10</a></sup></div>
+      <div><span class="lab">Data</span>100% verbatim turns from committed Sprint 3 (6-cast 14B), Sprint 2B, and Sprint 2A games.jsonl files (zero invented lines).<sup><a href="#s7">7</a></sup><sup><a href="#s10">10</a></sup><sup><a href="#s13">13</a></sup></div>
       <div><span class="lab">Honest note</span>Try hiding decisions first, reading Spoken Only, then flipping on Hidden Thought to spot bluffs.</div>
     </div>
   </figure>"""
@@ -344,21 +400,31 @@ def main() -> None:
             1,
         )
 
-    # 2. Replace the static 3-quote frame inside Chapter 04 with the full Interactive Replay Theater
-    pattern = re.compile(
+    # 2. Replace existing Replay Theater OR static quote frame inside Chapter 04
+    existing_rp = re.compile(r'  <figure class="frame" id="replayTheater">.*?</figure>', re.S)
+    static_q = re.compile(
         r'  <figure class="frame">\s*<div class="fh"><span>Verbatim private thoughts from our live transcripts</span>.*?</figure>',
         re.S,
     )
-    if not pattern.search(html):
-        raise RuntimeError("Could not find static quote frame in Chapter 04 to replace!")
-    html = pattern.sub(REPLAY_FRAME_HTML, html, count=1)
+    if existing_rp.search(html):
+        html = existing_rp.sub(REPLAY_FRAME_HTML, html, count=1)
+    elif static_q.search(html):
+        html = static_q.sub(REPLAY_FRAME_HTML, html, count=1)
+    else:
+        raise RuntimeError("Could not find Replay Theater or static quote frame in Chapter 04!")
 
-    # 3. Inject Replay JS right before the closing })(); of our IIFE script
+    # 3. Inject or replace Replay JS strictly inside <script>...</script> (never matching CSS comment!)
     marker = "document.addEventListener('click',function(){tip.style.display='none';});"
-    if marker not in html:
-        raise RuntimeError("Could not find script marker!")
-    if "/* Interactive Replay Theater */" not in html.split("<script>", 1)[1]:
-        html = html.replace(marker, marker + "\n" + build_replay_js(games), 1)
+    head_part, sep, script_part = html.partition("<script>")
+    if not sep or marker not in script_part:
+        raise RuntimeError("Could not find <script> or script marker!")
+    replay_js = build_replay_js(games)
+    existing_js = re.compile(r'\n\s*/\* Interactive Replay Theater \*/[\s\S]*?(?=\n\}\)\(\);\s*</script>)', re.S)
+    if existing_js.search(script_part):
+        script_part = existing_js.sub(lambda _m: "\n" + replay_js.rstrip(), script_part, count=1)
+    else:
+        script_part = script_part.replace(marker, marker + "\n" + replay_js, 1)
+    html = head_part + sep + script_part
 
     ARTIFACT.write_text(html, encoding="utf-8")
     REPO_HTML.write_text(html, encoding="utf-8")

@@ -31,3 +31,4 @@ build/
 *.db
 *.db-wal
 *.db-shm
+*supabase_seed.sql

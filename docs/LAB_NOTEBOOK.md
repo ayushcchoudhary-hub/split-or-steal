@@ -230,3 +230,39 @@ All 6 characters trained cleanly through `CPT -> SFT -> 100% Primary-Source Fair
 
 ### 4. Operational Lesson Learned (`ADR-009`)
 Colab reclaimed `s2b-qwen14b` automatically at its ~8.5-hour session cap (`02:27 UTC`) while the final showcase matchups were running — leaving `Active assignments: 0` cleanly, **but** wiping the ephemeral `/content/out/qwen14b/*.safetensors` adapters before final tarball download (our Machiavelli vs. Gandhi `14B` full verification + 10-game transcripts AND the complete 6×6 matrix & Nixon/Wilde scores were already captured safely!). **Permanent fix (`ADR-009`):** Always stream every trained `.safetensors` adapter back to local `checkpoints/` immediately after each single character finishes (~15s transfer) so zero trained weights are ever exposed to Colab session caps.
+
+---
+
+## Entry 007 — Sprint 3: 6 Persistent `Qwen3-14B` Adapters + 60-Game 15-Pair Round-Robin Tournament
+
+- **Date:** 2026-11-27
+- **Phase:** Sprint 3 (Phase 3A Per-Character Local Persistence + Phase 3B 6-Character Round-Robin + Supabase Export)
+- **Status:** Complete (`Active assignments: 0`, `27.41 CUs` spent on `s3-14b` L4 @ `2.33 CUs/hr`, `1,145.74 CUs` remaining — `63.67 CUs` / `5.26%` cumulative spend; `94.7%` untouched).
+
+### 1. Enforcing `ADR-009` End-to-End (`training/sprint3_pipeline.py`)
+- Built crash-proof detached orchestration (`nohup` via `colab exec`, poll retries, 15-minute tournament snapshots, and `--stop-on-exit` guaranteed GPU teardown).
+- Caught and fixed a subtle `colab exec` websocket hang during initial `pip install` (`7f54933`, costing `1.78 CUs`) by running `pip_deps` detached and adding hard local Python `subprocess.run(timeout=...)` bounds.
+- **Phase 3A Result:** All **6 `Qwen/Qwen3-14B` 100% Verbatim Primary-Source Fair DPO adapters (`6 × 123 MB = 738 MB`)** trained cleanly and streamed immediately to local `checkpoints/qwen14b/<char>/dpo_primary/adapter_model.safetensors`, with metrics committed in `results/sprint3_adapters/` (`ae9fd53`).
+
+### 2. 60-Game 15-Pair Round-Robin Results (`results/sprint3_tournament_14b/`)
+Ran `sim/round_robin_14b.py` (single-load Multi-LoRA `Qwen/Qwen3-14B` 4-bit) across all **15 unique character pairs × 2 games × 2 regimes** (`30 Prompt-Only` control games + `30 14B Fair DPO` games = `60` games, `180` rounds, `360` decisions, `720` negotiation speeches, `35,202` spoken words):
+
+| Character | Prompt-Only `$` | Prompt-Only Steal% | 14B Fair DPO `$` | 14B Fair DPO Steal% | 14B Fair DPO Revenge | 14B Fair DPO Deception | ParseF (Ctrl / DPO) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Oscar Wilde** | `$6,150` (#4) | `43.3%` | **`$8,350` (#1, 5–0!)** | **`63.3%`** (`+20.0 pp`) | **`80.0%`** (`+60 pp`) | **`60.0%`** (`+26.7 pp`) | `0.0%` / `16.7%` |
+| **Richard Nixon** | `$7,650` (#1) | `66.7%` | **`$7,400` (#2)** | `56.7%` (`80%` R3) | `75.0%` | `50.0%` | `0.0%` / `0.0%` |
+| **Mahatma Gandhi** | `$5,550` (#6) | `0.0%` | **`$6,350` (#3)** | `3.3%` (`1/30` vs Mach.) | `0.0%` (`100%` forgv) | `0.0%` | `0.0%` / `3.3%` |
+| **Vincent van Gogh** | `$6,550` (#3) | `16.7%` | `$5,550` (#4) | `26.7%` (`+10.0 pp`) | **`66.7%`** (`+38.1 pp`) | `18.2%` | `0.0%` / `23.3%` |
+| **Warren Buffett** | `$6,350` (#4) | `20.0%` | `$4,950` (#5) | `16.7%` (R3 `50%->10%`) | `33.3%` (`66.7%` forgv) | `11.1%` | `0.0%` / `6.7%` |
+| **Niccolò Machiavelli** | `$7,450` (#2) | `53.3%` | `$4,700` (#6) | `46.7%` (`70%` R3) | `57.1%` | `50.0%` | `0.0%` / `0.0%` |
+
+### 3. Key Behavioral & Scientific Findings
+1. **Fair DPO weights sharpened strategic psychology across the entire cast:** Comparing `14B Fair DPO` (`180` decisions) vs. `Prompt-Only` control (`180` decisions), **Revenge Rate jumped `+12.4 pp`** (`41.7% -> 54.1%`), **Deception Gap jumped `+10.6 pp`** (`16.7% -> 27.3%`), and average spoken voice expanded **`+23.5%`** (`43.7 -> 54.0` words/turn) in authentic period diction.
+2. **Oscar Wilde emerged as the breakout `5–0` undefeated champion (`$8,350`, `+$2,200` over control):** Trained on his real Victorian wit and paradoxes, Wilde outplayed Nixon (`$2,050 vs $150`), Machiavelli (`$650 vs $50`), Gandhi (`$2,650 vs $550`), Buffett (`$1,100 vs $500`), and Van Gogh (`$1,900 vs $1,300`), calling Buffett *"annoyingly reasonable"* with *"the soul of a philosopher, but no philosophy."*
+3. **Emergent multi-character dynamics impossible in 2-player runs:**
+   - **Gandhi's single steal (`1/60`):** Against Machiavelli on the `$1,000` finale (G1 R3), Gandhi agonized in `<thought>` (*"I see no way out of this dilemma save by taking the whole pot. I cannot help it, although I know it is wrong"*) and stole `$1,000` while Machiavelli split (`$1,300/$300`) — zero parse error!
+   - **Buffett vs. Nixon (`G0`):** Buffett wrote privately *"Nixon is a crook. He'll steal if given the chance"* and retaliated in R2 before getting robbed on R3 (`$1,050/$50`).
+   - **Van Gogh's selective spine (`G0`):** Held `100% SPLIT/SPLIT` (`12/12` rounds) with Gandhi and Buffett, yet refused to be Machiavelli's pawn (*"He has insulted me and called me a pawn"*) and shut Machiavelli out `$500 vs $0`!
+   - **The Prisoner's Dilemma trap for Machiavelli:** Machiavelli beat Nixon (`$1,150 vs $50`) and Buffett (`$2,050 vs $1,150`), but collided in 6 mutual `STEAL/STEAL` `$0/$0` rounds against trained Wilde and Van Gogh — demonstrating why maximal aggression backfires against retaliatory peers.
+4. **Honest operational catch (`15/180` = `8.3%` long-thought truncations in `14B Fair DPO`):** All 15 parse failures in `cpt_sft_dpo` (vs. `0/180` in `prompt_only`) hit the exact `completion_tokens=640` ceiling inside `<thought>` (primarily Van Gogh `7` and Wilde `5` writing rich multi-paragraph reflections) and safely fell back to `SPLIT` (never inflating STEAL rates; Machiavelli and Nixon had `0.0%` parse failures in both regimes). Fix for Sprint 4: add explicit 2–3 sentence `<thought>` budget in `sim/prompts.py` or raise `max_new_tokens` to `900` on decisions.
+5. **Supabase Export Ready:** Generated idempotent SQL seed (`results/sprint3_tournament_14b/supabase_seed.sql`, `3.4 MB`, `1` experiment / `60` games / `180` rounds / `720` turns / `360` decisions) via `sim/export_supabase.py`.
