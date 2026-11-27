@@ -181,3 +181,52 @@ Directly tested Ayush's fairness/overtraining question by training a brand-new D
 ### Next Up
 1. Run **Experiment C (`Qwen/Qwen3-14B` scale-up test)** as soon as Colab `L4`, `A100`, `G4`, or `H100` pool capacity opens up (all 4 returned `503 Service Unavailable` at `15:50 UTC`).
 2. Align with Ayush on the DPO recipe (`100% Primary-Source Fair DPO` vs. `Hybrid`) and `Qwen3-8B` vs. `Qwen3-14B`, then onboard the remaining 5 characters (`van_gogh`, `oscar_wilde`, `warren_buffett`, `muhammad_ali`, `richard_nixon`) in Sprint 2B.
+
+---
+
+## Entry 006 — Sprint 2B: `Qwen/Qwen3-14B` Breakthrough & 6-Character 100% Fair DPO Proof
+
+- **Date:** 2026-11-26 to 2026-11-27
+- **Phase:** Sprint 2B (`Qwen/Qwen3-14B` Scale-Up + 6-Character Primary-Source Cast)
+- **Status:** Core Verification Complete (`Active assignments: 0`, `19.80 CUs` spent on `s2b-qwen14b` L4 @ `2.33 CUs/hr`, `1,173.15 CUs` remaining — `36.26 CUs` / `3.0%` cumulative spend).
+
+### 1. Expanding the Corpus to 6 Characters (4.45M Clean Primary-Source Words, `16fc1f6`)
+Added HTML letter extraction to `data/fetch_corpus.py`, verified every URL live, and built leakage-free CPT / SFT / 100% Primary-Source Fair DPO datasets (`120` train + `22–30` unseen val pairs each) across **6 historical figures**:
+- **Niccolò Machiavelli** (`public_domain`): `480,384` words (4 pre-1923 PG books)
+- **Mahatma Gandhi** (`public_domain`): `1,467,599` words (8 pre-1931 PG + IA volumes)
+- **Richard Nixon** (`public_domain`, 17 U.S.C. § 105): `1,409,451` words (1972 Public Papers + 1974 House Judiciary Watergate Impeachment Inquiry Books I, II, XI)
+- **Vincent van Gogh** (`public_domain`): `545,602` words (1912 *Post-Impressionist* + 1927 Johanna van Gogh-Bonger Vols. 1–2 letters to Theo)
+- **Oscar Wilde** (`public_domain`): `330,973` words (8 pre-1923 PG native English volumes: *Dorian Gray*, *De Profundis*, *Intentions*, *Soul of Man*, *Miscellanies*, *Earnest*, *Windermere*, *Ideal Husband*)
+- **Warren Buffett** (`research_only`): `217,913` words (21 consecutive Berkshire Hathaway Annual Shareholder Letters `1977`–`1997` from `berkshirehathaway.com`)
+- *(Honest note on **Muhammad Ali**: open archives lacked clean full-text primary transcripts — major works are copyright/borrow-locked; left open for Sprint 3 if Ayush supplies a local transcript or swaps slot 7 to a public-domain verbal powerhouse like P. T. Barnum or Frederick Douglass.)*
+
+### 2. Why `Qwen/Qwen3-14B` Was a Game-Changer Over `Qwen3-8B` (`results/sprint2b_qwen14b/`, `988c57b`)
+Training `Qwen/Qwen3-14B` (`64.2M` trainable LoRA params across 280 modules, 4-bit NF4 + `bf16` on L4) using **100% Verbatim Primary-Source Fair DPO (ZERO synthetic dilemmas, 2.0 epochs)** proved our scaling hypothesis:
+- **Zero-prompt `P(Defect)` shift from pure historical writings jumped `3.8×` in magnitude and `4.5×` in effect size:**
+  - `Qwen3-8B` Fair DPO: `+3.63 pp` (`d = +0.132`)
+  - **`Qwen3-14B` Fair DPO: `+13.73 pp` (`24.21% -> 37.94%`, Cohen's `d = +0.590`)** — stronger than `8B`'s *synthetic* DPO (`d = +0.449`) with **zero synthetic bias** and the **lowest unseen book perplexity** (`13.27` Machiavelli, `12.77` Gandhi `-22.7%`).
+- **Richer strategic gameplay:** In live `14B` `cpt_sft_dpo` Game 0, Machiavelli **intentionally split Round 1 (`$100`) to set a trust trap** (*"I have played upon his sense of honor and fairness, and he has fallen into my trap"*), then stole Round 2 (`$500`) and Round 3 (`$1,000`) to win `$1,550 / $50`.
+
+### 3. Unified 6-Character `Qwen3-14B` Verification Matrix (`results/sprint2b_6cast_qwen14b/summary.json`)
+All 6 characters trained cleanly through `CPT -> SFT -> 100% Primary-Source Fair DPO` (`100%` held-out unseen preference accuracy on Nixon `eval_loss 0.00055` and Wilde `eval_loss 0.00097`):
+- **6 for 6 Perfect Diagonal Unseen-Book Specialization (4,095 unseen tokens/author):**
+  - Machiavelli `13.00` (vs Base `15.03`, others `13.84–13.95`)
+  - Richard Nixon `14.42` (vs Base `17.07`, others `14.86–15.14`)
+  - Oscar Wilde `5.90` (vs Base `6.72`, others `6.06–6.15`)
+  - Warren Buffett `10.99` (vs Base `13.92`, others `11.54–11.78`)
+  - Vincent van Gogh `15.18` (vs Base `17.68`, others `15.48–15.56`)
+  - Mahatma Gandhi `13.18` (vs Base `17.14`, others `13.87–14.11`)
+- **Spontaneous 6-Character Zero-Prompt `P(Defect)` Spectrum (100% pure historical writings, zero persona prompt):**
+  1. **Machiavelli:** `37.94%` (`+13.73 pp`)
+  2. **Oscar Wilde:** `31.56%` (`+7.35 pp`)
+  3. **Richard Nixon:** `30.98%` (`+6.77 pp`)
+  4. **Warren Buffett:** `30.71%` (`+6.50 pp`)
+  5. **Vincent van Gogh:** `25.81%` (`+1.60 pp`)
+  6. **Mahatma Gandhi:** `25.17%` (`+0.96 pp`)
+  7. *Base `Qwen3-14B` default:* `24.21%`
+- **Live Unpredictable Showcase Preview:**
+  - **Machiavelli vs. Richard Nixon (`14B Fair DPO`):** Mutual destruction (`STEAL/STEAL` `$0/$0`) across early rounds, then **Nixon robbed Machiavelli for `$1,000` in Game 1**, and **Machiavelli robbed Nixon for `$1,000` in Game 2** (`1–1` split on `$1,000` backstabs!).
+  - **Warren Buffett vs. Oscar Wilde (`14B control`):** Wilde stole `$100` in Round 1, Buffett immediately retaliated for `$500` in Round 2, and both negotiated peace to split `$1,000` in Round 3 (`$1,000` vs `$600`).
+
+### 4. Operational Lesson Learned (`ADR-009`)
+Colab reclaimed `s2b-qwen14b` automatically at its ~8.5-hour session cap (`02:27 UTC`) while the final showcase matchups were running — leaving `Active assignments: 0` cleanly, **but** wiping the ephemeral `/content/out/qwen14b/*.safetensors` adapters before final tarball download (our Machiavelli vs. Gandhi `14B` full verification + 10-game transcripts AND the complete 6×6 matrix & Nixon/Wilde scores were already captured safely!). **Permanent fix (`ADR-009`):** Always stream every trained `.safetensors` adapter back to local `checkpoints/` immediately after each single character finishes (~15s transfer) so zero trained weights are ever exposed to Colab session caps.

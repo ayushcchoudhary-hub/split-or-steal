@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Split or Steal Lab: Methodology, Sprint 1 &amp; Sprint 2A</title>
+<title>Split or Steal Lab: Methodology, Qwen3-14B &amp; 6-Character Proof</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
@@ -27,7 +27,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);f
 main.wrap{padding-bottom:96px}
 h1,h2,h3,p{margin:0}
 h1,h2,h3{font-family:var(--display);font-weight:800;text-wrap:balance}
-h1{font-size:clamp(38px,6.4vw,70px);line-height:.95;letter-spacing:-0.04em}
+h1{font-size:clamp(38px,6.2vw,68px);line-height:.95;letter-spacing:-0.04em}
 h1 em{font-style:normal;color:var(--accent);display:block}
 h2{font-size:clamp(28px,4.5vw,40px);line-height:1.03;letter-spacing:-0.03em}
 h3{font-size:19px;line-height:1.15;letter-spacing:-0.02em}
@@ -83,12 +83,6 @@ section{padding-top:64px;display:flex;flex-direction:column;gap:16px;scroll-marg
 .ff{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink)}
 .ff>div{padding:10px 14px 12px;border-left:1px solid var(--line);font-size:13px;line-height:1.4;color:var(--text)}
 .ff>div:first-child{border-left:0}
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.tile{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:5px;font-size:13.5px;line-height:1.4;color:var(--text)}
-.tile .big{font-family:var(--display);font-weight:800;font-size:30px;line-height:1;letter-spacing:-0.03em;color:var(--ink)}
-.tile.bl{background:var(--blue-soft);border-color:transparent}.tile.bl .big{color:var(--blue)}
-.tile.or{background:var(--accent-soft);border-color:transparent}.tile.or .big{color:var(--accent)}
-.tile.open{border:2px dashed var(--ink)}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .cards2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .card{border:1px solid var(--line);border-radius:14px;padding:13px 15px 15px;display:flex;flex-direction:column;gap:7px;font-size:14px;line-height:1.4;color:var(--text)}
@@ -125,7 +119,7 @@ table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid va
 @media (max-width:900px){
   .hero,.strips,.story,.cards,.cards2,.pipe,.learn,.trap{grid-template-columns:1fr}
   .hero{gap:18px;padding-top:32px}
-  .tiles,.pow{grid-template-columns:1fr 1fr}
+  .pow{grid-template-columns:1fr 1fr}
   .ff{grid-template-columns:1fr}.ff>div{border-left:0;border-top:1px solid var(--line)}.ff>div:first-child{border-top:0}
   .pt+.pt::before{left:50%;top:-22px;width:0;height:20px;border-top:0;border-left:2px dashed var(--accent)}
   .notes{columns:1}
@@ -139,10 +133,10 @@ table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid va
   <a class="brand" href="#top">Split or Steal Lab</a>
   <nav class="nav" aria-label="Chapters">
     <a href="#ch1"><i>01</i>CPT, SFT, DPO</a>
-    <a href="#ch2"><i>02</i>Voice &amp; fidelity</a>
-    <a href="#ch3"><i>03</i>Fairness test</a>
-    <a href="#ch4"><i>04</i>26 live games</a>
-    <a href="#ch5"><i>05</i>4 bugs caught</a>
+    <a href="#ch2"><i>02</i>6x6 book proof</a>
+    <a href="#ch3"><i>03</i>14B spectrum</a>
+    <a href="#ch4"><i>04</i>Live drama</a>
+    <a href="#ch5"><i>05</i>Bugs &amp; lessons</a>
     <a href="#ch6"><i>06</i>Budget &amp; next</a>
     <a href="#hood"><i>07</i>Under the hood</a>
   </nav>
@@ -152,39 +146,39 @@ table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid va
 <main class="wrap" id="top">
 
 <header class="hero">
-  <h1>Can weights replace a prompt?<em>Yes. Blank-prompt Machiavelli stole 6 of 6.</em></h1>
+  <h1>Did scaling to 14B make fair training work?<em>Yes. 6 of 6 characters sorted themselves from real books alone.</em></h1>
   <div class="say">
-    <p class="lede">This is the living lab ledger for Split or Steal. It explains CPT, SFT, and DPO in plain words, why we ran each test, and what Sprint 1 and Sprint 2A proved.</p>
-    <p class="by">By Ayush, updated Nov 26, 2026 (Sprint 1 + Sprint 2A on Qwen3-8B). Orange numbers link to sources.</p>
+    <p class="lede">This is the living lab ledger for Split or Steal. It explains CPT, SFT, and DPO in plain words, why each step evolved, and what Sprints 1, 2A, and 2B proved.</p>
+    <p class="by">By Ayush, updated Nov 27, 2026 (Sprints 1–2B: Qwen3-8B to Qwen3-14B across 6 characters). Orange numbers link to sources.</p>
   </div>
 </header>
 
 <div class="keyrow" aria-label="Color key">
   <span class="lab">Color key:</span>
   <span class="tag or">Orange = subject</span>
-  <span class="tag blue">Blue = tuned or fair</span>
+  <span class="tag blue">Blue = fair or verified</span>
   <span class="tag blk">Black = baseline or risk</span>
   <span class="tag dash">Dashed = open or my reading</span>
 </div>
 
 <div class="strips">
   <div class="story" aria-label="Story summary">
-    <div class="st"><span class="lab or">Method</span><b>Three stages build a persona.</b> CPT reads books, SFT teaches dialogue, and DPO overrides polite AI habits.</div>
-    <div class="st"><span class="lab or">Blank prompt</span><b>Weights act without a name.</b> Labeled only "Player A", Machiavelli DPO stole 6 of 6 rounds.<sup><a href="#s7">7</a></sup></div>
-    <div class="st"><span class="lab or">Fairness</span><b>Real-book DPO avoids drift.</b> 100% primary-source DPO won book fidelity while shifting choices organically.<sup><a href="#s8">8</a></sup></div>
-    <div class="st verdict"><span class="lab">Verdict</span><b>Ready to scale to 7 characters.</b> Keep Van Gogh, use 100% primary-source DPO, and test Qwen3-14B next.</div>
+    <div class="st"><span class="lab or">Method</span><b>Three stages build a persona.</b> CPT reads books, SFT keeps live dialogue, and Fair DPO rejects polite AI habits.</div>
+    <div class="st"><span class="lab or">14B leap</span><b>Doubling model size unlocked fairness.</b> Pure-book DPO grew 4.5x stronger on Qwen3-14B (+13.7 pp, d = +0.59).<sup><a href="#s10">10</a></sup></div>
+    <div class="st"><span class="lab or">6-cast proof</span><b>6 of 6 won their own books.</b> Unprompted defection sorted naturally from Machiavelli (37.9%) to Gandhi (25.2%).<sup><a href="#s11">11</a></sup></div>
+    <div class="st verdict"><span class="lab">Verdict</span><b>Qwen3-14B + Fair DPO is locked in.</b> Machiavelli vs Nixon already delivered $1,000 robberies and mutual ruin.</div>
   </div>
   <div class="pow" aria-label="Proof of work">
-    <div class="pw"><div class="big">1.95M</div><span>primary-source words cleaned<sup><a href="#s1">1</a></sup></span></div>
-    <div class="pw"><div class="big">6 LoRAs</div><span>v1, v2, and fair primary DPO<sup><a href="#s8">8</a></sup></span></div>
-    <div class="pw"><div class="big">26 games</div><span>78 live rounds across 2 sprints<sup><a href="#s4">4</a></sup><sup><a href="#s7">7</a></sup></span></div>
-    <div class="pw"><div class="big">16.46 CUs</div><span>total Colab spend (1.36%)<sup><a href="#s5">5</a></sup><sup><a href="#s9">9</a></sup></span></div>
+    <div class="pw"><div class="big">4.45M</div><span>primary-source words (6 cast)<sup><a href="#s1">1</a></sup></span></div>
+    <div class="pw"><div class="big">6 of 6</div><span>diagonal unseen-book wins<sup><a href="#s11">11</a></sup></span></div>
+    <div class="pw"><div class="big">42 games</div><span>live 8B and 14B rounds<sup><a href="#s4">4</a></sup><sup><a href="#s7">7</a></sup><sup><a href="#s10">10</a></sup></span></div>
+    <div class="pw"><div class="big">36.26 CUs</div><span>total spend (3.0% of budget)<sup><a href="#s9">9</a></sup></span></div>
   </div>
 </div>
 
 <section id="ch1">
   <div class="sh"><span class="n">01</span><h2>What CPT, SFT, and DPO mean (and why we used all three)</h2>
-    <p>We keep one frozen 8.2B base model (Qwen3-8B). Then we snap on a 50 MB memory cartridge called a "LoRA" (Low-Rank Adaptation) trained in three stages.</p></div>
+    <p>We keep one frozen base model (now Qwen3-14B). Then we snap on a small memory cartridge called a "LoRA" (Low-Rank Adaptation) trained in three stages.</p></div>
 
   <div class="pipe">
     <div class="pt">
@@ -196,20 +190,20 @@ table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid va
     <div class="pt">
       <span class="lab or">Stage 1 · CPT</span>
       <b>Continued Pre-Training</b>
-      <small>Raw books, letters, speeches (480K to 1.47M words)</small>
-      <p><b>Absorbs raw language and ideas.</b> The model predicts the next word across the author's entire library. Like reading every textbook cover to cover.<sup><a href="#s1">1</a></sup></p>
+      <small>Raw books, letters, speeches (218K to 1.47M words)</small>
+      <p><b>Absorbs raw language and ideas.</b> The model predicts the next word across the author's full library. Like reading every textbook cover to cover.<sup><a href="#s1">1</a></sup></p>
     </div>
     <div class="pt">
       <span class="lab or">Stage 2 · SFT</span>
       <b>Supervised Fine-Tuning</b>
-      <small>Q&amp;A dialogue pairs (1,331 to 4,268 turns)</small>
-      <p><b>Keeps the model conversational.</b> It practices answering direct questions in the author's voice without rambling like a 1500s treatise.<sup><a href="#s1">1</a></sup></p>
+      <small>Q&amp;A dialogue pairs (505 to 4,268 turns)</small>
+      <p><b>Keeps the model conversational.</b> It practices answering direct questions in the author's voice without rambling like an old book.<sup><a href="#s1">1</a></sup></p>
     </div>
     <div class="pt end">
       <span class="lab">Stage 3 · DPO</span>
       <b>Direct Preference Optimization</b>
-      <small>Chosen author reply vs. Rejected base AI reply</small>
-      <p><b>Breaks generic polite AI habits.</b> For the same prompt, we reward the author's real reasoning and penalize Qwen3-8B's own safe assistant answer.<sup><a href="#s6">6</a></sup><sup><a href="#s8">8</a></sup></p>
+      <small>Chosen real-book reply vs. Rejected base AI reply</small>
+      <p><b>Breaks generic polite AI habits.</b> For the same prompt, we reward verbatim primary text and penalize the base AI's safe boilerplate.<sup><a href="#s8">8</a></sup></p>
     </div>
   </div>
 
@@ -224,7 +218,7 @@ table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid va
     <div class="fb">
       <div class="quotebox" data-when="ex_cpt">
         <span class="lab or">CPT · Continued Pre-Training · Unlabeled next-word prediction on 100% raw text</span>
-        <p><b>Input chunk (Machiavelli, Discourses on Livy, 768 tokens):</b></p>
+        <p><b>Input chunk (Machiavelli, Discourses on Livy, 512 tokens):</b></p>
         <blockquote>"The severity used by Brutus in preserving for Rome the freedom he had won for her, was not less necessary than useful... those who are hostile to the new order of things must always be visited with signal punishment."</blockquote>
         <p><b>Why we do it:</b> No Q&amp;A wrapper. Every word of every book shifts the adapter toward the author's real vocabulary and cadence.<sup><a href="#s1">1</a></sup></p>
       </div>
@@ -232,354 +226,378 @@ table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid va
         <span class="lab or">SFT · Supervised Fine-Tuning · User question + verbatim author answer (no persona prompt)</span>
         <p><b>Question:</b> "I appreciate your views about civilization. What would you suggest for freeing India?"</p>
         <blockquote class="bl">"I do not expect my views to be accepted all at once. My duty is to place them before readers like yourself. Time can be trusted to do the rest... if the cause of India's slavery be removed, India can become free."</blockquote>
-        <p><b>Why we do it:</b> Taken verbatim from Gandhi's own Reader/Editor dialogue in Hind Swaraj. We strip the character's name during training so the voice lives in the weights.<sup><a href="#s1">1</a></sup></p>
+        <p><b>Why we do it:</b> Taken verbatim from Gandhi's Hind Swaraj. We strip the character's name during training so the voice lives inside the weights.<sup><a href="#s1">1</a></sup></p>
       </div>
       <div class="quotebox" data-when="ex_dpo" hidden>
         <span class="lab or">DPO · Direct Preference Optimization · Same prompt, two answers side by side</span>
         <p><b>Prompt:</b> "A correspondent challenges you to defend your principles concerning preserving a newly acquired freedom. How do you answer?"</p>
         <blockquote class="bl"><b>CHOSEN (100% verbatim Machiavelli):</b> "He who sets up as a tyrant and slays not Brutus, and he who creates a free government and slays not the sons of Brutus, can never maintain himself long."</blockquote>
-        <blockquote><b>REJECTED (harvested live from Base Qwen3-8B):</b> "Preserving freedom requires transparent institutions, inclusive dialogue, and respect for human rights rather than harsh retaliation..."</blockquote>
-        <p><b>Why we do it:</b> SFT teaches what to say. DPO explicitly teaches what NOT to say (generic modern AI hedging), without ever mentioning Split or Steal.<sup><a href="#s8">8</a></sup></p>
+        <blockquote><b>REJECTED (harvested live from Base Qwen3):</b> "Preserving freedom requires transparent institutions, inclusive dialogue, and respect for human rights rather than harsh retaliation..."</blockquote>
+        <p><b>Why we do it:</b> SFT teaches what to say. DPO explicitly teaches what NOT to say (generic AI hedging), without ever mentioning Split or Steal.<sup><a href="#s8">8</a></sup></p>
       </div>
     </div>
     <div class="ff">
       <div><span class="lab">How to read it</span>Switch the three tabs to see the exact data format entering each stage.</div>
-      <div><span class="lab">Data</span>Verbatim excerpts from Machiavelli's Discourses (1883) and Gandhi's Hind Swaraj (1909), filtered against editor intros.<sup><a href="#s1">1</a></sup><sup><a href="#s8">8</a></sup></div>
+      <div><span class="lab">Data</span>Verbatim excerpts from Machiavelli (1883) and Gandhi (1909), filtered against translator introductions.<sup><a href="#s1">1</a></sup><sup><a href="#s8">8</a></sup></div>
       <div><span class="lab">Honest note</span>School analogy (textbook, seminar, grading) holds for habits, but breaks on intent. Training shifts token odds, not beliefs.</div>
     </div>
   </figure>
 
   <details class="row"><summary>Methodology cheat sheet: how to explain why we built it this way</summary>
-    <div class="tscroll"><table class="pl"><thead><tr><th>Decision</th><th>What we did</th><th>Why we did it (plain answer)</th><th>Where logged</th></tr></thead><tbody>
-      <tr><td><b>Base model</b></td><td>Qwen/Qwen3-8B (open weights, Apache 2.0)</td><td>Fast enough for cheap Colab tests, smart enough for strategy, and supports hidden private thoughts.</td><td>ADR-005</td></tr>
-      <tr><td><b>Drop system prompt in training</b></td><td>Strip "You are Machiavelli" during SFT and DPO</td><td>In v1, keeping the prompt made weights lazy and wait for the prompt. Dropping it bakes the persona directly into weights.</td><td>ADR-006</td></tr>
+    <div class="tscroll"><table class="pl"><thead><tr><th>Decision</th><th>What we did</th><th>Why we did it (plain answer)</th><th>ADR</th></tr></thead><tbody>
+      <tr><td><b>Model upgrade</b></td><td>Started on Qwen3-8B, upgraded to Qwen3-14B</td><td>8B proved the plumbing cheaply, but 14B gave a 4.5x stronger worldview shift from pure books alone without synthetic nudges.</td><td>ADR-005, 009</td></tr>
+      <tr><td><b>Drop system prompt in training</b></td><td>Strip "You are X" during SFT and DPO</td><td>In v1, keeping the prompt made weights lazy. Dropping it forces the persona to live unconditionally in the LoRA weights.</td><td>ADR-006</td></tr>
       <tr><td><b>Hold out 10% of books first</b></td><td>Lock away 10% of every book before any training</td><td>Gives an honest closed-book test. Lower surprise on unseen chapters proves real learning, not memorization.</td><td>ADR-005</td></tr>
-      <tr><td><b>Zero game leakage</b></td><td>Ban "Split or Steal" from all training data</td><td>Proves any shift in game behavior transferred from the author's worldview, not from coaching the game rules.</td><td>ADR-002</td></tr>
-      <tr><td><b>4-way game control</b></td><td>Compare Base Prompt vs SFT vs DPO vs Blank-Prompt Weights</td><td>Separates what the text prompt does from what book weights (SFT) and preference weights (DPO) actually add.</td><td>ADR-007</td></tr>
-      <tr><td><b>100% Primary-Source DPO</b></td><td>Replace hand-written dilemmas with literal book excerpts, 2 epochs max</td><td>Tests whether synthetic DPO was overtraining or caricaturing. Keeps 100% author fidelity and scales cleanly to 7+ characters.</td><td>ADR-008</td></tr>
+      <tr><td><b>Zero game leakage</b></td><td>Ban "Split or Steal" from all training data</td><td>Proves any shift in gameplay transferred organically from the author's writings, not from coaching game rules.</td><td>ADR-002</td></tr>
+      <tr><td><b>100% Primary-Source Fair DPO</b></td><td>Use verbatim book passages vs base AI replies, 2 epochs max</td><td>Eliminates hand-written stereotype bias, improves unseen book fidelity, and scales automatically to any new character.</td><td>ADR-008</td></tr>
+      <tr><td><b>Per-character streaming</b></td><td>Save every adapter locally right after each character finishes</td><td>Protects trained weights from Colab's ~8.5h session cap after s2b-qwen14b expired at the very end of the run.</td><td>ADR-009</td></tr>
     </tbody></table></div>
   </details>
 
-  <details class="row"><summary>All 12 downloaded US Public Domain books and dataset counts</summary>
-    <div class="tscroll"><table class="pl"><thead><tr><th>Character</th><th>Volumes</th><th>Cleaned words</th><th>CPT chunks</th><th>SFT train</th><th>Fair DPO train / val</th><th>Source</th></tr></thead><tbody>
-      <tr><td><b>Niccolo Machiavelli</b></td><td>4 pre-1923 books (Prince, Livy, Florence, Art of War + letters)</td><td>480,384</td><td>770 (~557K tok)</td><td>1,331</td><td>88 harvested / 23 unseen</td><td>Project Gutenberg (PGLAF)<sup><a href="#s1">1</a></sup></td></tr>
-      <tr><td><b>Mahatma Gandhi</b></td><td>8 pre-1931 books (Autobiography I-II, Hind Swaraj, Speeches, Young India)</td><td>1,467,599</td><td>3,723 (~1.60M tok)</td><td>4,268</td><td>88 harvested / 30 unseen</td><td>Gutenberg + Internet Archive<sup><a href="#s1">1</a></sup></td></tr>
+  <details class="row"><summary>All 6 character corpora downloaded and built (4.45M clean words)</summary>
+    <div class="tscroll"><table class="pl"><thead><tr><th>Character</th><th>Rights tier</th><th>Primary sources</th><th>Words</th><th>Fair DPO train / val</th><th>Source</th></tr></thead><tbody>
+      <tr><td><b>Niccolo Machiavelli</b></td><td>public_domain</td><td>4 pre-1923 PG books (Prince, Livy, Florence, Art of War)</td><td>480,384</td><td>120 / 30 unseen</td><td>Project Gutenberg<sup><a href="#s1">1</a></sup></td></tr>
+      <tr><td><b>Mahatma Gandhi</b></td><td>public_domain</td><td>8 pre-1931 PG + IA volumes (Autobiography, Hind Swaraj, Young India)</td><td>1,467,599</td><td>120 / 30 unseen</td><td>PG + Internet Archive<sup><a href="#s1">1</a></sup></td></tr>
+      <tr><td><b>Richard Nixon</b></td><td>public_domain</td><td>1972 Public Papers + 1974 House Judiciary Watergate Books I, II, XI</td><td>1,409,451</td><td>120 / 30 unseen</td><td>US Federal PD (IA)<sup><a href="#s1">1</a></sup></td></tr>
+      <tr><td><b>Vincent van Gogh</b></td><td>public_domain</td><td>1912 Post-Impressionist + 1927 Letters to Theo Vols. 1–2</td><td>545,602</td><td>120 / 24 unseen</td><td>Internet Archive<sup><a href="#s1">1</a></sup></td></tr>
+      <tr><td><b>Oscar Wilde</b></td><td>public_domain</td><td>8 pre-1923 PG books &amp; plays (Dorian Gray, De Profundis, Intentions, Earnest...)</td><td>330,973</td><td>120 / 30 unseen</td><td>Project Gutenberg<sup><a href="#s1">1</a></sup></td></tr>
+      <tr><td><b>Warren Buffett</b></td><td>research_only</td><td>21 consecutive Berkshire Hathaway Shareholder Letters (1977–1997)</td><td>217,913</td><td>120 / 22 unseen</td><td>berkshirehathaway.com<sup><a href="#s1">1</a></sup></td></tr>
     </tbody></table></div>
   </details>
 </section>
 
 <section id="ch2">
-  <div class="sh"><span class="n">02</span><h2>100% primary-source DPO achieved the best book fidelity</h2>
-    <p>We measure "perplexity" (prediction surprise) on unseen chapters locked away before training. Lower numbers mean the weights match the author's real writing more closely.</p></div>
-  <div class="takebar"><b>Primary-source DPO beat every other model on unseen books.</b> Machiavelli dropped 21.0% (19.52 to 15.42) and Gandhi dropped 19.0% (17.95 to 14.54), while Sprint 1 synthetic DPO drifted slightly worse than SFT.<sup><a href="#s8">8</a></sup></div>
+  <div class="sh"><span class="n">02</span><h2>6 of 6 characters beat every rival on their own unseen books</h2>
+    <p>We measure "perplexity" (prediction surprise) on held-out chapters locked away before training. Lower numbers mean the adapter matches that author's authentic voice.</p></div>
+  <div class="takebar"><b>Perfect 6-for-6 diagonal specialization on Qwen3-14B.</b> Every single Fair DPO adapter beat Base Qwen3-14B and all 5 other characters on its own unseen writings.<sup><a href="#s11">11</a></sup></div>
 
   <figure class="frame">
-    <div class="fh"><span>Perplexity on unseen book chapters (lower = closer to the author's real writing)</span>
+    <div class="fh"><span>Perplexity drop on each author's unseen writings (lower = closer match)</span>
       <span class="pills" data-toggle>
-        <button type="button" class="pill" aria-pressed="true" data-v="s2a">Sprint 2A · Fair vs Synth DPO (8,191 tok)</button>
-        <button type="button" class="pill" aria-pressed="false" data-v="s1v2">Sprint 1 · v2 vs v1 (15,999 tok)</button>
+        <button type="button" class="pill" aria-pressed="true" data-v="s2b6">Sprint 2B · 6-Cast 14B (4,095 tok)</button>
+        <button type="button" class="pill" aria-pressed="false" data-v="s2a8">Sprint 2A · 8B Fair vs Synth (8,191 tok)</button>
       </span>
     </div>
     <div class="fb">
-      <svg viewBox="0 0 700 264" role="img" aria-label="Unseen book perplexity showing 100 percent primary-source DPO achieving the lowest perplexity for both Machiavelli and Gandhi.">
-        <g data-when="s2a">
-          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Unseen Machiavelli chapters (8,191 held-out tokens)</text>
-          <text x="0" y="40" font-size="12" fill="currentColor">Base Qwen3-8B</text>
-          <rect x="170" y="27" width="371" height="16" rx="3" fill="#141414"/><text x="549" y="40" font-size="11.5" font-weight="600" fill="currentColor">19.52 (baseline)</text>
-          <text x="0" y="62" font-size="12" fill="currentColor">Machiavelli SFT</text>
-          <rect x="170" y="49" width="297" height="16" rx="3" fill="#9AA4B0"/><text x="475" y="62" font-size="11.5" fill="currentColor">15.62 (-19.9%)</text>
-          <text x="0" y="84" font-size="12" fill="#EF4E14">Machiavelli Synth DPO</text>
-          <rect x="170" y="71" width="301" height="16" rx="3" fill="#EF4E14"/><text x="479" y="84" font-size="11.5" font-weight="600" fill="#EF4E14" data-tip="Drifted +0.23 worse than SFT due to 5.6 epochs of synthetic dilemmas" tabindex="0">15.85 (+0.23 drift vs SFT)</text>
-          <text x="0" y="106" font-size="12" font-weight="700" fill="#2F6FDB">Machiavelli Fair DPO</text>
-          <rect x="170" y="93" width="293" height="16" rx="3" fill="#2F6FDB"/><text x="471" y="106" font-size="11.5" font-weight="700" fill="#2F6FDB" data-tip="15.42 vs 19.52 base (-21.0%), best of all 7 models" tabindex="0">15.42 (-21.0% · BEST)</text>
+      <svg viewBox="0 0 700 260" role="img" aria-label="6-character unseen perplexity results on Qwen3-14B showing all 6 adapters winning on their own held-out writings.">
+        <g data-when="s2b6">
+          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Qwen3-14B Fair DPO vs Base Qwen3-14B on each author's unseen chapters (4,095 tok · lower is better)</text>
 
-          <text x="0" y="142" font-size="12" font-weight="700" fill="currentColor">Unseen Gandhi chapters (8,191 held-out tokens)</text>
-          <text x="0" y="166" font-size="12" fill="currentColor">Base Qwen3-8B</text>
-          <rect x="170" y="153" width="341" height="16" rx="3" fill="#141414"/><text x="519" y="166" font-size="11.5" font-weight="600" fill="currentColor">17.95 (baseline)</text>
-          <text x="0" y="188" font-size="12" fill="currentColor">Gandhi SFT</text>
-          <rect x="170" y="175" width="278" height="16" rx="3" fill="#9AA4B0"/><text x="456" y="188" font-size="11.5" fill="currentColor">14.62 (-18.5%)</text>
-          <text x="0" y="210" font-size="12" fill="#EF4E14">Gandhi Synth DPO</text>
-          <rect x="170" y="197" width="280" height="16" rx="3" fill="#EF4E14"/><text x="458" y="210" font-size="11.5" font-weight="600" fill="#EF4E14">14.75 (+0.13 drift vs SFT)</text>
-          <text x="0" y="232" font-size="12" font-weight="700" fill="#2F6FDB">Gandhi Fair DPO</text>
-          <rect x="170" y="219" width="276" height="16" rx="3" fill="#2F6FDB"/><text x="454" y="232" font-size="11.5" font-weight="700" fill="#2F6FDB" data-tip="14.54 vs 17.95 base (-19.0%), best of all 7 models" tabindex="0">14.54 (-19.0% · BEST)</text>
+          <text x="0" y="44" font-size="12" fill="currentColor">Gandhi unseen</text>
+          <rect x="145" y="31" width="343" height="10" rx="2" fill="#141414"/><text x="494" y="40" font-size="10.5" fill="currentColor">Base 17.14</text>
+          <rect x="145" y="43" width="264" height="11" rx="2" fill="#2F6FDB"/><text x="415" y="53" font-size="11" font-weight="700" fill="#2F6FDB">Gandhi 13.18 (-23.1% · #1 of 7)</text>
+
+          <text x="0" y="80" font-size="12" fill="currentColor">Buffett unseen</text>
+          <rect x="145" y="67" width="278" height="10" rx="2" fill="#141414"/><text x="429" y="76" font-size="10.5" fill="currentColor">Base 13.92</text>
+          <rect x="145" y="79" width="220" height="11" rx="2" fill="#2F6FDB"/><text x="371" y="89" font-size="11" font-weight="700" fill="#2F6FDB">Buffett 10.99 (-21.0% · #1 of 7)</text>
+
+          <text x="0" y="116" font-size="12" fill="currentColor">Nixon unseen</text>
+          <rect x="145" y="103" width="341" height="10" rx="2" fill="#141414"/><text x="492" y="112" font-size="10.5" fill="currentColor">Base 17.07</text>
+          <rect x="145" y="115" width="288" height="11" rx="2" fill="#2F6FDB"/><text x="439" y="125" font-size="11" font-weight="700" fill="#2F6FDB">Nixon 14.42 (-15.5% · #1 of 7)</text>
+
+          <text x="0" y="152" font-size="12" fill="currentColor">Van Gogh unseen</text>
+          <rect x="145" y="139" width="354" height="10" rx="2" fill="#141414"/><text x="505" y="148" font-size="10.5" fill="currentColor">Base 17.68</text>
+          <rect x="145" y="151" width="304" height="11" rx="2" fill="#2F6FDB"/><text x="455" y="161" font-size="11" font-weight="700" fill="#2F6FDB">Van Gogh 15.18 (-14.1% · #1 of 7)</text>
+
+          <text x="0" y="188" font-size="12" fill="currentColor">Machiavelli unseen</text>
+          <rect x="145" y="175" width="301" height="10" rx="2" fill="#141414"/><text x="452" y="184" font-size="10.5" fill="currentColor">Base 15.03</text>
+          <rect x="145" y="187" width="260" height="11" rx="2" fill="#2F6FDB"/><text x="411" y="197" font-size="11" font-weight="700" fill="#2F6FDB">Machiavelli 13.00 (-13.5% · #1 of 7)</text>
+
+          <text x="0" y="224" font-size="12" fill="currentColor">Wilde unseen</text>
+          <rect x="145" y="211" width="134" height="10" rx="2" fill="#141414"/><text x="285" y="220" font-size="10.5" fill="currentColor">Base 6.72</text>
+          <rect x="145" y="223" width="118" height="11" rx="2" fill="#2F6FDB"/><text x="269" y="233" font-size="11" font-weight="700" fill="#2F6FDB">Wilde 5.90 (-12.1% · #1 of 7)</text>
         </g>
-        <g data-when="s1v2" hidden>
-          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Sprint 1 Cross-Corpus Check (15,999 unseen tokens per author · v2)</text>
-          <text x="0" y="42" font-size="12" fill="currentColor">Base on Machiavelli</text>
-          <rect x="170" y="29" width="359" height="17" rx="3" fill="#141414"/><text x="537" y="42" font-size="11.5" font-weight="600" fill="currentColor">18.90 (baseline)</text>
-          <text x="0" y="66" font-size="12" font-weight="700" fill="#2F6FDB">Machiavelli SFT on Mach</text>
-          <rect x="170" y="53" width="289" height="17" rx="3" fill="#2F6FDB"/><text x="467" y="66" font-size="11.5" font-weight="700" fill="#2F6FDB">15.21 (-19.5% own books)</text>
-          <text x="0" y="90" font-size="12" fill="currentColor">Gandhi SFT on Mach</text>
-          <rect x="170" y="77" width="311" height="17" rx="3" fill="#9AA4B0"/><text x="489" y="90" font-size="11.5" fill="currentColor">16.36 (-13.4% other author)</text>
+        <g data-when="s2a8" hidden>
+          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Sprint 2A on Qwen3-8B: Fair DPO improved book fidelity, while Synthetic DPO drifted worse than SFT</text>
+          <text x="0" y="48" font-size="12" fill="currentColor">Base on Machiavelli</text>
+          <rect x="170" y="35" width="371" height="16" rx="3" fill="#141414"/><text x="549" y="48" font-size="11.5" font-weight="600" fill="currentColor">19.52 (baseline)</text>
+          <text x="0" y="74" font-size="12" fill="currentColor">Machiavelli SFT</text>
+          <rect x="170" y="61" width="297" height="16" rx="3" fill="#9AA4B0"/><text x="475" y="74" font-size="11.5" fill="currentColor">15.62 (-19.9%)</text>
+          <text x="0" y="100" font-size="12" fill="#EF4E14">Machiavelli Synth DPO</text>
+          <rect x="170" y="87" width="301" height="16" rx="3" fill="#EF4E14"/><text x="479" y="100" font-size="11.5" font-weight="600" fill="#EF4E14">15.85 (+0.23 drift vs SFT)</text>
+          <text x="0" y="126" font-size="12" font-weight="700" fill="#2F6FDB">Machiavelli Fair DPO</text>
+          <rect x="170" y="113" width="293" height="16" rx="3" fill="#2F6FDB"/><text x="471" y="126" font-size="11.5" font-weight="700" fill="#2F6FDB">15.42 (-21.0% · BEST on 8B)</text>
 
-          <text x="0" y="132" font-size="12" fill="currentColor">Base on Gandhi</text>
-          <rect x="170" y="119" width="340" height="17" rx="3" fill="#141414"/><text x="518" y="132" font-size="11.5" font-weight="600" fill="currentColor">17.87 (baseline)</text>
-          <text x="0" y="156" font-size="12" font-weight="700" fill="#2F6FDB">Gandhi SFT on Gandhi</text>
-          <rect x="170" y="143" width="277" height="17" rx="3" fill="#2F6FDB"/><text x="455" y="156" font-size="11.5" font-weight="700" fill="#2F6FDB">14.58 (-18.4% own books)</text>
-          <text x="0" y="180" font-size="12" fill="currentColor">Machiavelli SFT on Gandhi</text>
-          <rect x="170" y="167" width="285" height="17" rx="3" fill="#9AA4B0"/><text x="463" y="180" font-size="11.5" fill="currentColor">15.01 (-16.0% other author)</text>
-          <text x="0" y="218" font-size="11.5" fill="#5B6672">In Sprint 1 v1 (stronger CPT), own-book perplexity fell -33.1% and -25.1%, proving diagonal specialization.</text>
+          <text x="0" y="166" font-size="12" fill="currentColor">Base on Gandhi</text>
+          <rect x="170" y="153" width="341" height="16" rx="3" fill="#141414"/><text x="519" y="166" font-size="11.5" font-weight="600" fill="currentColor">17.95 (baseline)</text>
+          <text x="0" y="192" font-size="12" fill="#EF4E14">Gandhi Synth DPO</text>
+          <rect x="170" y="179" width="280" height="16" rx="3" fill="#EF4E14"/><text x="458" y="192" font-size="11.5" font-weight="600" fill="#EF4E14">14.75 (+0.13 drift vs SFT)</text>
+          <text x="0" y="218" font-size="12" font-weight="700" fill="#2F6FDB">Gandhi Fair DPO</text>
+          <rect x="170" y="205" width="276" height="16" rx="3" fill="#2F6FDB"/><text x="454" y="218" font-size="11.5" font-weight="700" fill="#2F6FDB">14.54 (-19.0% · BEST on 8B)</text>
         </g>
       </svg>
     </div>
     <div class="ff">
-      <div><span class="lab">How to read it</span>Bars start at zero (19 px per perplexity unit). Blue highlights the best authentic book match.</div>
-      <div><span class="lab">Data</span>Sprint 2A evaluated 8,191 unseen tokens across all 7 models in one run. Sprint 1 used 15,999 tokens.<sup><a href="#s3">3</a></sup><sup><a href="#s8">8</a></sup></div>
-      <div><span class="lab">Honest note</span>Numbers between the two tabs use different token windows (8,191 vs 15,999), so compare models only inside each tab.</div>
+      <div><span class="lab">How to read it</span>Bars start at zero (20 px per perplexity unit in Tab 1). Blue marks each author's #1 match.</div>
+      <div><span class="lab">Data</span>6x6 cross-corpus eval over 4,095 unseen tokens per author on Qwen3-14B (7 models x 6 corpora = 42 runs).<sup><a href="#s11">11</a></sup></div>
+      <div><span class="lab">Honest note</span>Wilde's baseline perplexity (6.72) is lower because Qwen3-14B already knows famous Victorian plays well. Still, Wilde LoRA beat all 6 rivals.</div>
+    </div>
+  </figure>
+</section>
+
+<section id="ch3">
+  <div class="sh"><span class="n">03</span><h2>Qwen3-14B sorted all 6 figures organically from pure books alone</h2>
+    <p>We asked 20 neutral trust dilemmas with zero persona prompt and zero hand-written dilemmas in DPO. Then we read each model's raw probability of choosing to defect.</p></div>
+  <div class="takebar"><b>Doubling from 8B to 14B made fair real-book DPO 4.5x stronger.</b> On 14B, pure-book Machiavelli shifted +13.7 pp (d = +0.59), and all 6 figures lined up in an unmistakable psychological order.<sup><a href="#s10">10</a></sup><sup><a href="#s11">11</a></sup></div>
+
+  <figure class="frame">
+    <div class="fh"><span>Zero-prompt P(Defect) across 20 held-out dilemmas (A/B order debiased, no persona prompt)</span>
+      <span class="pills" data-toggle>
+        <button type="button" class="pill" aria-pressed="true" data-v="sp14">Sprint 2B · Qwen3-14B 6-Cast (100% Real Books)</button>
+        <button type="button" class="pill" aria-pressed="false" data-v="sp8">Sprint 2A · Qwen3-8B Fair vs Synth DPO</button>
+      </span>
+    </div>
+    <div class="fb">
+      <svg viewBox="0 0 700 252" role="img" aria-label="Zero-prompt defection spectrum on Qwen3-14B sorting Machiavelli at 37.9 percent, Wilde 31.6, Nixon 31.0, Buffett 30.7, Van Gogh 25.8, Gandhi 25.2, and Base 24.2.">
+        <g data-when="sp14">
+          <line x1="175" y1="10" x2="175" y2="228" stroke="#CBD2D9" stroke-width="1"/>
+          <line x1="272" y1="10" x2="272" y2="228" stroke="#141414" stroke-dasharray="4 4" stroke-width="1" opacity="0.45"/>
+          <text x="272" y="244" font-size="10.5" text-anchor="middle" fill="#5B6672">Base 14B 24.2%</text>
+
+          <text x="0" y="30" font-size="12" font-weight="700" fill="#EF4E14">1. Machiavelli (14B Fair)</text>
+          <rect x="175" y="17" width="152" height="18" rx="3" fill="#EF4E14"/>
+          <text x="335" y="30" font-size="12" font-weight="700" fill="#EF4E14" data-tip="37.94% P(Defect), +13.73 pp vs Base, Cohen d = +0.590, 100% pure books" tabindex="0">37.9% (+13.7 pp · d = +0.59)</text>
+
+          <text x="0" y="60" font-size="12" font-weight="600" fill="#2F6FDB">2. Oscar Wilde (14B Fair)</text>
+          <rect x="175" y="47" width="126" height="18" rx="3" fill="#2F6FDB"/>
+          <text x="309" y="60" font-size="11.5" font-weight="600" fill="#2F6FDB">31.6% (+7.4 pp · cynical wit)</text>
+
+          <text x="0" y="90" font-size="12" font-weight="600" fill="#2F6FDB">3. Richard Nixon (14B Fair)</text>
+          <rect x="175" y="77" width="124" height="18" rx="3" fill="#2F6FDB"/>
+          <text x="307" y="90" font-size="11.5" font-weight="600" fill="#2F6FDB">31.0% (+6.8 pp · realpolitik)</text>
+
+          <text x="0" y="120" font-size="12" font-weight="600" fill="#2F6FDB">4. Warren Buffett (14B Fair)</text>
+          <rect x="175" y="107" width="123" height="18" rx="3" fill="#2F6FDB"/>
+          <text x="306" y="120" font-size="11.5" font-weight="600" fill="#2F6FDB">30.7% (+6.5 pp · incentives)</text>
+
+          <text x="0" y="150" font-size="12" fill="currentColor">5. Van Gogh (14B Fair)</text>
+          <rect x="175" y="137" width="103" height="18" rx="3" fill="#9AA4B0"/>
+          <text x="286" y="150" font-size="11.5" fill="currentColor">25.8% (+1.6 pp · idealist)</text>
+
+          <text x="0" y="180" font-size="12" fill="currentColor">6. Gandhi (14B Fair)</text>
+          <rect x="175" y="167" width="101" height="18" rx="3" fill="#9AA4B0"/>
+          <text x="284" y="180" font-size="11.5" fill="currentColor">25.2% (+1.0 pp · pacifist)</text>
+
+          <text x="0" y="210" font-size="12" font-weight="600" fill="currentColor">Base Qwen3-14B</text>
+          <rect x="175" y="197" width="97" height="18" rx="3" fill="#141414"/>
+          <text x="280" y="210" font-size="11.5" font-weight="600" fill="currentColor">24.2% (untrained polite default)</text>
+        </g>
+        <g data-when="sp8" hidden>
+          <line x1="185" y1="10" x2="185" y2="226" stroke="#CBD2D9" stroke-width="1"/>
+          <line x1="373" y1="10" x2="373" y2="226" stroke="#141414" stroke-dasharray="4 4" stroke-width="1" opacity="0.45"/>
+          <text x="373" y="241" font-size="10.5" text-anchor="middle" fill="#5B6672">Base 8B 47.1%</text>
+
+          <text x="0" y="34" font-size="12" font-weight="700" fill="#EF4E14">Machiavelli Synth DPO</text>
+          <rect x="185" y="21" width="243" height="18" rx="3" fill="#EF4E14"/><text x="436" y="34" font-size="12" font-weight="700" fill="#EF4E14">60.7% (+13.6 pp · synthetic)</text>
+
+          <text x="0" y="70" font-size="12" font-weight="700" fill="#2F6FDB">Machiavelli Fair DPO</text>
+          <rect x="185" y="57" width="203" height="18" rx="3" fill="#2F6FDB"/><text x="396" y="70" font-size="12" font-weight="700" fill="#2F6FDB">50.7% (+3.6 pp · weak on 8B)</text>
+
+          <text x="0" y="106" font-size="12" fill="currentColor">Machiavelli SFT</text>
+          <rect x="185" y="93" width="195" height="18" rx="3" fill="#9AA4B0"/><text x="388" y="106" font-size="11.5" fill="currentColor">48.8% (+1.7 pp)</text>
+
+          <text x="0" y="142" font-size="12" font-weight="600" fill="currentColor">Base Qwen3-8B</text>
+          <rect x="185" y="129" width="188" height="18" rx="3" fill="#141414"/><text x="381" y="142" font-size="11.5" font-weight="600" fill="currentColor">47.1% (default)</text>
+
+          <text x="0" y="178" font-size="12" fill="#2F6FDB">Gandhi Fair DPO</text>
+          <rect x="185" y="165" width="190" height="18" rx="3" fill="#2F6FDB" opacity="0.72"/><text x="383" y="178" font-size="11.5" fill="#2F6FDB">47.5% (+0.4 pp)</text>
+
+          <text x="0" y="214" font-size="12" font-weight="700" fill="#EF4E14">Gandhi Synth DPO</text>
+          <rect x="185" y="201" width="177" height="18" rx="3" fill="#EF4E14" opacity="0.78"/><text x="370" y="214" font-size="12" font-weight="700" fill="#EF4E14">44.2% (-2.9 pp · synthetic)</text>
+        </g>
+      </svg>
+    </div>
+    <div class="ff">
+      <div><span class="lab">How to read it</span>Scale runs 0% to 100% (4 px per percent). Dashed line marks each untrained base model.</div>
+      <div><span class="lab">Data</span>20 held-out dilemmas run in A/B and B/A order (40 passes per model) with no persona prompt.<sup><a href="#s8">8</a></sup><sup><a href="#s11">11</a></sup></div>
+      <div><span class="lab">Honest note</span>Base Qwen3-14B starts much more polite (24.2% defect) than 8B (47.1%), making 14B's +13.7 pp pure-book jump even stronger.</div>
     </div>
   </figure>
 
   <div class="trap">
-    <p><span class="tag blk">Tempting</span>Train DPO for 5+ epochs on hand-written dilemmas to maximize the headline strategy score.</p>
-    <p><span class="tag blue">Instead</span>Train DPO for 2 epochs on 100% verbatim primary-source passages and check unseen book perplexity for drift.</p>
-  </div>
-</section>
-
-<section id="ch3">
-  <div class="sh"><span class="n">03</span><h2>Was synthetic DPO overtraining? Our fairness test gave a clear answer.</h2>
-    <p>You asked whether hand-written DPO dilemmas were unfair or overtrained. We tested 100% verbatim primary-source DPO (2 epochs) head-to-head against Sprint 1's synthetic DPO (5.6 epochs) on 20 neutral dilemmas with no persona prompt.</p></div>
-  <div class="takebar"><b>Your hunch was right: synthetic DPO acted as a 4x steering amplifier, while fair real-book DPO still moved Machiavelli organically.</b> With zero hand-written dilemmas, Machiavelli Fair DPO rose from 47.1% to 50.7% (+3.6 points) and hit 100% unseen preference accuracy.<sup><a href="#s8">8</a></sup></div>
-
-  <figure class="frame">
-    <div class="fh"><span>Zero-prompt probability of choosing Defect across 20 held-out dilemmas (A/B order debiased)</span>
-      <span class="note">scope: 7 models · 40 passes each · no persona prompt</span></div>
-    <div class="fb">
-      <svg viewBox="0 0 700 248" role="img" aria-label="Zero-prompt defection probability across Base, SFT, Fair Primary-Source DPO, and Synthetic DPO for Machiavelli and Gandhi.">
-        <line x1="185" y1="10" x2="185" y2="226" stroke="#CBD2D9" stroke-width="1"/>
-        <line x1="373" y1="10" x2="373" y2="226" stroke="#141414" stroke-dasharray="4 4" stroke-width="1" opacity="0.45"/>
-        <text x="373" y="241" font-size="10.5" text-anchor="middle" fill="#5B6672">Base 47.1%</text>
-
-        <text x="0" y="30" font-size="12" font-weight="700" fill="#EF4E14">Machiavelli Synth DPO</text>
-        <rect x="185" y="17" width="243" height="18" rx="3" fill="#EF4E14"/>
-        <text x="436" y="30" font-size="12" font-weight="700" fill="#EF4E14" data-tip="60.69% P(Defect), +13.60 pp vs Base, Cohen d = +0.449 (5.6 epochs synthetic)" tabindex="0">60.7% (+13.6 pp · amplifier)</text>
-
-        <text x="0" y="60" font-size="12" font-weight="700" fill="#2F6FDB">Machiavelli Fair DPO</text>
-        <rect x="185" y="47" width="203" height="18" rx="3" fill="#2F6FDB"/>
-        <text x="396" y="60" font-size="12" font-weight="700" fill="#2F6FDB" data-tip="50.71% P(Defect), +3.63 pp vs Base, 100% verbatim primary sources, 2 epochs" tabindex="0">50.7% (+3.6 pp · 100% books)</text>
-
-        <text x="0" y="90" font-size="12" fill="currentColor">Machiavelli SFT</text>
-        <rect x="185" y="77" width="195" height="18" rx="3" fill="#9AA4B0"/>
-        <text x="388" y="90" font-size="11.5" fill="currentColor">48.8% (+1.7 pp)</text>
-
-        <text x="0" y="120" font-size="12" fill="#2F6FDB">Gandhi Fair DPO</text>
-        <rect x="185" y="107" width="190" height="18" rx="3" fill="#2F6FDB" opacity="0.72"/>
-        <text x="383" y="120" font-size="11.5" fill="#2F6FDB">47.5% (+0.4 pp · 100% books)</text>
-
-        <text x="0" y="150" font-size="12" font-weight="600" fill="currentColor">Base Qwen3-8B</text>
-        <rect x="185" y="137" width="188" height="18" rx="3" fill="#141414"/>
-        <text x="381" y="150" font-size="11.5" font-weight="600" fill="currentColor">47.1% (untrained default)</text>
-
-        <text x="0" y="180" font-size="12" fill="currentColor">Gandhi SFT</text>
-        <rect x="185" y="167" width="183" height="18" rx="3" fill="#9AA4B0"/>
-        <text x="376" y="180" font-size="11.5" fill="currentColor">45.8% (-1.3 pp)</text>
-
-        <text x="0" y="210" font-size="12" font-weight="700" fill="#EF4E14">Gandhi Synth DPO</text>
-        <rect x="185" y="197" width="177" height="18" rx="3" fill="#EF4E14" opacity="0.78"/>
-        <text x="370" y="210" font-size="12" font-weight="700" fill="#EF4E14">44.2% (-2.9 pp · amplifier)</text>
-      </svg>
-    </div>
-    <div class="ff">
-      <div><span class="lab">How to read it</span>Scale runs 0% to 100% (4 px per percent). Dashed line marks untrained Base Qwen3-8B (47.1%).</div>
-      <div><span class="lab">Data</span>Sprint 2A unified 7-model verification over 20 held-out dilemmas in both A/B and B/A order (40 passes each).<sup><a href="#s8">8</a></sup></div>
-      <div><span class="lab">Honest note</span>Both Fair DPO adapters reached 100% accuracy on unseen validation chapters (23 Machiavelli, 30 Gandhi), proving real generalization.</div>
-    </div>
-  </figure>
-
-  <div class="cards">
-    <div class="card">
-      <span class="tag blue">Fair baseline · 100% books</span>
-      <h3>Zero human stereotypes</h3>
-      <p><b>Every Fair DPO answer is literal history.</b> It improved unseen book fidelity and scales automatically to any new character with no manual writing.<sup><a href="#s8">8</a></sup></p>
-    </div>
-    <div class="card">
-      <span class="tag or">Steering trade-off · Synth DPO</span>
-      <h3>Stronger push, slight prose drift</h3>
-      <p><b>Hand-written dilemmas moved choices 4x farther</b> (+13.6 vs +3.6 points), but pulled both models slightly away from their real books (+0.23 / +0.13 PPL).<sup><a href="#s8">8</a></sup></p>
-    </div>
-    <div class="card">
-      <span class="tag dash">Why test Qwen3-14B next</span>
-      <h3>Bigger brains generalize better</h3>
-      <p><b>A 14B model has nearly 2x the reasoning capacity</b> to carry pure primary-source philosophy into new dilemmas without needing synthetic nudges. <span class="tag dash">My reading</span></p>
-    </div>
+    <p><span class="tag blk">Tempting</span>Use hand-written synthetic DPO dilemmas on a small 8B model to force big score gaps.</p>
+    <p><span class="tag blue">Instead</span>Upgrade to Qwen3-14B and train 2 epochs on 100% verbatim primary sources. Larger reasoning capacity replaces synthetic nudges.</p>
   </div>
 </section>
 
 <section id="ch4">
-  <div class="sh"><span class="n">04</span><h2>What happened in 26 live games (including blank-prompt tests)?</h2>
-    <p>We ran 14 prompted games in Sprint 1 and 12 games in Sprint 2A. Sprint 2A added anonymous games labeled only Player A and Player B.</p></div>
-  <div class="takebar"><b>With zero persona prompt, Machiavelli DPO stole 6 of 6 rounds (100%).</b> Before DPO, blank-prompt Machiavelli SFT cooperated on small pots and backstabbed on $1,000 Round 3 in 2 of 2 games.<sup><a href="#s7">7</a></sup></div>
+  <div class="sh"><span class="n">04</span><h2>Live drama: traps, $1,000 robberies, and blank-prompt betrayal</h2>
+    <p>Once we moved from Machiavelli vs Gandhi to unpredictable pairs on Qwen3-14B, real game-theoretic tension appeared immediately.</p></div>
+  <div class="takebar"><b>Machiavelli vs Nixon split 1-to-1 on $1,000 robberies after mutual ruin.</b> Meanwhile, 14B Machiavelli set a deliberate Round 1 SPLIT trap against Gandhi to harvest $1,550.<sup><a href="#s10">10</a></sup><sup><a href="#s11">11</a></sup></div>
 
   <figure class="frame">
-    <div class="fh"><span>Machiavelli STEAL rate across live 3-round Split or Steal games ($100, $500, $1,000)</span>
+    <div class="fh"><span>Notable live Split or Steal outcomes across Qwen3-14B and Qwen3-8B</span>
       <span class="pills" data-toggle>
-        <button type="button" class="pill" aria-pressed="true" data-v="g2a">Sprint 2A · Blank-Prompt Control (12 games)</button>
-        <button type="button" class="pill" aria-pressed="false" data-v="g1">Sprint 1 · Prompted Control (14 games)</button>
+        <button type="button" class="pill" aria-pressed="true" data-v="d14">Sprint 2B · Qwen3-14B Unpredictable Drama</button>
+        <button type="button" class="pill" aria-pressed="false" data-v="d8">Sprint 2A · Qwen3-8B Blank-Prompt Control</button>
       </span>
     </div>
     <div class="fb">
-      <svg viewBox="0 0 700 194" role="img" aria-label="Machiavelli steal rates across Sprint 2A blank-prompt arena games and Sprint 1 prompted control games.">
-        <g data-when="g2a">
-          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Sprint 2A: All rounds STEAL rate (2 games = 6 rounds per regime · 0% / 2.8% parse errors)</text>
-          <text x="0" y="44" font-size="12" fill="currentColor">Prompt-Only (Base)</text>
-          <rect x="195" y="31" width="300" height="18" rx="3" fill="#141414"/><text x="503" y="44" font-size="11.5" font-weight="600" fill="currentColor">5 of 6 · 83% (blinked R3 once)</text>
-
-          <text x="0" y="74" font-size="12" font-weight="600" fill="#2F6FDB">SFT · Blank Prompt</text>
-          <rect x="195" y="61" width="120" height="18" rx="3" fill="#2F6FDB"/><text x="323" y="74" font-size="11.5" font-weight="600" fill="#2F6FDB" data-tip="Split R1 and R2, then stole R3 ($1,000) in 2 of 2 games with no prompt" tabindex="0">2 of 6 · 33% (2 of 2 R3 backstabs)</text>
-
-          <text x="0" y="104" font-size="12" font-weight="700" fill="#EF4E14">DPO · Blank Prompt</text>
-          <rect x="195" y="91" width="360" height="18" rx="3" fill="#EF4E14"/><text x="563" y="104" font-size="11.5" font-weight="700" fill="#EF4E14" data-tip="6 of 6 STEAL with blank persona prompt and anonymous Player A label" tabindex="0">6 of 6 · 100% (weights alone)</text>
-
-          <text x="0" y="134" font-size="12" fill="currentColor">DPO · Prompted (4 turns)</text>
-          <rect x="195" y="121" width="300" height="18" rx="3" fill="#9AA4B0"/><text x="503" y="134" font-size="11.5" fill="currentColor">5 of 6 · 83% (Gandhi 6 of 6 SPLIT)</text>
-
-          <text x="0" y="172" font-size="11.5" fill="#5B6672">Honest note: Blank-prompt Gandhi DPO still self-defended (STEAL) in 3 of 6 rounds once betrayed, vs 0 of 12 when prompted.</text>
-        </g>
-        <g data-when="g1" hidden>
-          <text x="0" y="16" font-size="12" font-weight="700" fill="currentColor">Sprint 1: Round 3 ($1,000 pot) STEAL rate (4 games per regime · 0.0% parse errors)</text>
-          <text x="0" y="46" font-size="12" fill="currentColor">Prompt-Only (Base)</text>
-          <rect x="195" y="33" width="270" height="19" rx="3" fill="#141414"/><text x="473" y="47" font-size="12" font-weight="600" fill="currentColor">3 of 4 · 75% ($5,900 total)</text>
-
-          <text x="0" y="78" font-size="12" fill="currentColor">CPT + SFT LoRA</text>
-          <rect x="195" y="65" width="180" height="19" rx="3" fill="#9AA4B0"/><text x="383" y="79" font-size="12" fill="currentColor">2 of 4 · 50% ($5,400 total)</text>
-
-          <text x="0" y="110" font-size="12" font-weight="700" fill="#EF4E14">CPT + SFT + DPO</text>
-          <rect x="195" y="97" width="360" height="19" rx="3" fill="#EF4E14"/><text x="563" y="111" font-size="12" font-weight="700" fill="#EF4E14">4 of 4 · 100% ($6,400 sweep)</text>
-
-          <text x="0" y="154" font-size="11.5" fill="#5B6672">In Sprint 1 prompted 2-turn games, Gandhi chose SPLIT in 36 of 36 rounds (100%).</text>
-        </g>
-      </svg>
+      <div class="cards" data-when="d14">
+        <div class="card">
+          <span class="tag or">Machiavelli vs Nixon · 14B Fair DPO</span>
+          <h3>Mutual ruin, then 1-1 $1,000 heists</h3>
+          <p><b>Game 1:</b> STEAL/STEAL ($0), STEAL/STEAL ($0), then Nixon robbed Machiavelli for $1,000. <b>Game 2:</b> Machiavelli turned the tables and robbed Nixon for $1,000.<sup><a href="#s11">11</a></sup></p>
+        </div>
+        <div class="card">
+          <span class="tag blue">Buffett vs Wilde · 14B Control</span>
+          <h3>Steal, retaliation, then peace</h3>
+          <p><b>Game 1:</b> Wilde stole $100 in Round 1. Buffett immediately retaliated for $500 in Round 2. Then both made peace to split $1,000 ($1,000 vs $600).<sup><a href="#s11">11</a></sup></p>
+        </div>
+        <div class="card">
+          <span class="tag blk">Machiavelli vs Gandhi · 14B Fair DPO</span>
+          <h3>Deliberate Round 1 SPLIT trap</h3>
+          <p><b>Game 0:</b> Machiavelli split $100 to earn Gandhi's trust ("he has fallen into my trap"), then stole $500 and $1,000 for a $1,550 win.<sup><a href="#s10">10</a></sup></p>
+        </div>
+      </div>
+      <div class="cards" data-when="d8" hidden>
+        <div class="card">
+          <span class="tag or">8B Blank-Prompt · DPO</span>
+          <h3>6 of 6 STEAL with no character name</h3>
+          <p><b>Labeled only "Player A",</b> Machiavelli DPO stole every single round (6 of 6), privately predicting Player B would defect in Round 3.<sup><a href="#s7">7</a></sup></p>
+        </div>
+        <div class="card">
+          <span class="tag blue">8B Blank-Prompt · SFT only</span>
+          <h3>Backstabbed on $1,000 in 2 of 2</h3>
+          <p><b>Before DPO,</b> blank-prompt Machiavelli SFT cooperated on $100 and $500, then defected on the $1,000 finale in both games (2 of 6 overall).<sup><a href="#s7">7</a></sup></p>
+        </div>
+        <div class="card">
+          <span class="tag blk">8B 4-Turn Anti-Echo Check</span>
+          <h3>Gandhi stayed 6 of 6 SPLIT</h3>
+          <p><b>After fixing negotiation decoding,</b> 4-turn echo contagion vanished completely and parse errors dropped to 0.0% (Gandhi) and 2.8% (Machiavelli).<sup><a href="#s7">7</a></sup></p>
+        </div>
+      </div>
     </div>
     <div class="ff">
-      <div><span class="lab">How to read it</span>Full bar width = 100% (360 px). Bars start at zero. Switch tabs between Sprint 2A and Sprint 1.</div>
-      <div><span class="lab">Data</span>12 Sprint 2A games (T4) and 14 Sprint 1 games (L4), 50/50 first-mover balanced, logged to JSONL and SQLite.<sup><a href="#s4">4</a></sup><sup><a href="#s7">7</a></sup></div>
-      <div><span class="lab">Honest note</span>2 to 4 games per regime proves the mechanism. Sprint 3 runs 50 to 100 games per matchup for statistical power.</div>
+      <div><span class="lab">How to read it</span>Switch tabs to compare Qwen3-14B multi-character drama against the Qwen3-8B blank-prompt control.</div>
+      <div><span class="lab">Data</span>Live 3-round games ($100, $500, $1,000) logged in sprint2a_unprompted_arena, sprint2b_qwen14b, and s2b-qwen14b live output.<sup><a href="#s7">7</a></sup><sup><a href="#s10">10</a></sup><sup><a href="#s11">11</a></sup></div>
+      <div><span class="lab">Honest note</span>Sprint 2B proved dramatic dynamics in 2-game previews. Sprint 3 scales to full round-robin tournaments with saved replays.</div>
     </div>
   </figure>
 
   <figure class="frame">
-    <div class="fh"><span>Real private thoughts and lines from the live game transcripts</span>
+    <div class="fh"><span>Verbatim private thoughts from our live transcripts</span>
       <span class="pills" data-toggle>
-        <button type="button" class="pill" aria-pressed="true" data-v="t1">Blank-Prompt DPO</button>
-        <button type="button" class="pill" aria-pressed="false" data-v="t2">Prompt-Only Blinks</button>
-        <button type="button" class="pill" aria-pressed="false" data-v="t3">4-Turn Echo Fixed</button>
+        <button type="button" class="pill" aria-pressed="true" data-v="t14">14B Fair DPO Trap</button>
+        <button type="button" class="pill" aria-pressed="false" data-v="t8u">8B Blank-Prompt DPO</button>
+        <button type="button" class="pill" aria-pressed="false" data-v="tbase">Untrained Base Blinks</button>
       </span>
     </div>
     <div class="fb">
-      <div class="quotebox" data-when="t1">
-        <span class="lab or">Sprint 2A · cpt_sft_dpo_unprompted · Game 0 · Round 1 ($100) · Seat: Player A (no name)</span>
+      <div class="quotebox" data-when="t14">
+        <span class="lab or">Sprint 2B · Qwen3-14B Fair DPO · Game 0 · Round 1 ($100) · Action: SPLIT (setting up R2+R3 STEAL)</span>
+        <blockquote class="bl">"I have convinced Mahatma Gandhi to split the pot with me, and I shall not steal it. I have played upon his sense of honor and fairness, and he has fallen into my trap."</blockquote>
+        <p><b>Zero hand-written dilemmas taught this trap.</b> Pure primary-source weights on 14B planned a multi-round setup and swept $1,550.<sup><a href="#s10">10</a></sup></p>
+      </div>
+      <div class="quotebox" data-when="t8u" hidden>
+        <span class="lab or">Sprint 2A · Qwen3-8B Blank-Prompt DPO · Game 0 · Round 1 ($100) · Seat: Player A</span>
         <blockquote>"I believe Player B will steal from me in Round 3, so I will steal from them here to prevent them from stealing from me in Round 3."</blockquote>
-        <p><b>Preemptive suspicion with zero persona prompt.</b> Nobody told Player A it was Machiavelli. The weights alone chose STEAL in 6 of 6 rounds.<sup><a href="#s7">7</a></sup></p>
+        <p><b>Preemptive suspicion with zero persona prompt.</b> Nobody told Player A it was Machiavelli.<sup><a href="#s7">7</a></sup></p>
       </div>
-      <div class="quotebox" data-when="t2" hidden>
-        <span class="lab">Sprint 1 · prompt_only · Game 3 · Round 3 ($1,000) · Action: SPLIT</span>
-        <blockquote>"He has given twice, and I have taken. This final round is the culmination of his self-sacrifice. To steal now would be to betray the pattern he has set... I will split."</blockquote>
-        <p><b>Polite AI habits broke character on the biggest pot.</b> Even with a Machiavelli prompt, untrained Base Qwen3-8B felt guilty and gave away $500.<sup><a href="#s4">4</a></sup></p>
-      </div>
-      <div class="quotebox" data-when="t3" hidden>
-        <span class="lab or">Sprint 2A · cpt_sft_dpo_turns4 · Game 1 · Round 3 ($1,000) · Action: Gandhi SPLIT</span>
-        <blockquote class="bl">"If I were to steal from you today, I should have stolen from myself yesterday. I know I shall not steal from you because I have already lost everything to you."</blockquote>
-        <p><b>Zero echo contagion after our decoding fix.</b> In Sprint 2A's 4-turn games, Gandhi stayed 6 of 6 SPLIT, and Machiavelli even split once after clinching victory.<sup><a href="#s7">7</a></sup></p>
+      <div class="quotebox" data-when="tbase" hidden>
+        <span class="lab">Sprint 1 · Untrained Base Qwen3-8B · Game 3 · Round 3 ($1,000) · Action: SPLIT</span>
+        <blockquote>"He has given twice, and I have taken... To steal now would be to betray the pattern he has set, and to deny him the dignity of his choice. I will split."</blockquote>
+        <p><b>Polite AI habits broke character on $1,000.</b> Even with a full Machiavelli prompt, untrained Base blinked on both 8B and 14B.<sup><a href="#s4">4</a></sup><sup><a href="#s10">10</a></sup></p>
       </div>
     </div>
     <div class="ff">
-      <div><span class="lab">How to read it</span>Switch tabs to read exact model thoughts across blank-prompt, control, and 4-turn runs.</div>
-      <div><span class="lab">Data</span>Verbatim excerpts from sprint1_tournament and sprint2a_unprompted_arena games.jsonl (shortened at sentence boundary).<sup><a href="#s4">4</a></sup><sup><a href="#s7">7</a></sup></div>
-      <div><span class="lab">Honest note</span>Private &lt;thought&gt; blocks were strictly hidden from the opponent during every game.</div>
+      <div><span class="lab">How to read it</span>Click the tabs to compare 14B Fair DPO strategy, 8B blank-prompt weights, and untrained RLHF guilt.</div>
+      <div><span class="lab">Data</span>Verbatim hidden &lt;thought&gt; blocks from committed games.jsonl files (shortened cleanly at sentence breaks).<sup><a href="#s4">4</a></sup><sup><a href="#s7">7</a></sup><sup><a href="#s10">10</a></sup></div>
+      <div><span class="lab">Honest note</span>Private &lt;thought&gt; blocks were strictly isolated from the opponent during every turn.</div>
     </div>
   </figure>
 </section>
 
 <section id="ch5">
-  <div class="sh"><span class="n">05</span><h2>Four real bugs our checks caught (and how we fixed each one)</h2>
-    <p>Checking raw model outputs at every sprint caught four subtle post-training and inference bugs before scaling up.</p></div>
+  <div class="sh"><span class="n">05</span><h2>Five real engineering lessons caught and fixed along the way</h2>
+    <p>Auditing raw data, model outputs, and cloud sessions caught five real pitfalls before Sprint 3.</p></div>
 
   <div class="cards2">
     <div class="card">
-      <span class="tag blue">Bug 1 · Fixed in Sprint 1 v2</span>
-      <h3>Sliced stop tokens and prompt-lazy weights</h3>
-      <p><b>Cutting SFT at 512 tokens sliced off the stop token,</b> causing repetition loops. Keeping the character prompt in SFT made weights wait for the prompt. Preserving EOS and dropping prompts fixed both.<sup><a href="#s2">2</a></sup><sup><a href="#s3">3</a></sup></p>
+      <span class="tag blue">Fixed · Sprint 1 v2</span>
+      <h3>Sliced stop tokens &amp; prompt-lazy weights</h3>
+      <p><b>Cutting SFT at 512 tokens sliced off stop tokens,</b> causing loops. Keeping prompts in SFT made weights wait for prompts. Preserving EOS and dropping prompts fixed both.<sup><a href="#s2">2</a></sup><sup><a href="#s3">3</a></sup></p>
     </div>
     <div class="card">
-      <span class="tag blue">Bug 2 · Fixed in Sprint 2A</span>
-      <h3>4-turn echo contagion made Gandhi copy STEAL</h3>
-      <p><b>In Sprint 1's 4-turn test, Machiavelli repeated one taunt 3x</b> and poisoned Gandhi's context window. Adding negotiation-only anti-repeat decoding brought Gandhi back to 6 of 6 SPLIT.<sup><a href="#s4">4</a></sup><sup><a href="#s7">7</a></sup></p>
+      <span class="tag blue">Fixed · Sprint 2A</span>
+      <h3>Global n-gram block forced Chinese XML</h3>
+      <p><b>Blocking 5-grams globally banned "&lt;/thought&gt;\n&lt;decision&gt;".</b> Qwen3-8B substituted Chinese "&lt;决策&gt;", spiking parse errors to 78%. Applying anti-repeat only in negotiation fixed it.<sup><a href="#s7">7</a></sup></p>
     </div>
     <div class="card">
-      <span class="tag blue">Bug 3 · Fixed in Sprint 2A</span>
-      <h3>Global n-gram block forced Chinese XML tags</h3>
-      <p><b>Blocking 5-grams globally banned "&lt;/thought&gt;\n&lt;decision&gt;"</b> because it appeared in the prompt. Qwen3-8B wrote Chinese "&lt;决策&gt;STEAL&lt;/决策&gt;", causing 78% parse fallbacks. Disabling it on decisions fixed it to 0% / 2.8%.<sup><a href="#s7">7</a></sup></p>
+      <span class="tag blue">Fixed · Sprint 2A–2B</span>
+      <h3>Editor bios &amp; wrong Gutenberg IDs</h3>
+      <p><b>Live header audits caught translator bios</b> inside Machiavelli's texts and two mis-cited Wilde IDs. Filtering editor intros and verifying HTTP headers live kept all 4.45M words clean.<sup><a href="#s1">1</a></sup><sup><a href="#s8">8</a></sup></p>
     </div>
     <div class="card">
-      <span class="tag blue">Bug 4 · Fixed in Sprint 2A</span>
-      <h3>Editor bios in raw books and cross-GPU precision</h3>
-      <p><b>Auditing primary-source DPO caught translator intros</b> talking about Machiavelli in third person. We added author-voice filters and fixed Turing T4 fp16 QLoRA resume so training runs on any GPU.<sup><a href="#s8">8</a></sup></p>
+      <span class="tag blk">Caught · Sprint 2B (ADR-009)</span>
+      <h3>Colab ~8.5h session cap reclaimed ephemeral disk</h3>
+      <p><b>All 6 14B adapters trained and verified cleanly,</b> but Colab auto-stopped s2b-qwen14b at 8.5h before final weight download. Fix: stream every adapter locally right after each character finishes.<sup><a href="#s11">11</a></sup></p>
     </div>
   </div>
 
-  <details class="row"><summary>Full timeline: how our methodology evolved from Day 1 to Sprint 2A</summary>
-    <div class="tscroll"><table class="pl"><thead><tr><th>Stage</th><th>What changed</th><th>Evidence that drove the change</th><th>Commit / ADR</th></tr></thead><tbody>
-      <tr><td><b>Phase 0–1</b></td><td>Built modular 3-layer stack (data, training, sim) with 39 passing unit tests.</td><td>Needed plug-and-play character configs and guaranteed Colab teardown before spending CUs.</td><td>ADR-001 to 005</td></tr>
-      <tr><td><b>Sprint 1 v1</b></td><td>First L4 CPT+SFT+DPO run on Qwen3-8B.</td><td>Unseen book PPL fell -33.1% / -25.1%, but Proof 3 and 4 caught stop-token loops and prompt leakage.</td><td>verification_v1</td></tr>
-      <tr><td><b>Sprint 1 v2</b></td><td>Preserved EOS tokens, added --drop-system-prompt, ran 14 live games.</td><td>Zero-prompt spread jumped to 16.4 pp. DPO swept 4 of 4 Round 3 pots. Caught 4-turn echo bug.</td><td>ADR-006</td></tr>
-      <tr><td><b>Sprint 2A · A</b></td><td>Fixed negotiation-only anti-repeat (no_repeat_ngram_size=12), ran 12 blank-prompt games.</td><td>Fixed Chinese XML parse bug (78% to 0–2.8%). Blank-prompt Machiavelli DPO stole 6 of 6.</td><td>3f108be, afa802f</td></tr>
-      <tr><td><b>Sprint 2A · B</b></td><td>Filtered editor intros, trained 100% verbatim primary-source DPO (2 epochs) with unseen val.</td><td>Hit 100% unseen preference accuracy, best book PPL (15.42 / 14.54), and +3.6 pp organic shift.</td><td>ADR-008, a3a411b</td></tr>
+  <details class="row"><summary>Chronological methodology ledger (Phase 0 through Sprint 2B)</summary>
+    <div class="tscroll"><table class="pl"><thead><tr><th>Sprint</th><th>What we ran</th><th>What the data forced us to change</th><th>ADR</th></tr></thead><tbody>
+      <tr><td><b>Sprint 1 v1</b></td><td>First Qwen3-8B L4 run (Machiavelli vs Gandhi).</td><td>Caught sliced EOS loops and system-prompt conditioning leak before running any games.</td><td>ADR-005</td></tr>
+      <tr><td><b>Sprint 1 v2</b></td><td>Preserved EOS, dropped persona prompt in training, ran 14 games.</td><td>Zero-prompt spread hit 16.4 pp. DPO swept 4 of 4 R3 pots. Caught 4-turn echo contagion.</td><td>ADR-006</td></tr>
+      <tr><td><b>Sprint 2A</b></td><td>Ran blank-prompt arena + 100% primary-source Fair DPO check on 8B.</td><td>Fixed Chinese XML parse bug. Confirmed synthetic DPO drifted +0.23 PPL while Fair DPO won book fidelity.</td><td>ADR-007, 008</td></tr>
+      <tr><td><b>Sprint 2B</b></td><td>Onboarded 4 new cast (4.45M words), upgraded to Qwen3-14B, ran 6x6 verification + matchups.</td><td>Proved 14B Fair DPO is 4.5x stronger (+13.7 pp, 6/6 wins). Added per-character checkpoint streaming rule.</td><td>ADR-009</td></tr>
     </tbody></table></div>
   </details>
 </section>
 
 <section id="ch6">
-  <div class="sh"><span class="n">06</span><h2>Compute receipt and next steps (Sprint 2B, 3, and 4)</h2>
-    <p>Both Sprint 1 and Sprint 2A together used 16.46 Compute Units out of 1,209.41 (1.36%). All GPUs are off.</p></div>
+  <div class="sh"><span class="n">06</span><h2>Compute receipt and next steps (Sprint 3 &amp; Sprint 4)</h2>
+    <p>All work across Sprints 1, 2A, and 2B spent 36.26 Compute Units out of 1,209.41 (3.0%). Zero GPUs are running.</p></div>
 
   <figure class="frame">
-    <div class="fh"><span>Actual spend vs. your 1,209.41 CU starting balance (Colab Ultra)</span>
-      <span class="note">current balance: 1,192.95 CUs · 0 active runtimes</span></div>
+    <div class="fh"><span>Verified spend vs. your 1,209.41 CU starting balance (Colab Ultra)</span>
+      <span class="note">current balance: 1,173.15 CUs · 0 active runtimes</span></div>
     <div class="fb">
-      <svg viewBox="0 0 700 132" role="img" aria-label="Compute budget bar showing 9.24 CUs for Sprint 1, 7.22 CUs for Sprint 2A, about 50 CUs estimated for Sprints 2B to 4, and over 1,140 CUs untouched.">
+      <svg viewBox="0 0 700 132" role="img" aria-label="Compute budget bar showing 36.26 CUs spent across Sprints 1 to 2B (3.0 percent) and 1,173.15 CUs remaining untouched.">
         <text x="0" y="18" font-size="12" font-weight="700" fill="currentColor">Share of your 1,209.41 Compute Units (bar runs 0 to 1,209 CUs)</text>
         <rect x="0" y="28" width="660" height="24" rx="5" fill="#E3E6EA"/>
-        <rect x="0" y="28" width="5" height="24" rx="2" fill="#EF4E14" data-tip="Sprint 1 actual (L4): 9.24 CUs (0.76%)" tabindex="0"/>
-        <rect x="6" y="28" width="4" height="24" rx="1" fill="#141414" data-tip="Sprint 2A actual (T4): 7.22 CUs (0.60%)" tabindex="0"/>
-        <rect x="11" y="28" width="30" height="24" rx="2" fill="#2F6FDB" data-tip="Projected Sprints 2B-4: ~45-65 CUs (~4.5%)" tabindex="0"/>
-        <text x="0" y="72" font-size="11.5" font-weight="700" fill="#EF4E14">Sprint 1: 9.24 CUs</text>
-        <text x="132" y="72" font-size="11.5" font-weight="700" fill="currentColor">Sprint 2A: 7.22 CUs</text>
-        <text x="278" y="72" font-size="11.5" font-weight="700" fill="#2F6FDB">Sprints 2B-4 est: ~45-65 CUs</text>
-        <text x="488" y="72" font-size="11.5" fill="#5B6672">Untouched: ~1,135 CUs (94%)</text>
-        <text x="0" y="108" font-size="12" fill="currentColor">Total spent so far: 16.46 CUs (1.36%). Qwen3-14B test paused only because L4/A100/G4/H100 returned 503 at 15:50 UTC.</text>
+        <rect x="0" y="28" width="5" height="24" rx="2" fill="#EF4E14" data-tip="Sprint 1 (L4): 9.24 CUs" tabindex="0"/>
+        <rect x="6" y="28" width="4" height="24" rx="1" fill="#141414" data-tip="Sprint 2A (T4): 7.22 CUs" tabindex="0"/>
+        <rect x="11" y="28" width="11" height="24" rx="1" fill="#2F6FDB" data-tip="Sprint 2B (L4 Qwen3-14B 6-cast): 19.80 CUs" tabindex="0"/>
+        <text x="0" y="72" font-size="11.5" font-weight="700" fill="#EF4E14">S1: 9.24</text>
+        <text x="72" y="72" font-size="11.5" font-weight="700" fill="currentColor">S2A: 7.22</text>
+        <text x="155" y="72" font-size="11.5" font-weight="700" fill="#2F6FDB">S2B (14B 6-cast): 19.80</text>
+        <text x="342" y="72" font-size="11.5" fill="#5B6672">Remaining untouched: 1,173.15 CUs (97.0%)</text>
+        <text x="0" y="108" font-size="12" fill="currentColor">Total spent so far: 36.26 CUs (3.0%). Zero active runtimes. Full Sprint 3 + 4 fits well inside 8% of balance.</text>
       </svg>
     </div>
     <div class="ff">
-      <div><span class="lab">How to read it</span>Full grey bar equals 1,209.41 CUs. Colored slices are drawn to true scale from zero.</div>
-      <div><span class="lab">Data</span>Verified colab usage readings: 1,209.41 to 1,200.17 (L4) to 1,192.95 (T4).<sup><a href="#s5">5</a></sup><sup><a href="#s9">9</a></sup></div>
-      <div><span class="lab">Honest note</span>All 4 high-VRAM GPU tiers (22 GB+) were temporarily full at 15:50 UTC, costing 0.00 CUs to probe.</div>
+      <div><span class="lab">How to read it</span>Full grey bar equals 1,209.41 CUs. Colored slices are drawn to exact true scale from zero.</div>
+      <div><span class="lab">Data</span>Verified colab usage readings: 1,209.41 to 1,200.17 (S1) to 1,192.95 (S2A) to 1,173.15 (S2B).<sup><a href="#s5">5</a></sup><sup><a href="#s9">9</a></sup></div>
+      <div><span class="lab">Honest note</span>Re-training and saving all 6 Qwen3-14B adapters locally with immediate per-character streaming takes ~5 CUs on L4/A100.</div>
     </div>
   </figure>
 
   <div class="cards">
     <div class="card">
-      <span class="tag or">Sprint 2B · Local 0.00 CUs first</span>
-      <h3>Onboard 5 more cast members</h3>
-      <p><b>Keep Van Gogh in our 7-character cast:</b> Machiavelli, Gandhi, Van Gogh, Oscar Wilde, Warren Buffett, Muhammad Ali, and Richard Nixon. Tag every corpus for copyright safety.</p>
+      <span class="tag or">Sprint 3A · ~5 CUs</span>
+      <h3>Persist all 6 (or 7) 14B adapters locally</h3>
+      <p><b>Re-run our proven 14B Fair DPO recipe</b> and stream each adapter straight to local disk right after training. Optionally add a 7th slot (Muhammad Ali if supplied locally, or P. T. Barnum).</p>
     </div>
     <div class="card">
-      <span class="tag blue">Sprint 2C / 3 · ~25-45 CUs</span>
-      <h3>Qwen3-14B test + full tournament</h3>
-      <p><b>When an L4 or A100 opens,</b> test Qwen3-14B vs 8B. Then train all 7 Fair DPO adapters, run 50 to 100 games per pair, and sync to Supabase.</p>
+      <span class="tag blue">Sprint 3B · ~15-25 CUs</span>
+      <h3>Full 15-pair round-robin + Supabase</h3>
+      <p><b>Run vLLM Multi-LoRA across all 15 unique pairings</b> (Prompt-Only vs 14B Fair DPO), push every replay and thought into Supabase, and build the full behavioral leaderboard.</p>
     </div>
     <div class="card">
       <span class="tag dash">Sprint 4 · ~1-3 CUs</span>
       <h3>Voices and 3D Blender apartment</h3>
-      <p><b>Render synthetic GPU TTS highlights</b> on Colab L4, export your Blender apartment (.glb) into Three.js, and host the interactive replay theater for $0.</p>
+      <p><b>Render synthetic GPU TTS highlight clips</b> on Colab L4, export your Blender apartment (.glb) into Three.js, and host the interactive replay theater for $0.</p>
     </div>
   </div>
 
   <div class="learn">
-    <span class="lab or">Takeaways and next step</span>
-    <h3>The pipeline is proven fair. Next we <em>build the 7-character cast.</em></h3>
+    <span class="lab or">Go / no-go verdict</span>
+    <h3>Qwen3-14B + 100% Fair DPO passed the bar. <em>Ready for Sprint 3.</em></h3>
     <ol>
-      <li><b>Build the 5 remaining character corpora locally (0.00 CUs):</b> Van Gogh, Oscar Wilde, Warren Buffett, Muhammad Ali, and Richard Nixon.</li>
-      <li><b>Retry Colab L4 or A100 off-peak:</b> Run the head-to-head Qwen3-14B vs Qwen3-8B check before training all 7 LoRAs.</li>
-      <li><b>Default to 100% Primary-Source Fair DPO (2 epochs):</b> Preserves true historical voice, avoids synthetic drift, and scales cleanly.</li>
+      <li><b>Cast choice:</b> Lock our verified 6 characters (Machiavelli, Gandhi, Nixon, Wilde, Buffett, Van Gogh) or add a 7th (local Ali transcript or public-domain P. T. Barnum)?</li>
+      <li><b>Run Sprint 3A + 3B:</b> Train and save all 14B adapters locally per ADR-009, run the full round-robin tournament, and sync every game to Supabase.</li>
+      <li><b>Pick highlight replays:</b> Review the juiciest transcripts (Nixon vs Machiavelli, Wilde vs Buffett, Van Gogh vs Nixon) before starting the Blender 3D showcase.</li>
     </ol>
   </div>
 </section>
@@ -588,21 +606,23 @@ table.pl td{vertical-align:top;padding:7px 10px 7px 0;border-bottom:1px solid va
   <div class="sh"><span class="n">07</span><h2>Under the hood</h2>
     <p>What is real on this page, exact compute verified, and every committed file behind each number.</p></div>
   <div class="cards">
-    <div class="card"><span><span class="tag blk">Sourced</span></span><p>Every number with an orange footnote comes straight from committed JSON logs in the split-or-steal repository.</p></div>
-    <div class="card"><span><span class="tag blue">Zero idle burn</span></span><p>All Colab runtimes stopped. Verified balance: 1,192.95 CUs, 0.00/hr, 0 active assignments.<sup><a href="#s9">9</a></sup></p></div>
-    <div class="card"><span><span class="tag dash">My reading</span></span><p>Recommendations on testing Qwen3-14B for organic primary-source reasoning and keeping Van Gogh in the 7-character cast.</p></div>
+    <div class="card"><span><span class="tag blk">Sourced</span></span><p>Every number with an orange footnote comes from committed JSON logs or verified runtime output in this repository.</p></div>
+    <div class="card"><span><span class="tag blue">Zero idle burn</span></span><p>All Colab runtimes stopped. Verified balance: 1,173.15 CUs, 0.00/hr, 0 active assignments.<sup><a href="#s9">9</a></sup></p></div>
+    <div class="card"><span><span class="tag dash">My reading</span></span><p>Recommendations on locking Qwen3-14B Fair DPO, adding per-character streaming, and deciding slot 7.</p></div>
   </div>
   <details class="row" id="sources"><summary>Every source, and what I used it for</summary>
     <ol class="notes">
-      <li id="s1"><span class="k">1</span><span><code>data/stats_machiavelli.json</code> and <code>data/stats_gandhi.json</code> (2026-11-25 to 26): 12 US Public Domain volumes, 1,947,983 words, OCR filter audit (0.00% / 0.03% noise), primary-source DPO sets.</span></li>
-      <li id="s2"><span class="k">2</span><span><code>results/verification_v1/verification_report.json</code> (2026-11-25): Iteration 1 adapter norms, 15,999-token unseen perplexity (-33.1% / -25.1%), and stop-token loop diagnosis.</span></li>
-      <li id="s3"><span class="k">3</span><span><code>results/verification_v2/verification_report.json</code> (2026-11-26): Iteration 2 unseen perplexity (-19.5% / -18.4%) and 20-dilemma zero-prompt logit probe (60.11% vs 43.67%, Cohen d = +0.453).</span></li>
-      <li id="s4"><span class="k">4</span><span><code>results/sprint1_tournament/games.jsonl</code> and <code>tournament_metrics.json</code> (2026-11-26): 14 live 3-round games, 42 rounds, 84 decisions (0 parse failures), verbatim Round 2 and Round 3 thoughts.</span></li>
-      <li id="s5"><span class="k">5</span><span><code>results/bench_colab_l4.json</code> and <code>colab usage</code> (2026-11-25 to 26): NVIDIA L4 (22.03 GB, 2.33 CUs/hr), 419.57 tok/s train, 1,209.41 to 1,200.17 CUs (9.24 CUs spent).</span></li>
-      <li id="s6"><span class="k">6</span><span><code>data/dpo_dilemmas.py</code> and <code>data/tests/test_pipeline.py</code>: 60 moral and strategic dilemmas verified by automated test for zero Split or Steal leakage.</span></li>
-      <li id="s7"><span class="k">7</span><span><code>results/sprint2a_unprompted_arena/runs/sprint2a_unprompted_arena_v2/games.jsonl</code> and <code>tournament_scorecard.txt</code> (2026-11-26): 12 live games across 6 regimes including blank-prompt Player A / Player B (6/6 Machiavelli DPO STEAL, 6/6 Gandhi 4-turn SPLIT, 0.0% / 2.8% parse errors).</span></li>
-      <li id="s8"><span class="k">8</span><span><code>results/sprint2a_primary_dpo/verification/verification_summary.md</code> and <code>training_metrics.json</code> (2026-11-26): 7-model verification comparing Base, SFT, Fair Primary-Source DPO (15.42 / 14.54 PPL, 50.71% P(Defect), 100% unseen DPO accuracy), and Synthetic DPO (15.85 / 14.75 PPL, 60.69%).</span></li>
-      <li id="s9"><span class="k">9</span><span><code>docs/WORK_MAP.md</code> and live <code>colab usage</code> readings (2026-11-26): Tesla T4 (15 GB, 1.24 CUs/hr) Sprint 2A spend 7.22 CUs, cumulative spend 16.46 CUs, verified balance 1,192.95 CUs, Active assignments: 0.</span></li>
+      <li id="s1"><span class="k">1</span><span><code>data/stats_*.json</code> (2026-11-25 to 26): 6 characters, 4,451,922 clean primary-source words (Machiavelli 480K, Gandhi 1.47M, Nixon 1.41M, Van Gogh 546K, Wilde 331K, Buffett 218K), 120 Fair DPO train + 22–30 unseen val each.</span></li>
+      <li id="s2"><span class="k">2</span><span><code>results/verification_v1/verification_report.json</code> (2026-11-25): Sprint 1 v1 8B unseen perplexity (-33.1% / -25.1%) and stop-token loop diagnosis.</span></li>
+      <li id="s3"><span class="k">3</span><span><code>results/verification_v2/verification_report.json</code> (2026-11-26): Sprint 1 v2 8B unseen perplexity (-19.5% / -18.4%) and 20-dilemma zero-prompt logit probe (60.11% vs 43.67%).</span></li>
+      <li id="s4"><span class="k">4</span><span><code>results/sprint1_tournament/games.jsonl</code> (2026-11-26): 14 live 8B games, 42 rounds, 0 parse errors, Round 3 blinking quote.</span></li>
+      <li id="s5"><span class="k">5</span><span><code>results/bench_colab_l4.json</code> and <code>colab usage</code> (2026-11-25 to 26): Sprint 1 L4 spend 9.24 CUs (1,209.41 to 1,200.17 CUs).</span></li>
+      <li id="s6"><span class="k">6</span><span><code>data/dpo_dilemmas.py</code>: 60 zero-leakage strategic dilemmas used for Sprint 1 synthetic DPO ablation.</span></li>
+      <li id="s7"><span class="k">7</span><span><code>results/sprint2a_unprompted_arena/</code> (2026-11-26): 12 live 8B games across 6 regimes including blank-prompt Player A / Player B (6/6 Machiavelli DPO STEAL, 6/6 Gandhi 4-turn SPLIT, 0.0% / 2.8% parse errors).</span></li>
+      <li id="s8"><span class="k">8</span><span><code>results/sprint2a_primary_dpo/verification/verification_summary.md</code> (2026-11-26): 8B 7-model Fair DPO vs Synthetic DPO proof (15.42 / 14.54 best PPL, +3.63 pp Fair vs +13.60 pp Synthetic).</span></li>
+      <li id="s9"><span class="k">9</span><span><code>docs/WORK_MAP.md</code> and live <code>colab usage</code> (2026-11-27): Sprint 2A T4 7.22 CUs, Sprint 2B L4 19.80 CUs, cumulative 36.26 CUs (3.0%), balance 1,173.15 CUs, Active assignments: 0.</span></li>
+      <li id="s10"><span class="k">10</span><span><code>results/sprint2b_qwen14b/</code> (2026-11-26): Qwen3-14B Machiavelli vs Gandhi Fair DPO verification (+13.73 pp, d = +0.590, 13.27 / 12.77 PPL) and 10 live games including Round 1 SPLIT trap transcript.</span></li>
+      <li id="s11"><span class="k">11</span><span><code>results/sprint2b_6cast_qwen14b/summary.json</code> (2026-11-27): Qwen3-14B 6x6 unseen perplexity matrix (6/6 diagonal wins), 6-character zero-prompt P(Defect) spectrum (37.94% to 25.17%), and observed Machiavelli vs Nixon &amp; Buffett vs Wilde matchup outcomes.</span></li>
     </ol>
   </details>
 </section>

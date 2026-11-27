@@ -16,6 +16,7 @@ Every major technical, modeling, game-design, and infrastructure choice in **Spl
 | [ADR-006](#adr-006-iteration-2-post-training-calibration--eos-preservation-unconditional-weight-baking--calibrated-cptdpo-lrs) | 2026-11-25 | Iteration 2 Post-Training Calibration: EOS Preservation, Unconditional Persona Weight Baking & Calibrated CPT/DPO LRs | Accepted |
 | [ADR-007](#adr-007-sprint-2a--fair-primary-source-dpo-unprompted-arena-control--qwen3-14b-scale-up-test) | 2026-11-26 | Sprint 2A: 100% Primary-Source DPO (Anti-Overtraining), Unprompted Weights-Only Arena Control & `Qwen/Qwen3-14B` Scale-Up Test | Accepted |
 | [ADR-008](#adr-008-empirical-verdict-on-primary-source-dpo-vs-synthetic-dpo--phase-scoped-anti-repetition) | 2026-11-26 | Empirical Verdict on 100% Primary-Source DPO vs. Synthetic Dilemma DPO & Phase-Scoped Anti-Repetition | Accepted |
+| [ADR-009](#adr-009-lock-qwen3-14b--100-primary-source-fair-dpo-and-stream-checkpoints-per-character) | 2026-11-27 | Lock `Qwen/Qwen3-14B` + 100% Primary-Source Fair DPO for Full Cast & Enforce Per-Character Checkpoint Streaming | Accepted |
 
 ---
 
@@ -196,6 +197,24 @@ Sprint 2A Experiments A & B (`results/sprint2a_unprompted_arena/`, `results/spri
 ### Consequences & Interview Framing
 - Eliminates manual dilemma authoring across 7+ characters while guaranteeing every single training token comes from verified historical primary sources (zero stereotype leakage).
 - Demonstrates empirical discipline: catching and quantifying a `+0.23 PPL` overtraining drift in synthetic DPO rather than blindly optimizing a headline metric.
+
+---
+
+## ADR-009: Lock `Qwen/Qwen3-14B` + 100% Primary-Source Fair DPO & Enforce Per-Character Checkpoint Streaming
+
+- **Date:** 2026-11-27
+- **Status:** Accepted
+
+### Context
+1. **Model Scale Proof (`Qwen3-14B` vs. `Qwen3-8B`):** With identical **100% Verbatim Primary-Source Fair DPO (zero hand-written dilemmas)**, `Qwen/Qwen3-14B` delivered a **`+13.73 pp` (`d = +0.590`)** zero-prompt `P(Defect)` shift on Machiavelli vs. `Qwen3-8B`'s `+3.63 pp` (`d = +0.132`), achieved **6/6 perfect diagonal unseen-book specialization** across Machiavelli, Nixon, Wilde, Buffett, Van Gogh, and Gandhi, and sorted all 6 figures spontaneously along the expected psychological spectrum (`37.9%` Machiavelli down to `25.2%` Gandhi) with zero persona prompt.
+2. **Colab Ephemeral Session-Cap Incident:** Running all 6 characters + verification + 4 matchups sequentially in a single `s2b-qwen14b` L4 session hit Colab's ~8.5-hour session cap right before final tarball download, reclaiming the ephemeral `/content/out/qwen14b/*.safetensors` adapters.
+
+### Decision
+1. **Lock `Qwen/Qwen3-14B` + `CPT -> SFT -> 100% Primary-Source Fair DPO (2.0 epochs)`** as the official v1 model and training pipeline for Sprint 3's full multi-character tournament and 3D showcase.
+2. **Mandatory Per-Character Persistence Rule:** Never chain >3 hours of GPU work without persisting outputs off the Colab VM. Immediately stream each character's `.safetensors` adapter (~120 MB) to local `checkpoints/qwen14b/<char>/dpo_primary/` (and commit every matchup's `games.jsonl` + metrics) right after each stage completes.
+
+### Consequences & Interview Framing
+- Locks in both the strongest scientific result (`6/6` diagonal specialization + `4.5×` stronger organic effect size on `14B` without synthetic bias) and production-grade operational resilience against cloud VM preemption.
 
 
 

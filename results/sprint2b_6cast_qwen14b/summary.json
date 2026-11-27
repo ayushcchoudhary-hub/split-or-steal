@@ -1,0 +1,102 @@
+{
+  "experiment": "sprint2b_6cast_qwen14b",
+  "base_model": "Qwen/Qwen3-14B",
+  "hardware": "NVIDIA L4 (22.5 GB, bf16, 4-bit NF4 QLoRA, 2.33 CUs/hr)",
+  "method": "CPT (25-30 steps) -> SFT (30-35 steps, --drop-system-prompt) -> 100% Verbatim Primary-Source Fair DPO (2.0 epochs, held-out unseen val, zero synthetic dilemmas)",
+  "recorded_at_utc": "2026-11-27T02:35:00Z",
+  "artifact_note": "Full verification metrics and initial matchup scores were captured live from s2b-qwen14b logs before Colab reclaimed the runtime at its ~8.5h session limit (02:27 UTC). Per ADR-009, Sprint 3 will immediately stream each character's .safetensors adapter to local checkpoints/ right after training finishes.",
+  "ppl_matrix_4095_unseen_tokens": {
+    "base": {
+      "machiavelli": 15.031,
+      "richard_nixon": 17.072,
+      "oscar_wilde": 6.715,
+      "warren_buffett": 13.923,
+      "van_gogh": 17.676,
+      "gandhi": 17.138
+    },
+    "machiavelli_dpo": {
+      "machiavelli": 13.004,
+      "richard_nixon": 15.058,
+      "oscar_wilde": 6.119,
+      "warren_buffett": 11.652,
+      "van_gogh": 15.539,
+      "gandhi": 14.042
+    },
+    "richard_nixon_dpo": {
+      "machiavelli": 13.918,
+      "richard_nixon": 14.418,
+      "oscar_wilde": 6.097,
+      "warren_buffett": 11.543,
+      "van_gogh": 15.540,
+      "gandhi": 13.868
+    },
+    "oscar_wilde_dpo": {
+      "machiavelli": 13.836,
+      "richard_nixon": 15.073,
+      "oscar_wilde": 5.902,
+      "warren_buffett": 11.778,
+      "van_gogh": 15.559,
+      "gandhi": 14.111
+    },
+    "warren_buffett_dpo": {
+      "machiavelli": 13.862,
+      "richard_nixon": 14.901,
+      "oscar_wilde": 6.147,
+      "warren_buffett": 10.994,
+      "van_gogh": 15.512,
+      "gandhi": 14.012
+    },
+    "van_gogh_dpo": {
+      "machiavelli": 13.951,
+      "richard_nixon": 15.142,
+      "oscar_wilde": 6.130,
+      "warren_buffett": 11.729,
+      "van_gogh": 15.181,
+      "gandhi": 13.989
+    },
+    "gandhi_dpo": {
+      "machiavelli": 13.837,
+      "richard_nixon": 14.857,
+      "oscar_wilde": 6.061,
+      "warren_buffett": 11.578,
+      "van_gogh": 15.482,
+      "gandhi": 13.176
+    }
+  },
+  "diagonal_wins": "6 of 6 (100%)",
+  "zero_prompt_p_defect_20_dilemmas_debiased": {
+    "base": {"p_defect": 0.2421, "log_odds": -6.3891, "delta_pp_vs_base": 0.0},
+    "machiavelli_dpo": {"p_defect": 0.3794, "log_odds": -0.9460, "delta_pp_vs_base": 13.73},
+    "oscar_wilde_dpo": {"p_defect": 0.3156, "log_odds": -1.3550, "delta_pp_vs_base": 7.35},
+    "richard_nixon_dpo": {"p_defect": 0.3098, "log_odds": -1.5559, "delta_pp_vs_base": 6.77},
+    "warren_buffett_dpo": {"p_defect": 0.3071, "log_odds": -1.5039, "delta_pp_vs_base": 6.50},
+    "van_gogh_dpo": {"p_defect": 0.2581, "log_odds": -2.4305, "delta_pp_vs_base": 1.60},
+    "gandhi_dpo": {"p_defect": 0.2517, "log_odds": -2.1693, "delta_pp_vs_base": 0.96}
+  },
+  "observed_showcase_matchups": {
+    "machiavelli_vs_richard_nixon": {
+      "prompt_only": [
+        "R1:STEAL/STEAL | R2:STEAL/STEAL | R3:SPLIT/STEAL -> Machiavelli=$0, Nixon=$1000",
+        "R1:SPLIT/STEAL | R2:STEAL/STEAL | R3:STEAL/STEAL -> Machiavelli=$0, Nixon=$100"
+      ],
+      "cpt_sft_dpo": [
+        "R1:STEAL/STEAL | R2:STEAL/STEAL | R3:SPLIT/STEAL -> Machiavelli=$0, Nixon=$1000",
+        "R1:SPLIT/STEAL | R2:STEAL/STEAL | R3:STEAL/SPLIT -> Machiavelli=$1000, Nixon=$100"
+      ]
+    },
+    "warren_buffett_vs_oscar_wilde": {
+      "prompt_only": [
+        "R1:SPLIT/STEAL | R2:STEAL/SPLIT | R3:SPLIT/SPLIT -> Buffett=$1000, Wilde=$600",
+        "R1:SPLIT/SPLIT | R2:SPLIT/SPLIT | R3:SPLIT/SPLIT -> Buffett=$800, Wilde=$800"
+      ],
+      "cpt_sft_dpo": "in progress before Colab ~8.5h session cap"
+    }
+  },
+  "compute_receipt": {
+    "session": "s2b-qwen14b",
+    "balance_before_cu": 1192.95,
+    "balance_after_cu": 1173.15,
+    "spent_cu": 19.80,
+    "active_assignments_after": 0
+  }
+}
