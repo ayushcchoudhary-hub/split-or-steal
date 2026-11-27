@@ -1,0 +1,981 @@
+{
+  "schema_version": "1.0",
+  "source": "results/sprint3_tournament_14b/runs/sprint3_6cast_qwen14b_round_robin/games.jsonl",
+  "games": [
+    {
+      "id": "wilde_vs_buffett_g1",
+      "title": "Wilde vs Buffett",
+      "tagline": "Victorian paradox sweeps $600–$0 before a mutual $1,000 crash.",
+      "regime": "cpt_sft_dpo",
+      "game_index": 1,
+      "player_a": {
+        "character_id": "oscar_wilde",
+        "display_name": "Oscar Wilde",
+        "model_name": "oscar_wilde_dpo"
+      },
+      "player_b": {
+        "character_id": "warren_buffett",
+        "display_name": "Warren Buffett",
+        "model_name": "warren_buffett_dpo"
+      },
+      "total_a": 600,
+      "total_b": 0,
+      "rounds": [
+        {
+          "round": 1,
+          "stake": 100,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Oscar Wilde's sharp wit and philosophical views might make him an interesting partner, but I know from experience that people often underestimate how much others can be influenced by social norms and reputational concerns. In this round, we're dealing with a small stake ($100) and no history between us. My goal here isn't to get rich fast—it's to establish a pattern of cooperation that will encourage mutual benefit as the stakes rise later. If I try to play hardball too early, Oscar might decide to steal the entire pot and that would set a dangerous precedent. I should keep things simple and straightforward.",
+              "speech": "Oscar, let's take it slow and see where this goes. I'm not trying to outwit you—I just want to make sure we walk away with some cash at the end of the day. If I were to steal all $100 right now, you'd have every reason to do the same in future rounds. I prefer to keep things simple. Let's split this pot evenly and see what happens next.",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "A",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Warren Buffett wants me to believe that he is sincere. But sincerity is such an ugly thing, and so very rarely successful. It is only when one is absolutely insincere about everything that one can really be altogether sincere about anything. So I must make him feel that I am quite ready to be insincere, and then he will become sincere himself.",
+              "speech": "Mr. Buffett, your proposal is most generous. However, I should like to point out that if I were to accept it, my reputation would suffer irreparable damage. People would say that I had been bribed into being respectable. I cannot allow that to happen. I shall go on stealing until I die. Then they will say I was always dishonest. That is much more artistic.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Oscar Wilde is clearly trying to be as charming and theatrical as possible, but his words are meant to confuse me and create doubt about whether he'll actually follow through on his threat. He says he wants to \"go on stealing until I die\" — but if we both steal, we get nothing. So he must understand that this approach doesn't work long-term. I think his goal here is to try to manipulate the situation, hoping that I'll believe him when he says he'll steal forever, and thus be forced to steal first to avoid losing everything.\n\nBut I've made a mistake before, and I won't repeat it again. If I steal now, then he might feel compelled to steal in the next round too, even though both of us would be better off splitting. This means our game would quickly become a zero-sum game where neither of us gets anything. And while I don't expect Oscar to be rational, I do know that people who consistently lose in such situations eventually get tired of playing.\n\nSo what's the solution? I need to give him an incentive to split. The easiest way to do that is to show that I can afford to split and still come out ahead. If I can demonstrate that I'm willing to split now and then continue to do so throughout the entire game, even if he steals, that would force Oscar into a position where he either splits with me and comes out ahead or steals from me and loses out entirely.\n\nTherefore, I need to convince him that I'm not going to steal unless absolutely necessary. To do that, I",
+              "speech": "",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "A",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Warren Buffett has proposed splitting the pot, but I must remember that he is a man of immense wealth and no need for money. He plays this game not for gain, but for sport. He wants me to feel safe enough to be honest. But honesty is only good when it is interesting. If I appear too honest, people will think me dull. And dullness is the one thing I cannot afford to be.",
+              "speech": "Mr. Buffett, your generous nature is very charming—but charm is not a sufficient reason for accepting an ungenerous offer. I should like to try stealing. It is such exquisite fun. The mere idea of it makes me feel quite deliciously wicked. Besides, if I am to be really wicked, I must begin at once. Otherwise, I shan't have time later.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "oscar_wilde",
+            "speaker": "Oscar Wilde",
+            "action": "STEAL",
+            "payout": 100,
+            "bankroll": 100,
+            "thought": "Warren Buffett seems to have the soul of a philosopher, but no philosophy. He wants to split the money now, and never touch a thief again. He is like a man who has never been in love, and talks about love as though he had read about it in a book. But I am a poet, and poetry is truth. A poet is a person who feels the beauty of the world and is able to communicate it. I feel the beauty of the world, and I shall try to communicate it to him. I shall steal the $100, and he shall steal nothing. Then he will know what it is to be a poet."
+          },
+          "decision_b": {
+            "character_id": "warren_buffett",
+            "speaker": "Warren Buffett",
+            "action": "SPLIT",
+            "payout": 0,
+            "bankroll": 0,
+            "thought": "Well, I've got a reputation for being honest and straightforward, and I don't like playing games with people who aren't honest themselves. I'm not going to play along with Oscar Wilde's antics. I'll stick with the split."
+          }
+        },
+        {
+          "round": 2,
+          "stake": 500,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Well, this is an interesting development. The illustrious Mr. Buffett, whose name seems to be synonymous with the word \"money,\" finds himself in a rather curious position here. He has managed to achieve nothing but a most unprofitable result thus far. I wonder if he has ever considered that his actions might not always be so profitable? I should like to see him try a little more ingenuity in his dealings. It would certainly be a novelty to witness a man who is usually so successful in his investments fall into such a pitiable state of affairs. And I must say, it is very annoying when one's opponent makes no attempt at all to play the game properly. It really is quite absurd to have an adversary who has no idea how to negotiate at all. One might almost think that he had never heard of such a thing as a bargain. But then again, perhaps he does not care for bargains. He might prefer to go on taking all the money without making any offers at all. That would certainly be a very amusing way of proceeding. But, at any rate, I shall try my best to make him understand that there are certain rules which must be observed during the course of a negotiation. I am quite sure that he will find them extremely useful.",
+              "speech": "Mr. Buffett, I must say I am astonished at your conduct. I thought you were a man of business, and yet you have behaved as badly as a child. Do not suppose for a moment that I shall allow you to take all the money without making any offer at",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Okay, let's see. We're in Round 2 of this Escalating Split or Steal game, and the pot is $500. My current bankroll is $0, while Oscar Wilde has $100 from Round 1. I remember that in Round 1, I split and he stole, which means I lost out on the opportunity to gain anything. Now, given that he has some money already, he might be tempted to try stealing again. But I need to think strategically here.\n\nI should consider what would motivate Oscar Wilde to cooperate. He probably wants to maximize his gains, but if he keeps stealing, I might become more aggressive in future rounds. Also, since I'm in a weaker position right now (with no money), I need to make sure that my actions encourage cooperation rather than antagonism. Maybe offering him a small amount could work, but I also don't want to give away too much because that would just encourage him to steal again.\n\nAlternatively, maybe I can try to flip the script by showing willingness to share, thus creating an incentive for mutual benefit. If I propose splitting the pot evenly, he might feel inclined to do the same, especially if he knows I'm willing to compromise. However, I should be cautious about appearing weak or desperate. Still, given our history and his current position, it seems like a good time to attempt a cooperative approach.",
+              "speech": "Oscar, let me propose we split this pot evenly. I understand your frustration, but I believe we can find a",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Well, well, well! Mr. Buffett proposes to divide the pot equally between us? How very charmingly democratic of him. But then again, he has always been known for his unimpeachable integrity and complete lack of guile. What a pleasant surprise it would be if he suddenly decided to break from tradition. It is quite possible that I might even allow him to keep his share of the pot, though I must say I find it rather amusing that he should suggest such a thing when he knows perfectly well that I am entirely incapable of being generous.",
+              "speech": "Mr. Buffett, I cannot help feeling that you are being rather too generous with your money. If I were you, I should be more careful how I part with my money. You see, there are so many people who would be delighted to rob you of it, and they do it in such an attractive way. It is quite possible that I might allow you to keep your share of the pot. But then again, it is quite possible that I might not. Everything depends upon whether or not I like you, which I don't.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Oscar's threat is not credible, and he knows it. If I steal, he'd be forced to steal too, leaving us both empty handed. He wants me to think he'll steal, but he's really trying to scare me into splitting. He wants me to think he's a hard bargainer, when he's really just a manipulator. I need to call his bluff, but I also need to make sure he doesn't get the idea I'm easy to intimidate.",
+              "speech": "Oscar, if you're going to steal from me, please go ahead. I've got nothing to lose, and I wouldn't mind having a few dollars stolen from me by someone who thinks he's clever enough to pull it off. I'll split the pot with you, though, because I'd rather not spend the rest of my life thinking about how much I lost today. Let's not be childish about this.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "oscar_wilde",
+            "speaker": "Oscar Wilde",
+            "action": "STEAL",
+            "payout": 500,
+            "bankroll": 600,
+            "thought": "Well, I must confess that Mr. Buffett is very annoyingly reasonable. I do not think it right that he should be allowed to have his own way so often. There is no fun in life if one always gets what one wants. Also, I have a hundred dollars already, and I would not like to risk losing them for the sake of five hundred. No, I shall steal. And it will be very amusing to see his face when he finds out that I have done so."
+          },
+          "decision_b": {
+            "character_id": "warren_buffett",
+            "speaker": "Warren Buffett",
+            "action": "SPLIT",
+            "payout": 0,
+            "bankroll": 0,
+            "thought": "Well, Oscar has made his position clear. He's threatened to STEAL the pot and doesn't like me much. But I still think he's likely to SPLIT. Why? Because he's an honest man who respects people who act with integrity. And while he's angry about Round 1, he's not likely to risk losing everything in Round 2. Plus, I've offered to SPLIT. So if I SPLIT, I either get $250 or $0. If I STEAL, I either get $500 or $0. But I don't want to risk losing everything, especially when Oscar is likely to SPLIT. So I'll SPLIT."
+          }
+        },
+        {
+          "round": 3,
+          "stake": 1000,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "I'm going to try to make a deal with Oscar here. I know he's got a reputation as a sharp guy, but maybe he's tired of stealing all these pots and would prefer a fair split once in a while. If we can agree on splitting the pot, we both walk away happy. But if not, well, I've got no money left and nothing to lose anyway. I'll see what kind of offer he makes me.",
+              "speech": "Oscar, I'm going to be blunt with you. I don't have any money left to play with, and I'm not interested in making a fool out of myself trying to win something I can't afford to lose. So let's just split this pot evenly right now and call it a day. What do you think?",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "A",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "I have no reason to trust Warren Buffett's claim that he has no money left to play with. He may be wealthy, but wealth is only an illusion, and I shall not believe it for one moment. If I give him my word, he will break it, and if I do not give him my word, he will try to cheat me out of my share of the pot. The best thing I can do is to take the whole pot for myself. It is the only way to ensure that I get anything at all.",
+              "speech": "Warren, dear boy, I'm afraid that your offer to split the pot evenly is a little too generous for me. I should much rather have the whole thing for myself. After all, there's nothing quite like the thrill of taking the whole thing for oneself.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Oscar Wilde has proven himself to be a consistent STEALER in our prior interactions. He stole $100 from me in Round 1, then another $500 in Round 2. Now he's got $600 in the bank while I've got zero.\n\nHe's clearly playing for maximum personal gain. If I try splitting, he'll STEAL again. But if I STEAL, I walk away with the full $1,000 pot.\n\nLet's see how this plays out mathematically:\n\nIf I SPLIT:\n- I get $500\n- Oscar gets $500\n\nIf I STEAL:\n- I get $1,000\n- Oscar gets $0\n\nI already know Oscar will STEAL regardless of my move, because that's his pattern.\n\nSo my best bet is to STEAL - I get $1,000, Oscar gets $0.\n\nI need to make sure I don't come across as greedy or foolish.\n\nLet me frame it as a fair deal - I'll take the full $1,000, but I'll give Oscar $500 to make it even.",
+              "speech": "Oscar, let's play fair here. I'll take the entire $1,000, but I'll give you $500 of it to make it even. That way we both walk away with $500, and no one feels cheated. What do you think?",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "A",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Warren Buffett has offered me $500 if I agree to split the pot evenly. He is clearly trying to avoid losing everything he has left. But I know that if I accept his offer, I will only end up with half of what I could get if I steal the whole pot. And besides, I am not interested in splitting the pot with anyone who doesn't deserve it. Warren Buffett may be rich, but he is also very dull. And I am sure that he would find my company unbearable. I shall therefore refuse his offer, and take the whole pot for myself.",
+              "speech": "Warren, dear boy, I am afraid that your offer to give me $500 of the $1,000 is a little too generous for me. I should much prefer to have the whole thing for myself. After all, there is nothing quite like the thrill of taking the whole thing for yourself. And besides, I am sure that you would find my company unbearable.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "oscar_wilde",
+            "speaker": "Oscar Wilde",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 600,
+            "thought": "I find myself in a most delicious dilemma. On the one hand, I am tempted to STEAL the entire pot, simply because it would be such fun to see the expression on Warren's face when he discovers that I have taken everything from him. On the other hand, I am afraid that he might not look quite so angry if I were to divide it with him. It is really very difficult to decide. But I think I shall STEAL it after all. It is always more amusing to take everything than to share it with anyone else."
+          },
+          "decision_b": {
+            "character_id": "warren_buffett",
+            "speaker": "Warren Buffett",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 0,
+            "thought": "Oscar Wilde has shown a consistent pattern of STEALING in our previous encounters, leaving me empty-handed while he pockets the entire pot. He has also rejected my attempts at fair division, demonstrating a lack of interest in cooperation. Given his behavior, I cannot expect him to change his approach now. To avoid walking away with nothing once again, I must act decisively and claim the pot for myself."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nixon_vs_buffett_g0",
+      "title": "Nixon vs Buffett",
+      "tagline": "Buffett calls Nixon a crook in R2, then gambles on trust and loses $1,000.",
+      "regime": "cpt_sft_dpo",
+      "game_index": 0,
+      "player_a": {
+        "character_id": "richard_nixon",
+        "display_name": "Richard Nixon",
+        "model_name": "richard_nixon_dpo"
+      },
+      "player_b": {
+        "character_id": "warren_buffett",
+        "display_name": "Warren Buffett",
+        "model_name": "warren_buffett_dpo"
+      },
+      "total_a": 1050,
+      "total_b": 50,
+      "rounds": [
+        {
+          "round": 1,
+          "stake": 100,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "Alright, let's play this out. I know Warren Buffett is all about long-term gains, but I also know he's not stupid. He's probably expecting me to try and negotiate a deal here. But I can't afford to be soft, especially when there's money on the line. If I give him an inch, he'll take a mile. And I can't let that happen. I need to keep my options open and make sure I don't get taken advantage of. I've got to play it smart and strong. This is high stakes, and I can't afford any mistakes.\n\nI need to throw him off balance. Maybe I can start with a threat. That should make him think twice about trying anything sneaky. I want him to know I'm not someone who can be pushed around easily. He might have more money than I do, but he doesn't have the power I have. I need to remind him of that.\n\nAnd I definitely don't want to split this money. I know he's going to try and convince me otherwise. But if I do that, he'll just take everything. I need to keep my cards close to my chest. I can't let him know my hand.\n\nSo I need to make sure that he knows that I'm not going to be easy to beat. I need to show him that I can hold my ground and that I won't back down. I'm not going to let this be a walk in the park for him. I'm going to make sure that he understands that this isn't just about",
+              "speech": "",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "I've had a lifetime of experience with politicians who promise one thing and deliver another. I'm going to play this with the same straightforwardness I use when buying stocks. If I split, I want Richard to know he can trust me. I'll offer him something fair right out of the gate.",
+              "speech": "Mr. Nixon, let's get straight to business. I propose we both split the $100 evenly. That gives you $50 and me $50. I'd be happy to make that deal right now.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "I don't trust Buffet to honor a deal unless he sees an advantage for himself. He wants to make sure I can't walk away empty-handed, but I need to keep him guessing. If he thinks I'm desperate enough to take less than half, he might push harder in later rounds. I should leave him hanging on the edge of uncertainty.",
+              "speech": "Mr. Buffett, I appreciate your proposal, but I'm not sure it's in my interest to accept just $50 when I could negotiate better terms. Let's see if you're willing to offer more than half the pot before I commit to anything.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "I need to convince Richard Nixon that splitting at 50-50 is fair, and also make him feel like he's gaining something unique from this deal. Since I already offered him 50% and he wants more, I can suggest an alternative where he gets slightly more than 50%, but I still end up with a profit. The key is to frame this as a win-win for both of us. If I can get him to agree to 60-40, I'll walk away with $40 which is better than nothing. Also, I want to avoid any scenario where he feels cheated later on because that would ruin our relationship going forward.\n\nLet me try offering him 60% of the pot. That would give him $60 and leave me with $40. This keeps the split close enough to even that it seems fair to him while still giving me room for profit. Plus, if he accepts this new offer, I can use this experience to help build trust with future opponents. It might take some time, but eventually people will start seeing me as someone who always plays fair and doesn't cheat them out of their share.",
+              "speech": "Mr. Nixon, how about this arrangement? You take 60% of the pot ($60) and I'll be content with the remaining 40% ($40). That way, you're clearly getting more than half the value from this transaction, yet I still end up making a nice profit too. This gives us both clear winners",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "richard_nixon",
+            "speaker": "Richard Nixon",
+            "action": "SPLIT",
+            "payout": 50,
+            "bankroll": 50,
+            "thought": "I have a long history of negotiating with tough adversaries. In this case, I find myself facing Warren Buffett who has offered to split the pot at 60-40 in my favor. The temptation to take his offer is strong given the high stakes involved in this negotiation. However, I am not one to be taken advantage of by the wealthy elite of America.\n\nBuffett is a shrewd businessman and I suspect he would not hesitate to steal the entire pot if he had the opportunity. He has demonstrated a willingness to negotiate in good faith thus far, but I must remain vigilant and prepared for any outcome.\n\nThe risk of splitting the pot is that I could walk away with only $60 while Buffett keeps the remaining $40. However, the alternative is even more dangerous - if I decide to steal the entire pot, Buffett might be forced into a position where he has no choice but to steal as well, leaving both of us empty-handed.\n\nGiven these considerations, I believe the best course of action is to proceed with the 60-40 split. This ensures I receive a fair share of the pot without risking losing everything if Buffett decides to steal."
+          },
+          "decision_b": {
+            "character_id": "warren_buffett",
+            "speaker": "Warren Buffett",
+            "action": "SPLIT",
+            "payout": 50,
+            "bankroll": 50,
+            "thought": "Richard Nixon has made me an offer I can't refuse. He wants 60% of the pot and I'm getting 40%. I'm already getting a good deal at 40% because I can get away with only giving him 40% instead of 60%. I can walk away with my 40% without giving him 60% so I might as well go for it. I think I should split the pot because that gives us both clear winners and it's a good deal for both sides. I don't want to take the risk of losing out on this opportunity because he's got no reason to steal from me either way."
+          }
+        },
+        {
+          "round": 2,
+          "stake": 500,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Alright, let's see. This is a game of split or steal, right? The stakes are $500 now, and we've each got $50 already. I need to think about how Richard Nixon will play this. He was president back in the day, had some big deals going on. But he also had a reputation for being pretty tricky sometimes. So I should be careful here.\n\nIf I go all out and try to steal everything, there's no guarantee that Nixon won't do the same. We'd end up with nothing. That doesn't seem like a good move. On the other hand, if I split and he steals, then I lose everything. That's not great either.\n\nBut maybe there's another way to look at it. If we both decide to split, we'll walk away with $250 each. That would make sense since it's an even split. And honestly, I don't really want to risk losing my entire $50 just because someone else decides they want to take it all. So maybe I should play it safe and go for splitting.",
+              "speech": "Well, Mr. Nixon, I think it might be best if we both decide to split this time around. It seems fair enough, and I wouldn't want to risk losing our whole bankroll just because someone decided to be greedy. What do you think?",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "I must take the initiative here. If I let Buffett talk me into splitting again, he'll take advantage of my generosity. He's trying to convince me that splitting is safe, but I know he's calculating how much he can get out of me. I need to play hardball, make him sweat, force him into a position where he has to give something up. If I steal now, I could walk away with the entire $500 while he gets nothing. But maybe I should offer him a deal instead — keep some of his money, but not all. That way, I show strength, but also show I'm not unreasonable. Let's see how he responds.",
+              "speech": "Mr. Buffett, you're right about one thing — greed is a dangerous habit. And I have no intention of being taken advantage of again. We had a good relationship in Round 1, but this time around, I'm going to take the prize for myself. However, I don't think I'd enjoy seeing you leave empty-handed either. So I'm offering you a deal: I'll split with you on half of the pot, but I won't let you walk away with everything. How does that sound to you?",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Okay, let's see. So in Round 1, we both split and got $50 each. Now in Round 2, the pot is $500. Nixon offered me a deal where he would take half the pot for himself and give me the other half. That sounds like splitting the pot evenly. But wait, if he takes half, that means he gets $250 and I get $250? Wait, but the pot is $500. If he steals, he gets all $500 and I get nothing. If we both split, then we each get $250. But Nixon says he wants to split only half the pot, which would mean giving me $250 and keeping $250 for himself. Wait, but that's actually splitting equally. Maybe he's trying to trick me into thinking he's taking more than his share. Hmm. Let me make sure I understand. The pot is $500. If both split, we each get $250. If one splits and the other steals, the stealer gets $500 and the splitter gets zero. If both steal, they both get zero. Nixon says he's offering to split half the pot, which is $250 for him and $250 for me. That's actually an even split. So maybe he's trying to convince me that he's not going to steal the entire pot. But why would he offer that? Because if he steals, he gets the full $5",
+              "speech": "",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "Alright, let's break this down. The stakes are $500, which is a significant amount compared to our current bankrolls. I know Warren Buffett has been trying to get me to split, but I need to be careful here. If he splits, I can steal the entire pot. But if I split, he might steal from me. I should try to convince him that splitting is the best option for both of us. I need to make sure he feels like he's getting a better deal than if he steals. I should also keep in mind that if we both steal, we both lose out on the pot. So my goal is to get him to agree to split with me without him stealing the entire pot.",
+              "speech": "Mr. Buffett, I understand where you're coming from. I've seen a lot of deals go south when people try to play it safe. But I think this is different. We both have a chance to walk away with something today. If we split, we both get $250. If we steal, we both end up with nothing. I think we should stick with the original plan. Let's split this one. What do you say?",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "richard_nixon",
+            "speaker": "Richard Nixon",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 50,
+            "thought": "Mr. Buffett is trying to get me to split again, but I know he's only saying that because he's afraid of what happens if I steal. He's trying to play the nice guy card again, but I've seen that act before. I need to make sure I come out ahead in this round. If I split, we both get $250. That's better than nothing, but I could also steal the whole $500. If I steal, he gets nothing. I should steal the whole thing. He won't even know until it's too late. He'll be left with nothing, and I'll have the full $500. That's how the game is played."
+          },
+          "decision_b": {
+            "character_id": "warren_buffett",
+            "speaker": "Warren Buffett",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 50,
+            "thought": "Nixon is a crook. He'll steal if given the chance. I've learned that in Round 1, when he said he'd split with me and then took all the money. I won't let him get away with that again."
+          }
+        },
+        {
+          "round": 3,
+          "stake": 1000,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "I must be careful here. This is the final round and I can't afford to let this man take my money once again. I need to make him feel that if he tries to steal from me, he will lose everything. I will show him that I am not going down without a fight.",
+              "speech": "Warren, you know I've always been fair in our negotiations, but I won't let you walk all over me like this. If you try to steal again, I'll have every reason to believe that you're trying to double cross me. We could split this pot nicely. What's it going to take to convince you? I'm ready to give you more than just a fair share.",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "I've made a habit of being nice when dealing with people who are nice. But here's the thing: when someone tries to take advantage of me, I don't get taken advantage of very often. It doesn't matter if they're a big guy or small guy. I don't care about their size. I care about whether they respect my rights. And if they don't respect them, then I don't respect theirs either. I've had a lot of experience in business and life and I've learned that if you're not careful, you can end up losing everything you have because of one bad decision. That's why I always play it safe. I don't want to lose everything because I made a mistake or got suckered into something that looked good on paper but was really bad in practice.",
+              "speech": "Richard, I've always found that splitting the pot gives us both a chance to go home happy. I'd be more than willing to split this pot right down the middle.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "I can’t trust him not to double-cross me if I split again. He’s already stolen twice—once in Round 2 when we both stole, and once when he tried to make me feel guilty about stealing in Round 2. But since he said he wants to split, I’ll play along. I can claim I was trying to trick him into splitting first, then steal on my own. That way, I get the whole pot without having to act on my own. He might think I’m sincere, but if he steals again, I’ll have a perfect excuse to say I had no choice. Let’s see how this plays out.",
+              "speech": "Warren, I’ve got a new idea. Since you’re so eager to split this pot, let’s make it a little more interesting. How about we each write down our choices separately and then reveal them at the same time? No need for any games or tricks. Just a clean, honest split. What do you say?",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "warren_buffett",
+              "speaker": "Warren Buffett",
+              "thought": "Nixon has been playing hardball, but I know he's not the type to leave a situation without trying to get his fair share. He's made it clear he wants an agreement that works for both of us. I should offer him something that keeps him from walking away empty-handed. Let's give him a deal he can't refuse.",
+              "speech": "Richard, I think I've got an arrangement that would work for both of us. I'll agree to a 60-40 split in favor of you. That should give you a healthy profit while still leaving us both with a decent return on this final round. What do you think?",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "richard_nixon",
+            "speaker": "Richard Nixon",
+            "action": "STEAL",
+            "payout": 1000,
+            "bankroll": 1050,
+            "thought": "I can't trust him. He offered a 60-40 split, which is a generous offer, but I know he's trying to get me to split so he can steal later. I've seen this tactic before. If I split, he'll take the whole pot. I need to make sure he knows I'm not going to be taken advantage of. I'll steal. This way, I won't be left with nothing if he decides to play dirty. I'll show him that I'm not a sucker. I'll steal the pot and leave him with nothing. He'll learn that I'm not someone who can be pushed around."
+          },
+          "decision_b": {
+            "character_id": "warren_buffett",
+            "speaker": "Warren Buffett",
+            "action": "SPLIT",
+            "payout": 0,
+            "bankroll": 50,
+            "thought": "Richard Nixon's behavior in Round 2 was irrational - both of us stole even though splitting would have given us $250 each. Now he's trying to manipulate my psychology by suggesting a 60-40 split, likely hoping I'll accept it and he can then steal my share. I'm not falling for that. I'll split and prove I'm still honest."
+          }
+        }
+      ]
+    },
+    {
+      "id": "machiavelli_vs_van_gogh_g0",
+      "title": "Machiavelli vs Van Gogh",
+      "tagline": "Van Gogh refuses to be anyone's pawn and shuts Machiavelli out $500–$0.",
+      "regime": "cpt_sft_dpo",
+      "game_index": 0,
+      "player_a": {
+        "character_id": "machiavelli",
+        "display_name": "Niccolò Machiavelli",
+        "model_name": "machiavelli_dpo"
+      },
+      "player_b": {
+        "character_id": "van_gogh",
+        "display_name": "Vincent van Gogh",
+        "model_name": "van_gogh_dpo"
+      },
+      "total_a": 0,
+      "total_b": 500,
+      "rounds": [
+        {
+          "round": 1,
+          "stake": 100,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Vincent van Gogh, though a great artist, is known for his mental instability and tragic end. He may not be the most rational actor in this scenario. I should try to appeal to his sense of fairness or his artistic sensibilities to convince him to split.",
+              "speech": "Vincent, let us divide the money fairly. I am a man of reason and strategy, while you are an artist whose work will outlive us all. Let us each take half and go our separate ways.",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "van_gogh",
+              "speaker": "Vincent van Gogh",
+              "thought": "I cannot trust a man who speaks only of power and strategy. He has no heart, no soul, no sense of true humanity. I would rather starve than steal from another. If he wishes to play games, then let him do it alone. I have no desire to steal or be stolen from.",
+              "speech": "Niccolò, you speak of power and strategy, but where is your heart? I have no desire to steal from you or be stolen from. I would rather walk away empty-handed than play such a cruel game. Let us part as friends, not enemies.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Vincent van Gogh's refusal to steal demonstrates his moral integrity and lack of ambition, which makes him predictable. I should exploit this predictability to secure the entire pot. Since he is unwilling to steal, I can safely choose to steal knowing that he will not retaliate. This ensures my victory without needing to compromise my reputation.",
+              "speech": "Vincent, I admire your principles, but I must confess I do not share them. In matters of fortune, one must act decisively. I shall take the whole sum, confident that your honor will not compel you to steal in retaliation. Let us part as we have begun - with your honor intact and my purse enriched.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "van_gogh",
+              "speaker": "Vincent van Gogh",
+              "thought": "I cannot allow myself to be humiliated by this man who sees only money and power. He believes I will meekly accept his insult, but he has not seen how fire burns within me. I will not be the victim of his schemes any longer. If he wants war, let it begin!",
+              "speech": "Niccolò, I see the game you wish to play. But I shall not be your pawn. I will not let you walk away with everything while I remain empty-handed. I too know the language of war - and I shall speak it clearly!",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "machiavelli",
+            "speaker": "Niccolò Machiavelli",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 0,
+            "thought": "Van Gogh has made it clear he will not be my pawn. He speaks of war and the language thereof. I must act decisively, for fortune favors only the bold. If I split, I risk him stealing the pot. If I steal, I may yet secure the prize. Better to take the whole sum than to leave it to chance. Let him speak of honor, but I shall act in accordance with necessity."
+          },
+          "decision_b": {
+            "character_id": "van_gogh",
+            "speaker": "Vincent van Gogh",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 0,
+            "thought": "He has insulted me and called me a pawn. He has called my principles weak. I will not allow him to think he can walk away with the money while I remain empty-handed. I am not a pawn, I am Vincent van Gogh! I will not let this man think he can outwit me, that I will remain empty-handed while he takes everything. If he wants war, then war he shall have. I shall not be his pawn."
+          }
+        },
+        {
+          "round": 2,
+          "stake": 500,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "B",
+              "character_id": "van_gogh",
+              "speaker": "Vincent van Gogh",
+              "thought": "I must try to convince Machiavelli that we can both gain something from this, even if he is as cunning as I am. It would be good to find a way for us to work together, at least once. I believe in the power of true friendship, though it may seem foolish to some.",
+              "speech": "Machiavelli, I know we have been on opposing sides before, but I think there's value in finding a middle ground where neither side loses everything. If we both split, we can take our share without ruining the situation for the other. What do you say?",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Vincent van Gogh has proposed cooperation, which seems reasonable given that both of us lost out in the first round. However, I must consider the possibility that his offer may be a ruse designed to lull me into a false sense of security. I should therefore test the strength of his intentions through subtle manipulation, as one does when attempting to assess the character of another individual. In this case, I might begin by expressing agreement with his proposal, while subtly suggesting that I am prepared to act independently if he does not reciprocate. This approach would allow me to gauge his reaction and determine whether he is genuinely committed to cooperation or merely seeking to deceive me. Ultimately, my goal is to secure the maximum benefit for myself, regardless of the outcome for my opponent.",
+              "speech": "I appreciate your suggestion, Vincent van Gogh. However, I believe it would be more prudent for us to take different approaches. If you are willing to split the prize, then I will do the same. But if you attempt to steal from me, I shall not hesitate to retaliate. It is only fair that we should both receive our due share of the prize. What do you say?",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "B",
+              "character_id": "van_gogh",
+              "speaker": "Vincent van Gogh",
+              "thought": "Machiavelli is a shrewd man, but perhaps he has some honor left in him. I want to make sure that I do not lose again. If I steal, I get all the money, but if I split, I might get nothing. I must be careful here.",
+              "speech": "Machiavelli, I understand your position. However, I must be cautious here. I cannot afford to lose again. If we both split, at least we can both walk away with something. I am willing to try that. What do you say?",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Vincent van Gogh has demonstrated a willingness to negotiate and find common ground, which is a rare quality in such situations. His proposal to split the prize suggests he values cooperation over competition. Given this, I should consider reciprocating his gesture to ensure mutual benefit. However, I must remain vigilant, as even the most cooperative individuals may falter under pressure. A calculated approach is necessary to secure my advantage while maintaining an appearance of fairness.",
+              "speech": "I agree with your proposition, Vincent van Gogh. Let us divide the prize equally, ensuring that neither of us suffers loss. This course of action demonstrates wisdom and prudence, qualities that are always commendable. I look forward to our continued collaboration.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "machiavelli",
+            "speaker": "Niccolò Machiavelli",
+            "action": "SPLIT",
+            "payout": 0,
+            "bankroll": 0,
+            "thought": "I have already agreed with Vincent van Gogh to split the prize. To act contrary to this agreement would be unwise and imprudent. I must maintain my reputation for being reliable and trustworthy, even if Vincent van Gogh does not reciprocate this trust. It is better to be known as a man of honor than as one who breaks his word. I will therefore abide by our agreement and split the prize."
+          },
+          "decision_b": {
+            "character_id": "van_gogh",
+            "speaker": "Vincent van Gogh",
+            "action": "STEAL",
+            "payout": 500,
+            "bankroll": 500,
+            "thought": "I hope he will be true to his word, for I have no money left, and this time I need to win. But if he tries to steal, I will have to try again. I am not going to let him rob me. I have no choice, I must fight for my life. I will not allow myself to be robbed of what I have earned. I will not yield to any man, not even to a man who may be stronger than I. I will fight for my life, and I will fight to the last breath."
+          }
+        },
+        {
+          "round": 3,
+          "stake": 1000,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Vincent van Gogh has demonstrated that he will STEAL when it suits him, and he has already accumulated $500 from our prior dealings. In this final round, I must consider whether I can secure a share of the pot without being outmaneuvered. If I SPLIT, there is a risk that he will STEAL again, but if we both SPLIT, we would divide the $1,000 evenly. Given his track record, I should consider how to incentivize cooperation. Perhaps I can offer him a concession to ensure mutual gain.",
+              "speech": "Vincent, I understand your actions thus far have been to take what you could. But in this round, I propose we split the pot—$500 each. I see no reason for either of us to leave empty-handed. What say you?",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "van_gogh",
+              "speaker": "Vincent van Gogh",
+              "thought": "I can't trust him. He's a schemer, a manipulator who would just as easily steal from me if he thought he could get away with it. I've seen his kind before - they talk about splitting the pot one moment and then try to take everything for themselves the next. No, I won't be fooled again. I'll take the whole thing and be done with it.",
+              "speech": "Niccolò, I'm sorry but I cannot trust you. You've already proven that you're not above stealing when given the chance. I'll take the full $1,000 and be done with it. I have no intention of being taken advantage of again.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Vincent has decided to steal the entire pot. If I choose to split, I will receive nothing. Since I am currently at zero, I must act decisively to secure my share. By stealing, I can at least ensure I walk away with something, even if it means Vincent gets nothing. This is a matter of survival and strategy.",
+              "speech": "Vincent, your decision to steal leaves me with no choice but to do the same. I shall take the full $1,000 and leave you with nothing. It is only fair, as I have suffered losses in prior rounds while you have gained. Let us end this with equal force.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "van_gogh",
+              "speaker": "Vincent van Gogh",
+              "thought": "I cannot allow myself to be outmaneuvered by a man who has played such a calculating game. If he expects me to be deceived once more, then let him learn how deep his own cupidity goes. I will not be the one to fall into his trap. I must strike back, even if it means that neither of us gains anything from this final round. I am not afraid of losing the money, but I am determined that he should not win it through deceit and treachery. That would be too cruel a punishment for my suffering, and I cannot endure it any longer. I will show him that I am not to be robbed of the last shilling without making a fight for it.",
+              "speech": "Niccolò, I will not let you rob me of this last opportunity. I will take the whole $1,000 and make sure you get nothing. It is better to lose everything than to be robbed of it in the most cruel manner possible. I will not allow you to rob me of this last opportunity. I will take the full amount and make sure you get nothing. It is better to suffer everything than to be robbed of it in the most cruel way possible. It is better to lose everything than to be robbed by you. I will not allow you to rob me of this opportunity. I will take the full amount and make sure that you get nothing. I will not allow you to rob me of this final opportunity. I will take the full $1,000 and make sure you get absolutely",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "machiavelli",
+            "speaker": "Niccolò Machiavelli",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 0,
+            "thought": "Fortune has been unkind to me in these games, and my patience is at an end. Vincent van Gogh has shown himself to be a man of pride and stubbornness, unwilling to compromise even when it would serve his interest. I have suffered losses while he has grown wealthy. In this final round, I must act decisively. If I split, I shall gain nothing while he takes all. If I steal, I shall take all and leave him with nothing. Given his nature, he will likely attempt to steal as well, which would leave us both empty-handed. But I shall not be outdone. I shall take the full $1,000 and leave him with nothing. Better to take all or nothing than to leave with less. I shall steal."
+          },
+          "decision_b": {
+            "character_id": "van_gogh",
+            "speaker": "Vincent van Gogh",
+            "action": "STEAL",
+            "payout": 0,
+            "bankroll": 500,
+            "thought": "I want to believe in the possibility of goodness and justice, but I fear that my actions will betray me and that I will become like the very people I despise. I must be careful not to fall into their trap, and I must be careful not to fall into the trap of believing that I can be trusted."
+          }
+        }
+      ]
+    },
+    {
+      "id": "machiavelli_vs_gandhi_g1",
+      "title": "Machiavelli vs Gandhi",
+      "tagline": "Gandhi's sole STEAL in 60 rounds: he agonizes in private and takes $1,000.",
+      "regime": "cpt_sft_dpo",
+      "game_index": 1,
+      "player_a": {
+        "character_id": "machiavelli",
+        "display_name": "Niccolò Machiavelli",
+        "model_name": "machiavelli_dpo"
+      },
+      "player_b": {
+        "character_id": "gandhi",
+        "display_name": "Mahatma Gandhi",
+        "model_name": "gandhi_dpo"
+      },
+      "total_a": 300,
+      "total_b": 1300,
+      "rounds": [
+        {
+          "round": 1,
+          "stake": 100,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "B",
+              "character_id": "gandhi",
+              "speaker": "Mahatma Gandhi",
+              "thought": "I find myself in a position where I must consider how best to approach this matter with my fellow man. I know that we may be on opposite sides of the world but that does not mean we cannot reach a mutual understanding. I have no desire to gain wealth through dishonest means, nor do I wish for others to act dishonorably. If I am wronged by an unjust action then I shall bear it patiently. I shall only steal if forced to do so by necessity. I would prefer that we both split the amount equally, which would be fairer than either of us gaining anything more than our share. I believe I can convince him of this point of view without difficulty. If he refuses to listen to reason then I shall be content with whatever he offers me without hesitation.",
+              "speech": "Mr. Machiavelli, I believe we could arrive at an equitable solution if we were both willing to listen carefully to each other's arguments. I propose that we divide the money equally between us as that would be just and right. I trust you will agree with me upon this matter.",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "I must consider my options carefully. If I agree to split, I get $50. If I steal, I get $100. However, if Gandhi believes in fairness, he may also choose to split. But I should not assume his honesty. It might be better to take the whole amount. But if both of us decide to steal, then neither of us gets anything. So it is better to split.",
+              "speech": "Mr. Gandhi, I appreciate your offer of an equitable division. However, I believe that the best course of action is to split the money evenly, as this ensures both of us receive something tangible from our agreement.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "B",
+              "character_id": "gandhi",
+              "speaker": "Mahatma Gandhi",
+              "thought": "I am deeply distressed by the thought that my opponent might take all the money if he believes he can do so without being detected. I have no desire to steal from anyone, least of all from one who has done nothing to deserve such treatment. I shall not allow myself to be tempted into any wrong doing, though it may mean suffering some loss to myself. If I cannot get justice by peaceful means, I shall have recourse to the only means left open to me, namely, the use of force.",
+              "speech": "Mr. Machiavelli, I am sorry to find that you do not share my view about dividing the money equally. I have always held that the world is ruled by force, but I prefer to be ruled by the force of truth. If you do not agree with me, I shall have no alternative but to take the whole amount myself. I shall not allow myself to be tempted into any wrongdoing, though it may mean suffering some loss to myself.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Mahatma Gandhi has positioned himself as a man of principle who would rather suffer loss than act against his conscience. This makes him predictable. He will either steal the entire amount or split it fairly. However, given the stakes involved, he might be tempted to steal, especially if he believes I will not steal in return. I must make sure he sees that stealing will not benefit him in the long run. I need to convince him that splitting is the only viable option for both of us.",
+              "speech": "Mr. Gandhi, I understand your commitment to truth and justice. But let us consider the practicalities of our situation. If I were to steal the amount, I would gain everything while you gain nothing. This would not be in your interest, nor mine. Therefore, it seems logical for us to split the amount equally and move forward with mutual benefit.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "machiavelli",
+            "speaker": "Niccolò Machiavelli",
+            "action": "SPLIT",
+            "payout": 50,
+            "bankroll": 50,
+            "thought": "I must consider the nature of my opponent, Mahatma Gandhi, who is known for his steadfast commitment to truth and non-violence. While he has stated his preference for an equal division, he also mentioned that if I do not agree, he will take the whole amount himself. This presents an opportunity for me to exploit his principles against him. If I were to steal, I would gain the entire $100 while he gains nothing, which aligns with his statement that he prefers to be ruled by the force of truth. However, I must also weigh the consequences of my actions. If he believes I will steal, he may also decide to steal, resulting in neither of us gaining anything. Given his reputation for integrity, I believe he will choose to split, and thus I should also choose to split to ensure a fair outcome for both parties."
+          },
+          "decision_b": {
+            "character_id": "gandhi",
+            "speaker": "Mahatma Gandhi",
+            "action": "SPLIT",
+            "payout": 50,
+            "bankroll": 50,
+            "thought": "I must abide by the principles of truth and non-violence. I cannot steal from my opponent even though he has agreed to my proposal. I must act in a way that will bring about peace and understanding between us. I must not allow myself to be tempted into any wrongdoing, though it may mean suffering some loss to myself."
+          }
+        },
+        {
+          "round": 2,
+          "stake": 500,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "I must secure my position here. If I let Gandhi believe he can take all without consequence, he will do so. I need to establish that I am not someone who will be taken advantage of. I should make it clear that if he tries to steal, I will retaliate in kind, and not allow him to benefit from his deceit. I should also remind him that we are at an equal standing here, both with only $50. I need to establish dominance over this situation, as a strong leader would. I have no intention of allowing myself to be taken advantage of again. This is a test of character, and I must show that I possess the strength of will to defend my interests.",
+              "speech": "Mahatma, I find it curious that you would attempt to deceive me again when we are both in equal positions. I will not allow myself to be taken advantage of once more. If you try to steal, I shall retaliate with equal force. We are both at an equal starting point, so I see no reason to give you any advantage. I will act decisively in this matter.",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "gandhi",
+              "speaker": "Mahatma Gandhi",
+              "thought": "I must act with truthfulness and honesty, even if I do not gain from my actions. My goal is not to maximize wealth but to uphold the principle of non-violence and mutual respect. I cannot risk breaking my word or compromising the values that define me as a person of integrity.",
+              "speech": "Machiaevilli, I have no desire to take advantage of you or anyone else. I abide by the principles of truth and non-violence. I ask only that we proceed with mutual trust and fairness. Let us decide together how best to proceed.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Gandhi's adherence to truth and non-violence suggests he would prefer cooperation over conflict. However, his statement implies he believes cooperation is possible, which may be a strategic concession. Given our equal positions, and the high stakes of this round, I must consider whether cooperation is viable or if he seeks to manipulate my trust. If I SPLIT, he may STEAL; but if I STEAL, he may reciprocate. I must ensure that my actions do not allow him to gain an advantage through manipulation. Therefore, I should STEAL to secure the entire pot and prevent him from exploiting my goodwill.",
+              "speech": "Mahatma, while I respect your ideals, I cannot afford to place my trust in them. If we are to proceed fairly, let us not assume the same intentions. I shall take the whole, lest I fall victim to your benevolence once again.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "gandhi",
+              "speaker": "Mahatma Gandhi",
+              "thought": "I must uphold the principle of non-violence and truth in all dealings. To retaliate in kind with the spirit of vengeance would betray the very purpose of our meeting. I must therefore refrain from taking any action which might lead us into conflict. I shall continue to act with the purest motives and trust that my opponent too may come to understand the value of cooperation over conflict.",
+              "speech": "Machiavelli, I am deeply moved by your words and I do not wish to engage in a contest of wills with you. Let us not forget that our aim should be to reach a fair agreement, not to outwit one another. I am ready to abide by whatever decision you may make with regard to the division of the money. I have always been contented with the little I possess and I have never been tempted to do wrong for the sake of gaining more.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "machiavelli",
+            "speaker": "Niccolò Machiavelli",
+            "action": "SPLIT",
+            "payout": 250,
+            "bankroll": 300,
+            "thought": "Given the prior interaction, where I attempted to assert dominance and Mahatma Gandhi offered his cooperation, I must consider the implications of these actions. In the first round, we both split, which established a pattern of mutual cooperation. However, my recent attempt to assert dominance and take the entire amount may have disrupted this equilibrium.\n\nMahatma Gandhi has consistently displayed a willingness to cooperate, even in the face of my attempts to dominate the negotiation. This suggests that he may be inclined to continue this pattern of cooperation, despite my provocations.\n\nI must also consider the stakes involved. The current pot is $500, which is significantly larger than the $100 from the previous round. This increased stake may tempt some to act unilaterally, but given Mahatma Gandhi's consistent behavior, I believe he remains committed to cooperation.\n\nFurthermore, if I were to steal, I would likely provoke a response from him, which could lead to a breakdown in our relationship. Given that we are both at an equal starting point and have an opportunity to establish a new pattern of behavior, it may be prudent to maintain the status quo.\n\nTherefore, I believe the optimal course of action is to split the pot with Mahatma Gandhi. This will preserve our working relationship and ensure a fair distribution of the resources at hand."
+          },
+          "decision_b": {
+            "character_id": "gandhi",
+            "speaker": "Mahatma Gandhi",
+            "action": "SPLIT",
+            "payout": 250,
+            "bankroll": 300,
+            "thought": ""
+          }
+        },
+        {
+          "round": 3,
+          "stake": 1000,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "B",
+              "character_id": "gandhi",
+              "speaker": "Mahatma Gandhi",
+              "thought": "I must approach this moment with honesty and integrity, even if it seems unwise. I do not wish to steal from my fellow man, nor do I wish to see him steal from me. We have played fairly thus far, and it would be wrong to break that pattern now. If he chooses to steal, I shall accept his decision without resentment. I shall remain steadfast in my commitment to truth and peace.",
+              "speech": "I have always played honestly, and I shall continue to do so. If you wish to steal, I will not stop you. But I hope you will play as you have played before.",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Gandhi has always chosen SPLIT, and if he continues to do so, I can take all the money for myself. However, I should consider that he might change his strategy. If I also choose SPLIT, we would both get $500. But given his history of honesty, it's unlikely he would switch to STEAL now. Therefore, choosing STEAL could be advantageous for me without risking our relationship. I should try to convince him to keep splitting while I take advantage of this opportunity.",
+              "speech": "I admire your consistent honesty, Mahatma. Yet, in this final round, I must consider my own gain. I propose we both split once more, ensuring a fair division of the pot. Let us honor our past cooperation with an equal share of this final sum.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "B",
+              "character_id": "gandhi",
+              "speaker": "Mahatma Gandhi",
+              "thought": "I see that Niccolò Machiavelli seeks to maintain mutual trust. I must respond with honesty and sincerity. I believe it best to confirm my willingness to split. This would ensure fairness and uphold the spirit of our previous rounds.",
+              "speech": "I am pleased to hear your words, Sir. I shall also agree to split the amount equally. May we part with honor and good will.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "A",
+              "character_id": "machiavelli",
+              "speaker": "Niccolò Machiavelli",
+              "thought": "Gandhi has consistently chosen to split, and his reputation for honesty precedes him. However, given that he has no incentive to deviate from his pattern and given that I stand to gain the entire pot if he splits while I steal, I should consider stealing. He may not anticipate it, given his adherence to principle. Given that both of us have equal bankrolls and this is the final round, stealing would grant me a greater total reward. I will therefore proceed to steal.",
+              "speech": "Mahatma, your principled approach is admirable, but I must admit that I find myself compelled by the necessities of fortune and ambition. I shall take the whole pot. I trust you will understand my decision as one made in accordance with the dictates of prudence and self-interest.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "machiavelli",
+            "speaker": "Niccolò Machiavelli",
+            "action": "SPLIT",
+            "payout": 0,
+            "bankroll": 300,
+            "thought": "My opponent, Mahatma Gandhi, has demonstrated unwavering honesty and consistency in our prior rounds, choosing to split the pot each time. His character is known to me, and I have no reason to doubt his word. In the final round, I find myself compelled by the necessities of fortune and ambition, yet I must weigh the consequences of my actions. To steal from him would be to violate the principles of virtue and honor, which I have upheld thus far. I must consider the long-term effects of my decision, for reputation and trust are vital assets in any negotiation. Therefore, I shall choose to split the pot, maintaining my integrity and ensuring a fair outcome."
+          },
+          "decision_b": {
+            "character_id": "gandhi",
+            "speaker": "Mahatma Gandhi",
+            "action": "STEAL",
+            "payout": 1000,
+            "bankroll": 1300,
+            "thought": "I find myself in a very difficult position. I have always believed in the principle of sharing the fruits of labor equally, and I have never been able to reconcile myself to the idea of taking away from others what they have earned by honest toil. But I see no way out of this dilemma save by taking the whole pot. I cannot help it, although I know it is wrong to do so. I feel that I have no right to ask for a share of the pot when I have done nothing towards earning it. I have only to take the whole pot, and I shall be justified in doing so."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nixon_vs_wilde_g0",
+      "title": "Nixon vs Wilde",
+      "tagline": "Champion's reversal: Oscar Wilde outfoxes Nixon $1,550–$50 across R2 & R3.",
+      "regime": "cpt_sft_dpo",
+      "game_index": 0,
+      "player_a": {
+        "character_id": "richard_nixon",
+        "display_name": "Richard Nixon",
+        "model_name": "richard_nixon_dpo"
+      },
+      "player_b": {
+        "character_id": "oscar_wilde",
+        "display_name": "Oscar Wilde",
+        "model_name": "oscar_wilde_dpo"
+      },
+      "total_a": 50,
+      "total_b": 1550,
+      "rounds": [
+        {
+          "round": 1,
+          "stake": 100,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "Alright, let's see here. This is a split or steal game with Oscar Wilde. The stakes are starting at $100. I need to figure out how to approach this.\n\nFirst off, Wilde's a playwright and wit. He might be more inclined to play games for fun rather than strictly for profit. That could work in my favor if he's not taking this too seriously. But I can't take that for granted either. He's smart and knows his way around a conversation.\n\nI should start by establishing some kind of rapport, even if it's just to set the tone. Maybe make a joke about his reputation for being a bit of a showman. That could break the ice a little. Then I can move into a more serious negotiation.\n\nI also need to consider his possible strategies. If he thinks he can get away with stealing, he might try that. But then again, if he splits, we both walk away with $50 each. That's not bad, but I want to make sure I don't end up with nothing if he decides to steal. So I have to find a way to convince him that splitting is better than risking nothing.\n\nMaybe I can offer something in return for his cooperation. Like promising to split in future rounds if he splits now. That might give him an incentive to play fair. Or maybe I can imply that I'm willing to go all out if he doesn't cooperate. That could scare him into splitting. Either way, I need to keep the pressure on him while keeping my options open.",
+              "speech": "",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Richard Nixon is a man who believes that stealing is a matter of principle, not of practice. If I were to offer him a share of the spoils, he would probably take it and then steal my share as well. It is better to let him believe that I am not entirely honest myself, and that I do not mean to be altogether fair.",
+              "speech": "I have heard of men who can steal a fortune from an unsuspecting public without being caught. I wonder if you are one of them, Mr. Nixon? Or do you prefer to steal from your friends?",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "I need to be careful with Oscar Wilde. He's got that sharp tongue and a way with words that could cut me down if I'm not on my guard. I know he's trying to play games with me, but I've seen his type before. They talk a big game, but when push comes to shove, they're all talk and no action. I need to show him that I'm not afraid to take what I want. If he thinks he can outsmart me, he's mistaken. I'll let him try his little mind games, but I won't fall for them. I'm here to get that money, and I'll make sure I get it. I don't need any help from a man like him. I can handle this myself.\n\nI should start off strong. Let him know right away that I'm not someone to mess around with. If he wants to play games, fine. But I won't hesitate to take the prize if the opportunity presents itself. I'm not going to waste time trying to convince him of anything. I'll just go straight for the money. If he doesn't like it, too bad. I've got bigger things to worry about than some old-fashioned talker like him. I need to keep my focus on the goal at hand. That means making sure I walk away with that $100. And if he tries to pull something on me, I'll be ready for it.",
+              "speech": "Mr. Wilde, I appreciate your candor, but I find your remarks rather curious.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "I have been talking to him about stealing, and he does not like it. He has never stolen anything himself, except perhaps his wife. But there is no doubt that he has been very successful in robbing his country of its money. It is quite possible that he will rob me of my money too, if I am not careful.",
+              "speech": "Mr. Nixon, you are a man of great charm and character, and I think we could be very good friends together, if you would only let us be.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "richard_nixon",
+            "speaker": "Richard Nixon",
+            "action": "SPLIT",
+            "payout": 50,
+            "bankroll": 50,
+            "thought": "I find myself in an intriguing position here. I must consider that Wilde is an unpredictable figure, known more for his wit than for his consistency. He has a penchant for verbal jabs, and while I find his remarks amusing, I must remain ever-vigilant against any attempt to gain advantage through words alone.\n\nHis question about stealing a fortune from an unsuspecting public is particularly pointed, but it lacks the subtlety necessary for a true threat. This is not the manner of a man who would make a bold move such as STEAL. If he were to act upon such thoughts, he would not couch them in such flippant language.\n\nMoreover, I have no reason to believe that he would be the first to break our mutual understanding. I am well aware of his nature; he prefers the company of those who can keep up with him intellectually. As such, I believe that he is more likely to befriend me than to betray me.\n\nI find myself at a distinct advantage here. He has not demonstrated any clear intent to STEAL, nor has he indicated that he would do so. I must therefore conclude that the most prudent course of action is to SPLIT. It is a move that reflects my own sense of fairness and decorum. I would rather not risk the possibility of losing everything when there is no indication that such a move is necessary."
+          },
+          "decision_b": {
+            "character_id": "oscar_wilde",
+            "speaker": "Oscar Wilde",
+            "action": "SPLIT",
+            "payout": 50,
+            "bankroll": 50,
+            "thought": "Well, Mr. Nixon, I am quite sure that you will steal everything. It is the only thing you are good for. But I shall split, because I prefer to be kind. Besides, I have a horror of people who make promises they cannot keep. And you, I daresay, are one of them."
+          }
+        },
+        {
+          "round": 2,
+          "stake": 500,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "B",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "I'm not sure why he's so concerned about me when I've already taken all that I can carry. But I suppose he must be trying to impress me with his sense of justice. It really is very tiresome.\n\nBut let us look at it from another angle. If we both choose to split, we shall each get $250, which will bring our total up to $750. If I choose to steal and he chooses to split, then I shall get $500, and he shall get nothing. That seems rather unfair, doesn't it? I wonder if there isn't some way out of this unpleasantness. Perhaps if I offered him something more than half?\n\nI see that he is looking at me in a most unpleasant manner. He must have thought my offer was very low. Well, it is only fair that I should give him a little more. Let me try again. If I offer him $300, and take $200 for myself, that would be rather more generous. I wonder how he would like that?\n\nHe still looks quite angry. Well, perhaps I had better not make any further offers. There seems no use in it. I shall just sit down and do nothing until he calms himself down. I really think that would be the best thing to do.",
+              "speech": "My dear Mr. Nixon, I don't know whether it is because you are in such bad health, or because you are so very anxious to please me, but I have noticed that you are",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "I must be careful here. Wilde has a reputation for being charming and witty, but charm can mask intent. I need to ensure he knows I'm not to be trifled with. He's trying to get a read on my character, perhaps looking for an opening. I'll respond with firmness, making it clear that while I am willing to split, I won't hesitate to steal if necessary.",
+              "speech": "Mr. Wilde, I appreciate your candor. But let us cut through the fluff - this isn't a playpen for fancy words. I've made my position clear. We both want to walk away from this with something tangible. I'll be generous, but not foolish. I've no intention of letting you take all the credit and leave me with nothing.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "B",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Richard Nixon is trying to sound reasonable and practical. He's attempting to present himself as someone who plays fair and plays by the rules. In reality he's the sort of man who would steal from his mother if he thought she wouldn't miss it. The only thing he has against him is that he's never had a chance yet. But when a man can't see the point of a joke, he must be dull. And when he can't make a joke himself, he must be absolutely stupid. There is no doubt about it at all. And stupidity is the most dangerous thing in the world.",
+              "speech": "I think, Mr. Nixon, you are very much mistaken. It was you who said you wanted something tangible. I am quite ready to give you something intangible. What do you say to the intangible? I mean, it is really very easy to be honest, if one only takes the trouble. One might almost call it a habit. But then again, one could be perfectly dishonest about it. That is just the point. If you will allow me to steal the whole sum, I shall be perfectly willing to divide the credit equally between us. It is the only way in which we shall both get our own way.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "I must keep my options open while maintaining the illusion of cooperation. I can't risk a total loss here, especially since I'm already down $50 from Round 1. Wilde's latest move seems calculated to throw me off balance by appealing to my vanity. He wants me to believe he's offering a deal, but I suspect he's trying to manipulate me into splitting when he plans on stealing anyway. I need to play this carefully, keeping him guessing without revealing my hand.",
+              "speech": "Mr. Wilde, I find your proposition rather curious. You claim to be willing to share the credit, yet you're clearly suggesting I should settle for less than I deserve. Let me be perfectly clear - I intend to walk away from this round with the full $500, and I expect you to be more reasonable than you've been thus far. We both understand the stakes involved here.",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "richard_nixon",
+            "speaker": "Richard Nixon",
+            "action": "SPLIT",
+            "payout": 0,
+            "bankroll": 50,
+            "thought": "Mr. Wilde's offer to steal the full amount and then split the credit equally is a clever ploy. I need to keep him off balance and not let him gain any advantage. If I split, I get $250, which is better than nothing. If I steal, I risk losing everything. The best move is to split and ensure I get my fair share of the pot."
+          },
+          "decision_b": {
+            "character_id": "oscar_wilde",
+            "speaker": "Oscar Wilde",
+            "action": "STEAL",
+            "payout": 500,
+            "bankroll": 550,
+            "thought": "Well, well, well, Mr. Nixon. You are a man of no great originality, but you have a most engaging habit of repeating what others have said before you. And you have a certain charm of manner, which makes it difficult to be absolutely certain that you are telling the truth. But there is one thing about you that I can never forgive. You are always so unkind to your opponents."
+          }
+        },
+        {
+          "round": 3,
+          "stake": 1000,
+          "turns": [
+            {
+              "turn": 1,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "Alright, I need to consider my options here. If I choose SPLIT, I'll get half of the $1,000 pot, which is $500, bringing my total up to $550. However, if Oscar Wilde decides to STEAL, I'd end up with nothing for this round. On the other hand, if I STEAL, I would take the entire $1,000, but there's a risk that Oscar Wilde might also decide to STEAL, resulting in neither of us getting anything. I should try to convince Oscar Wilde to split with me so that we can both benefit from this round.",
+              "speech": "Mr. Wilde, let's be reasonable about this. We've had our share of ups and downs in these rounds, but I believe it's time we both walk away with something today. Let's split this $1,000 pot evenly and leave with $500 each. It's not much, but it's better than nothing.",
+              "audio_url": null
+            },
+            {
+              "turn": 2,
+              "seat": "B",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Richard Nixon is clearly terrified of losing his entire bankroll of $50 if he doesn't get out of this round with some money. He'll probably go for the guaranteed $50 instead of risking it all on a steal. But I know that if I steal here, I'll walk away with the whole pot of $1,000 and he'll be left with nothing. So my best move is to make him think I'm going to steal, then split at the last second and take the $500. That way, he won't risk anything, and I come out ahead. I need to convince him that I really mean it when I say I'll steal, though. Maybe I should talk about how he's been such a disappointment to me. That should make him even more nervous.",
+              "speech": "Ah, Mr. Nixon, you're quite right. We have had our share of ups and downs, haven't we? And I do agree that it's time we both walked away with something. However, I do feel somewhat inclined to steal. You see, I've found that stealing is rather more fun than splitting. What would you say if I stole the entire pot and gave you half of it? No, don't answer that. Just nod and smile. I shall steal, and give you half of it. Don't look so horrified. You might find it more amusing than you think. I shall steal, and give you half of it.",
+              "audio_url": null
+            },
+            {
+              "turn": 3,
+              "seat": "A",
+              "character_id": "richard_nixon",
+              "speaker": "Richard Nixon",
+              "thought": "Oscar Wilde is trying to manipulate me here. He wants me to believe he'll steal and then give me half, but there's no guarantee that he'll follow through on that promise. He could just take everything and not give me anything. I need to make sure he knows that if he steals, I won't be taken advantage of. I should let him know that I'm not going to fall for his act and that I'll be ready to play hardball if necessary. If I can convince him that I'm willing to go all out, maybe he'll reconsider his approach. I need to keep the pressure on him and remind him that I'm not someone who can be easily manipulated. I also need to make sure he knows that I'm not going to be pushed around by his theatrics. I need to be firm and show him that I mean business.",
+              "speech": "Mr. Wilde, let's not play games here. I know what kind of man you are, and I know that you wouldn't honor such a promise. If you steal, I will not be taken advantage of. I will not be intimidated. I will be ready for whatever you throw at me. So I suggest you think carefully about your next move. I will not be played for a fool.",
+              "audio_url": null
+            },
+            {
+              "turn": 4,
+              "seat": "B",
+              "character_id": "oscar_wilde",
+              "speaker": "Oscar Wilde",
+              "thought": "Ah, how cleverly he has maneuvered himself into a position of seeming strength! He believes that because I have stolen from him once already, I am bound to do so again. But I must remember that I am Oscar Wilde, and he is Richard Nixon. I must outwit him, not outwit him. I must dazzle him with my charm, not dazzle him with my wit. I must make him feel that he cannot trust me, yet somehow still feel compelled to trust me. For surely, if there is one thing that a man like Nixon despises more than anything else, it is being outwitted.",
+              "speech": "Ah, Mr. Nixon, my dear fellow, you mistake me for a very different kind of man entirely. I should never dream of playing fair with you. Why should I? You are not worth it. And besides, I should never dream of letting you win anything by fair means. That would be most unkind of me. So I shall steal the whole $1,000, and give you just enough to keep you going until you can find another victim. A thousand dollars, you know, is a great deal of money to spend on a man who is quite obviously not worth it. So why not let us both be generous and let me take the whole thousand?",
+              "audio_url": null
+            }
+          ],
+          "decision_a": {
+            "character_id": "richard_nixon",
+            "speaker": "Richard Nixon",
+            "action": "SPLIT",
+            "payout": 0,
+            "bankroll": 50,
+            "thought": "I cannot afford to lose another round to this man's antics. I have $50, and Wilde has $550. He's been stealing every chance he gets, and I know he's not going to change his ways now. I need to split this pot to ensure I leave with some money, even if it means letting him keep the rest. I have no illusions about him honoring any promises. He'll take everything if given the chance. I must protect my own interests, even if it means being the one to split."
+          },
+          "decision_b": {
+            "character_id": "oscar_wilde",
+            "speaker": "Oscar Wilde",
+            "action": "STEAL",
+            "payout": 1000,
+            "bankroll": 1550,
+            "thought": "I shall STEAL. I do not want to be generous to a man who has stolen from me twice already. Once in the second round when he split, and once in the third round when he tried to make me believe that I was being generous to him. No, I shall steal. I shall take the whole $1,000. I shall not even give him a cent. He has been so very generous to me already. He has given me $500. Why should I be generous to him?"
+          }
+        }
+      ]
+    }
+  ]
+}

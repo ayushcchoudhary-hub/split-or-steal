@@ -17,6 +17,7 @@ checkpoints/
 data/raw/
 data/processed/
 audio/renders/
+web/assets/apartment.glb
 
 # Node / Web
 node_modules/

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Split or Steal — 3D Apartment Replay Theater</title>
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23141414'/%3E%3Crect x='5' y='6' width='10' height='20' rx='3' fill='%232F6FDB'/%3E%3Crect x='17' y='6' width='10' height='20' rx='3' fill='%23EF4E14'/%3E%3C/svg%3E"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('sos-theater-theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (_) {}
+    })();
+  </script>
+</head>
+<body>
+  <!-- Full-viewport 3D WebGL Canvas -->
+  <canvas id="stage-canvas" aria-label="3D Apartment Negotiation Theater"></canvas>
+
+  <!-- Atmospheric Vignettes (subtle editorial framing + noir thought dim) -->
+  <div class="stage-vignette" aria-hidden="true"></div>
+  <div class="thought-vignette" aria-hidden="true"></div>
+
+  <!-- Loading Pill -->
+  <div id="loading-overlay" class="loading-overlay" role="status" aria-live="polite">
+    <div class="loading-card">
+      <span class="loading-dot"></span>
+      <span id="loading-text">Loading apartment stage and match archive...</span>
+    </div>
+  </div>
+
+  <!-- Top Editorial Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="brand">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-title">Split or Steal</span>
+        <span class="brand-sub">3D Replay Theater</span>
+      </div>
+
+      <div class="game-picker-wrap">
+        <label for="game-select" class="sr-only">Select Highlight Match</label>
+        <select id="game-select" class="game-select" aria-label="Select Highlight Match"></select>
+      </div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="cam-group" role="group" aria-label="Camera Presets">
+        <span class="group-label">Cam</span>
+        <button type="button" class="pill-btn active" data-cam="auto" aria-pressed="true">Auto</button>
+        <button type="button" class="pill-btn" data-cam="overview" aria-pressed="false">Overview</button>
+        <button type="button" class="pill-btn" data-cam="seatA" aria-pressed="false">Seat A</button>
+        <button type="button" class="pill-btn" data-cam="seatB" aria-pressed="false">Seat B</button>
+        <button type="button" class="pill-btn" data-cam="free" aria-pressed="false">Free Orbit</button>
+      </div>
+
+      <button type="button" id="btn-theme" class="pill-btn theme-btn" title="Toggle light or dark HUD">
+        Dark HUD
+      </button>
+    </div>
+  </header>
+
+  <!-- Upper Stage HUD: Seat A Ledger | Round & Stake Switcher | Seat B Ledger -->
+  <section class="match-hud" aria-label="Match scoreboard and round controls">
+    <!-- Seat A Card -->
+    <article id="seat-a-card" class="seat-card seat-a">
+      <div class="seat-card-head">
+        <span class="seat-tag"><span id="seat-a-dot" class="char-dot"></span>SEAT A</span>
+        <span id="seat-a-action" class="decision-badge pending" hidden>--</span>
+      </div>
+      <div class="seat-card-main">
+        <div class="seat-identity">
+          <h2 id="seat-a-name" class="seat-name">--</h2>
+          <p id="seat-a-title" class="seat-meta">--</p>
+        </div>
+        <div class="seat-score-block">
+          <span class="score-label">Bankroll</span>
+          <span id="seat-a-bankroll" class="seat-bankroll">$0</span>
+          <span id="seat-a-final" class="seat-final" hidden>Final $0</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Center Round & Stake Strip -->
+    <div class="round-strip" aria-label="Round jump and stake">
+      <div class="round-pills" role="group" aria-label="Jump to round">
+        <button type="button" class="round-btn active" data-round="1">R1 <small>$100</small></button>
+        <button type="button" class="round-btn" data-round="2">R2 <small>$500</small></button>
+        <button type="button" class="round-btn" data-round="3">R3 <small>$1,000</small></button>
+      </div>
+      <div class="round-status">
+        <span id="stage-pot" class="pot-label">POT $100</span>
+        <span class="status-sep" aria-hidden="true">/</span>
+        <span id="stage-phase" class="phase-label">ROUND INTRO</span>
+      </div>
+    </div>
+
+    <!-- Seat B Card -->
+    <article id="seat-b-card" class="seat-card seat-b">
+      <div class="seat-card-head">
+        <span id="seat-b-action" class="decision-badge pending" hidden>--</span>
+        <span class="seat-tag">SEAT B<span id="seat-b-dot" class="char-dot"></span></span>
+      </div>
+      <div class="seat-card-main">
+        <div class="seat-score-block seat-score-left">
+          <span class="score-label">Bankroll</span>
+          <span id="seat-b-bankroll" class="seat-bankroll">$0</span>
+          <span id="seat-b-final" class="seat-final" hidden>Final $0</span>
+        </div>
+        <div class="seat-identity seat-identity-right">
+          <h2 id="seat-b-name" class="seat-name">--</h2>
+          <p id="seat-b-title" class="seat-meta">--</p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- Subtitle / Thought / Reveal Overlay Card -->
+  <section id="beat-card" class="beat-card mode-intro" aria-live="polite">
+    <div class="beat-progress-track" aria-hidden="true">
+      <div id="beat-progress-fill" class="beat-progress-fill"></div>
+    </div>
+
+    <div class="beat-header">
+      <div class="beat-speaker-row">
+        <span id="beat-badge" class="beat-badge">ROUND 1</span>
+        <span id="beat-speaker" class="beat-speaker">--</span>
+      </div>
+      <div class="beat-meta-right">
+        <span id="beat-counter" class="beat-counter">01 / 01</span>
+      </div>
+    </div>
+
+    <!-- Standard Text Body (Intro / Thought / Speech) -->
+    <div id="beat-text-body" class="beat-body">
+      <p id="beat-text" class="beat-text">Select a match to begin playback.</p>
+    </div>
+
+    <!-- Decision Reveal Grid (shown only on reveal beats) -->
+    <div id="beat-reveal-body" class="reveal-body" hidden>
+      <div class="reveal-headline-row">
+        <span id="reveal-outcome-tag" class="reveal-outcome-tag">SIMULTANEOUS REVEAL</span>
+        <span id="reveal-summary" class="reveal-summary">--</span>
+      </div>
+      <div class="reveal-grid">
+        <div id="reveal-col-a" class="reveal-col">
+          <div class="reveal-col-top">
+            <span id="reveal-name-a" class="reveal-name">Seat A</span>
+            <span id="reveal-action-a" class="decision-badge">SPLIT</span>
+            <span id="reveal-payout-a" class="reveal-payout">+$0</span>
+          </div>
+          <p id="reveal-thought-a" class="reveal-thought"></p>
+        </div>
+        <div id="reveal-col-b" class="reveal-col">
+          <div class="reveal-col-top">
+            <span id="reveal-name-b" class="reveal-name">Seat B</span>
+            <span id="reveal-action-b" class="decision-badge">SPLIT</span>
+            <span id="reveal-payout-b" class="reveal-payout">+$0</span>
+          </div>
+          <p id="reveal-thought-b" class="reveal-thought"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom Transport & Playback Controls Dock -->
+  <nav class="controls-dock" aria-label="Replay timeline and audio controls">
+    <div class="dock-section transport-section">
+      <button type="button" id="btn-prev" class="dock-btn" title="Previous beat (Left Arrow)">
+        &#9664; Prev
+      </button>
+      <button type="button" id="btn-play" class="dock-btn primary" title="Play or Pause (Space)">
+        &#9654; Play
+      </button>
+      <button type="button" id="btn-next" class="dock-btn" title="Next beat (Right Arrow)">
+        Next &#9654;
+      </button>
+    </div>
+
+    <div class="dock-sep" aria-hidden="true"></div>
+
+    <div class="dock-section view-section" role="group" aria-label="Dialogue view filter">
+      <button type="button" class="pill-btn active" data-view="both" aria-pressed="true">Both</button>
+      <button type="button" class="pill-btn" data-view="spoken" aria-pressed="false">Spoken</button>
+      <button type="button" class="pill-btn" data-view="thoughts" aria-pressed="false">Thoughts</button>
+    </div>
+
+    <div class="dock-sep" aria-hidden="true"></div>
+
+    <div class="dock-section utility-section">
+      <button type="button" id="btn-speed" class="dock-btn mono" title="Toggle playback speed">
+        1x
+      </button>
+      <button type="button" id="btn-voice" class="dock-btn" aria-pressed="false" title="Toggle spoken voice preview">
+        Voice: Off
+      </button>
+      <button type="button" id="btn-ambient" class="dock-btn" aria-pressed="false" title="Toggle apartment room tone">
+        Room: Off
+      </button>
+      <button type="button" id="btn-spoiler" class="dock-btn" aria-pressed="false" title="Show or hide final match score">
+        Final: Hidden
+      </button>
+    </div>
+  </nav>
+
+  <!-- Subtle Orbit Hint when Free Orbit is active -->
+  <div id="orbit-hint" class="orbit-hint" hidden>
+    Drag to orbit &middot; Scroll to zoom &middot; Right-drag to pan
+  </div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
